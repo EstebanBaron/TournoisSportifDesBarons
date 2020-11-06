@@ -1,0 +1,22 @@
+Tournois sportif : (petanque, volley...)
+Organisateurs doient etre authentifiés et font :
+-creer Evenement avec -> lieu, date, type jeu, avoir acces nom et nombre de tournois initiaux
+-inscrit les equipes : id, liste joueurs (ils ont chacun un niveau), niveau equipe en fonction du niv des joueurs
+-pour chaque tournois (en fct du nb d'equipe inscrite) : differents tours (16eme, 8eme, quart, demi, finale)
+	-> formules sportives (pour tout le tournois ou pour chaque tour) : 2 equipes
+		- 6 poules de 4 equipes
+		- 8 poules de 3 equipes
+		- 4 poules de 5 et 1 poule de 4 
+-premier temps des poules de 2
+-repartition des equipes -> aleatoire (methode du serpentin) : permutations possible (methode drag&drop).
+-terrains disponible numerotés de 1 a n (modifiable)
+-feuilles de matchs : score
+-resultat sur la feuille de match en temps réel
+-cloturer un tour et possibilité de modifier formule sportive pour le prochain tour
+	-> possibilite de creation de nv tournois parallele à l'issue du premier tour(pour les perdants du premier tour, ex : 'consolante')
+-classement equipe du tour d'une poule terminée : l'ordre du nb de match gagné, quotient des set gagnés sur les set perdus
+et du quotient des points de matchs gagnés et perdus (si égalité des deux conditions précédentes)
+-interface de permutation de matchs pour éviter de répéter des matchs (meme équipes qui s'affrontent) : en premier lieu -> automatique
+et si pb -> Drag&Drop
+
+
