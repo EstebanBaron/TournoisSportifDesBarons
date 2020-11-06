@@ -18,6 +18,3 @@ Organisateurs doient etre authentifiés et font :
 et du quotient des points de matchs gagnés et perdus (si égalité des deux conditions précédentes)
 -interface de permutation de matchs pour éviter de répéter des matchs (meme équipes qui s'affrontent) : en premier lieu -> automatique
 et si pb -> Drag&Drop
-
-
-oui-da
