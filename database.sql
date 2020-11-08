@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS joueur CASCADE;
 
 CREATE TABLE organisateur (
     numOrganisateur integer CONSTRAINT organisateur_PK PRIMARY KEY,
-    nomUtilisateur VARCHAR(20) NOT NULL,
+    identifiant VARCHAR(20) NOT NULL,
     motDePasse VARCHAR(20) NOT NULL,
     nom VARCHAR(20),
     prenom VARCHAR(20)
