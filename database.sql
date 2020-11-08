@@ -10,8 +10,8 @@ CREATE TABLE organisateur (
     numOrganisateur integer CONSTRAINT organisateur_PK PRIMARY KEY,
     nomUtilisateur VARCHAR(20) NOT NULL,
     motDePasse VARCHAR(20) NOT NULL,
-    nom VARCHAR(15),
-    prenom VARCHAR(15)
+    nom VARCHAR(20),
+    prenom VARCHAR(20)
 );
 
 CREATE TABLE evenement (
@@ -25,7 +25,7 @@ CREATE TABLE evenement (
 
 CREATE TABLE tournois (
     numTournois integer CONSTRAINT tournois_PK PRIMARY KEY,
-    nom VARCHAR(15) NOT NULL,
+    nom VARCHAR(40) NOT NULL,
     numEvenement integer NOT NULL,
     CONSTRAINT tournois_FK FOREIGN KEY (numEvenement) REFERENCES evenement(numEvenement) ON DELETE CASCADE
 );
@@ -44,17 +44,17 @@ CREATE TABLE dispose (
 );
 
 CREATE TABLE equipe (
-    nom VARCHAR(15) CONSTRAINT equipe_PK PRIMARY KEY,
-    club VARCHAR(15),
+    nom VARCHAR(30) CONSTRAINT equipe_PK PRIMARY KEY,
+    club VARCHAR(30),
     numTournois integer NOT NULL,
     CONSTRAINT equipe_FK FOREIGN KEY (numTournois) REFERENCES tournois(numTournois) ON DELETE CASCADE
 );
 
 CREATE TABLE joueur (
     numJoueur integer CONSTRAINT joueur_PK PRIMARY KEY,
-    nom VARCHAR(15),
-    prenom VARCHAR(15),
+    nom VARCHAR(20),
+    prenom VARCHAR(20),
     niveau integer NOT NULL CHECK(niveau BETWEEN 1 AND 7),
-    nomEquipe VARCHAR(15) NOT NULL,
+    nomEquipe VARCHAR(30) NOT NULL,
     CONSTRAINT joueur_FK FOREIGN KEY (nomEquipe) REFERENCES equipe(nom) ON DELETE CASCADE
 );
