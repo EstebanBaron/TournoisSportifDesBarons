@@ -4,7 +4,7 @@ session_start();
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Page creation compte</title>
+    <title>Page de creation compte</title>
   </head>
   <body>
     <form method="post">
