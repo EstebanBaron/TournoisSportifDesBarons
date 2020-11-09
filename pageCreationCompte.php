@@ -8,23 +8,29 @@ session_start();
   </head>
   <body>
     <form method="post">
+        <!--identifiant-->
+        <p>(Les champs prefixés par des * sont obligatoires)</p>
+        <label for="identifiant"> Identifiant* :</label>
+        <input type="text" name="identifiant" maxlength="20" required><br>
 
-    <label for="identifiant"> Identifiant :</label>
-    <input type="text" name="identifiant" maxlength="20"><br>
-    
-    <label for="motdepasse"> Mot de passe :</label>
-    <input type="password" name="motdepasse" maxlength="20"><br>
-    
-    <label for="confirmationMDP"> Confirmer votre mot de passe :</label>
-    <input type="password" name="confirmationMDP" maxlength="20"><br>
-    
-    <label for="nom"> Nom : </label>
-    <input type="text" name="nom" maxlength="20"><br>
+        <!--mot de passe-->
+        <label for="motdepasse"> Mot de passe* :</label>
+        <input type="password" name="motdepasse" maxlength="20" required><br>
 
-    <label for="prenom"> Prenom :</label>
-    <input type="text" name="prenom" maxlength="20"><br>
+        <!--confirmation mdp-->
+        <label for="confirmationMDP"> Confirmer votre mot de passe* :</label>
+        <input type="password" name="confirmationMDP" maxlength="20" required><br>
 
-    <input type="submit" value="s'enregistrer" name="enregistrement">
+        <!--nom-->
+        <label for="nom"> Nom : </label>
+        <input type="text" name="nom" maxlength="20" style="text-transform:uppercase"><br>
+
+        <!--prenom-->
+        <label for="prenom"> Prenom :</label>
+        <input type="text" name="prenom" maxlength="20"><br>
+
+        <!--bouton-->
+        <input type="submit" value="s'enregistrer" name="enregistrement">
     </form>
     <?php
     if (isset($_POST['identifiant']) && isset($_POST['motdepasse']) && isset($_POST['confirmationMDP']) && isset($_POST['enregistrement'])) {

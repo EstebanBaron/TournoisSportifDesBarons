@@ -7,18 +7,16 @@ session_start();
     <title>Page d'authentification</title>
   </head>
   <body>
-    <form method="post">
     <h1>Connexion : </h1>
-        <form method="post">
+    <form method="post">
         <!-- identifiant -->
         <label for="id"> Nom utilisateur :</label>
-        <input type="text" name="id" maxlength="20"><br>
+        <input type="text" name="id" maxlength="20" required><br>
         <!-- mdp -->
         <label for="mdp"> Mot de passe :</label>
-        <input type="password" name="mdp" maxlength="20"><br>
+        <input type="password" name="mdp" maxlength="20" required><br>
         <!-- bouton -->
         <input type="submit" value="s'identifier" name="authentification">
-        </form>
     </form>
     <?php
     if (isset($_POST['id']) && isset($_POST['mdp']) && isset($_POST['authentification'])) {
@@ -54,7 +52,7 @@ session_start();
     }
     ?>
 
-    <!-- go to pageCreationCompte.php -->
+    <!-- permet d'aller à pageCreationCompte.php -->
     <form action="pageCreationCompte.php">
         <input class="boutonAuthentification" type="submit" value="créer un compte">
     </form>
