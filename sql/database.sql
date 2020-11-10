@@ -19,7 +19,7 @@ CREATE TABLE evenement (
     nom VARCHAR(40),
     lieu VARCHAR(20),
     dateEvenement DATE,
-    typeJeu integer CHECK(typeJeu BETWEEN 1 AND 11),
+    typeJeu integer CHECK(typeJeu BETWEEN 1 AND 15),
     numOrga integer NOT NULL,
     CONSTRAINT evenement_FK FOREIGN KEY (numOrga) REFERENCES organisateur(numOrganisateur) ON DELETE CASCADE
 );
