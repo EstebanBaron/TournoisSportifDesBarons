@@ -16,8 +16,8 @@ INSERT INTO organisateur VALUES(0002, 'Anonymous', 'mdpAnonymous', NULL,NULL);
 
 --Insertion dans evenement
 
-INSERT INTO evenement VALUES(01, 'Montpellier', '2020-10-5', 3, 0001);
-INSERT INTO evenement VALUES(02, 'Pezenas', '2020-12-10', 6, 0002);
+INSERT INTO evenement VALUES(01, 'event regional', 'Montpellier', '2020-10-5', 3, 0001);
+INSERT INTO evenement VALUES(02, 'compet pez', 'Pezenas', '2020-12-10', 6, 0002);
 
 --Insertion dans tournois
 
