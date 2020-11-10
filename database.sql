@@ -16,6 +16,7 @@ CREATE TABLE organisateur (
 
 CREATE TABLE evenement (
     numEvenement integer CONSTRAINT evenement_PK PRIMARY KEY,
+    nom VARCHAR(40),
     lieu VARCHAR(20),
     dateEvenement DATE,
     typeJeu integer CHECK(typeJeu BETWEEN 1 AND 11),
