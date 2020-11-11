@@ -11,13 +11,18 @@ DELETE FROM organisateur;
 
 --Insertion dans organisateur
 
-INSERT INTO organisateur VALUES(0001, 'Pierro', 'mdpPierro', 'Pierre', 'Rouget');
-INSERT INTO organisateur VALUES(0002, 'Anonymous', 'mdpAnonymous', NULL,NULL);
+-- INSERT INTO organisateur VALUES(0001, 'Pierro', 'mdpPierro', 'Pierre', 'Rouget');
+-- INSERT INTO organisateur VALUES(0002, 'Anonymous', 'mdpAnonymous', NULL,NULL);
+
+INSERT INTO organisateur VALUES('Esteban', '87c0e0174cb359e4e01c356a56e4e8d1', 'BARON', 'Esteban');
+INSERT INTO organisateur VALUES('Julien', 'a64cd8062eaa4562c0ba463f2ee7c828', 'LEBARON', 'Julien');
 
 --Insertion dans evenement
 
-INSERT INTO evenement VALUES(01, 'event regional', 'Montpellier', '2020-10-5', 3, 0001);
-INSERT INTO evenement VALUES(02, 'compet pez', 'Pezenas', '2020-12-10', 6, 0002);
+INSERT INTO evenement VALUES(01, 'event regional 1', 'Montpellier', '2020-11-9', 3, 'Esteban');
+INSERT INTO evenement VALUES(01, 'event regional 2', 'Montpellier', '2020-11-10', 2, 'Esteban');
+INSERT INTO evenement VALUES(01, 'event regional 3', 'Montpellier', '2020-11-11', 5, 'Esteban');
+INSERT INTO evenement VALUES(02, 'compet pez', 'Pezenas', '2020-12-10', 6, 'Julien');
 
 --Insertion dans tournois
 

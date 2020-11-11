@@ -7,8 +7,9 @@ DROP TABLE IF EXISTS equipe CASCADE;
 DROP TABLE IF EXISTS joueur CASCADE; 
 
 CREATE TABLE organisateur (
-    numOrganisateur integer CONSTRAINT organisateur_PK PRIMARY KEY,
-    identifiant VARCHAR(20) NOT NULL,
+    --ici mettre l'identifiant en clé primaire ???? On s'en sert pour trouver les evenements par organisateurs
+    --numOrganisateur integer CONSTRAINT organisateur_PK PRIMARY KEY,
+    identifiant VARCHAR(20) CONSTRAINT organisateur_PK PRIMARY KEY,--NOT NULL,
     motDePasse VARCHAR(50) NOT NULL,
     nom VARCHAR(20),
     prenom VARCHAR(20)
@@ -20,8 +21,10 @@ CREATE TABLE evenement (
     lieu VARCHAR(20),
     dateEvenement DATE,
     typeJeu integer CHECK(typeJeu BETWEEN 1 AND 15),
-    numOrga integer NOT NULL,
-    CONSTRAINT evenement_FK FOREIGN KEY (numOrga) REFERENCES organisateur(numOrganisateur) ON DELETE CASCADE
+    idOrga VARCHAR(20) NOT NULL,
+    CONSTRAINT evenement_FK FOREIGN KEY (idOrga) REFERENCES organisateur(identifiant) ON DELETE CASCADE
+    --numOrga integer NOT NULL,
+    --CONSTRAINT evenement_FK FOREIGN KEY (numOrga) REFERENCES organisateur(numOrganisateur) ON DELETE CASCADE
 );
 
 CREATE TABLE tournois (
@@ -37,7 +40,7 @@ CREATE TABLE terrain (
 );
 
 CREATE TABLE dispose (
-    numEvenement integer NOT NULL,
+    numEvenement integer NOT NULL,  
     CONSTRAINT disposeEvenement_FK FOREIGN KEY (numEvenement) REFERENCES evenement(numEvenement),
     numTerrain integer NOT NULL,
     CONSTRAINT disposeTerrain_FK FOREIGN KEY (numTerrain) REFERENCES terrain(numTerrain),
