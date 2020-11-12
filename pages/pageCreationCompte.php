@@ -51,10 +51,8 @@ session_start();
                 $dbh = new PDO("pgsql:dbname=postgres;host=localhost;user=postgres;password=carpate3433;options='--client_encoding=UTF8'");
                 $organisateur = $dbh->query('SELECT * from organisateur');
                 $dejaUtilise = false;
-                //--------------$lastNumOrga = 0;
                 foreach($organisateur as $row) {
                     foreach($row as $cle=>$value) {
-                        //-------------$lastNumOrga = $row['numorganisateur'];
                         if($identifiant === $row['identifiant']) {
                             echo "Erreur, nom d'utilisateur déjà utilisé !";
                             $dejaUtilise = true;
@@ -62,11 +60,9 @@ session_start();
                     }
                 }
                 if(!$dejaUtilise) {
-                    //---------------------- $sql = "INSERT INTO organisateur (numorganisateur, identifiant, motdepasse, nom, prenom) VALUES (?, ?, ?, ?, ?)";
                     $sql = "INSERT INTO organisateur (identifiant, motdepasse, nom, prenom) VALUES (?, ?, ?, ?)";
                     $stmt = $dbh->prepare($sql);
                     //ajout utilisateur
-                    //------------------if($stmt->execute([$lastNumOrga+1, $identifiant, md5($mdp), $nom, $prenom])) {
                         if($stmt->execute([$identifiant, md5($mdp), $nom, $prenom])) {
                         $_SESSION['login'] = $identifiant;
                         echo "Enregistrement réussi. Bienvenue " . $_SESSION['login'] . " !";

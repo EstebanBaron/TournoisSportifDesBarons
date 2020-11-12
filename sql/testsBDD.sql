@@ -26,9 +26,9 @@ INSERT INTO evenement VALUES(02, 'compet pez', 'Pezenas', '2020-12-10', 6, 'Juli
 
 --Insertion dans tournois
 
-INSERT INTO tournois VALUES(01, 'tournois 1', 01);
-INSERT INTO tournois VALUES(02, 'tournois final', 01);
-INSERT INTO tournois VALUES(03, 'tournois cadets', 02);
+INSERT INTO tournois VALUES(01, 'tournois 1', NULL, 01);
+INSERT INTO tournois VALUES(02, 'tournois final', NULL, 01);
+INSERT INTO tournois VALUES(03, 'tournois cadets', NULL, 02);
 
 --Insertion dans terrain
 

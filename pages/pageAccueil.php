@@ -13,7 +13,6 @@ session_start();
         $dbh = new PDO("pgsql:dbname=postgres;host=localhost;user=postgres;password=carpate3433;options='--client_encoding=UTF8'");
         $evenement = $dbh->query('SELECT E.nom, lieu, dateevenement from evenement E, organisateur O where idorga = identifiant');
         if ($evenement) {
-          //$today = date('Y-m-d');
           echo "Tous les événements : <br>";
           foreach($evenement as $row) {
             foreach($row as $cle=>$value) {
