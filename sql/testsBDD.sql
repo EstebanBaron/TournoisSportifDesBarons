@@ -14,21 +14,22 @@ DELETE FROM organisateur;
 -- INSERT INTO organisateur VALUES(0001, 'Pierro', 'mdpPierro', 'Pierre', 'Rouget');
 -- INSERT INTO organisateur VALUES(0002, 'Anonymous', 'mdpAnonymous', NULL,NULL);
 
-INSERT INTO organisateur VALUES('Esteban', '87c0e0174cb359e4e01c356a56e4e8d1', 'BARON', 'Esteban');
-INSERT INTO organisateur VALUES('Julien', 'a64cd8062eaa4562c0ba463f2ee7c828', 'LEBARON', 'Julien');
+INSERT INTO organisateur VALUES('Esteban', '87c0e0174cb359e4e01c356a56e4e8d1');
+INSERT INTO organisateur VALUES('Julien', 'a64cd8062eaa4562c0ba463f2ee7c828');
 
 --Insertion dans evenement
 
 INSERT INTO evenement VALUES(01, 'event regional 1', 'Montpellier', '2020-11-9', 3, 'Esteban');
-INSERT INTO evenement VALUES(01, 'event regional 2', 'Montpellier', '2020-11-10', 2, 'Esteban');
-INSERT INTO evenement VALUES(01, 'event regional 3', 'Montpellier', '2020-11-11', 5, 'Esteban');
-INSERT INTO evenement VALUES(02, 'compet pez', 'Pezenas', '2020-12-10', 6, 'Julien');
+INSERT INTO evenement VALUES(02, 'event regional 2', 'Montpellier', '2020-11-10', 2, 'Esteban');
+INSERT INTO evenement VALUES(03, 'event regional 3', 'Montpellier', '2020-11-11', 5, 'Esteban');
+INSERT INTO evenement VALUES(04, 'compet pez', 'Pezenas', '2020-12-10', 6, 'Julien');
 
 --Insertion dans tournois
 
 INSERT INTO tournois VALUES(01, 'tournois 1', NULL, 01);
-INSERT INTO tournois VALUES(02, 'tournois final', NULL, 01);
-INSERT INTO tournois VALUES(03, 'tournois cadets', NULL, 02);
+INSERT INTO tournois VALUES(02, 'tournois final', 'eq3 - eq4 - eq2 - eq1', 02);    
+INSERT INTO tournois VALUES(03, 'tournois cadets', NULL, 03);
+INSERT INTO tournois VALUES(04, 'tournois pour les grands', NULL, 04);
 
 --Insertion dans terrain
 
@@ -51,12 +52,12 @@ INSERT INTO dispose VALUES(02,05);
 INSERT INTO equipe VALUES('Les papis', 'PPP', 01);
 INSERT INTO equipe VALUES('NomEq1', 'nomClub1', 01);
 INSERT INTO equipe VALUES('NomEq2', 'nomClub2', 01);
-INSERT INTO equipe VALUES('NomEq3', 'nomClub3', 01);
-INSERT INTO equipe VALUES('NomEq4', 'nomClub4', 01);
-INSERT INTO equipe VALUES('NomEq5', 'nomClub5', 02);
-INSERT INTO equipe VALUES('NomEq6', 'nomClub6', 02);
-INSERT INTO equipe VALUES('equipeEste', 'Les meilleurs', 03);
-INSERT INTO equipe VALUES('equipeNullos', 'Les Nullos', 03);
+INSERT INTO equipe VALUES('NomEq3', 'nomClub3', 02);
+INSERT INTO equipe VALUES('NomEq4', 'nomClub4', 02);
+INSERT INTO equipe VALUES('NomEq5', 'nomClub5', 03);
+INSERT INTO equipe VALUES('NomEq6', 'nomClub6', 03);
+INSERT INTO equipe VALUES('equipeEste', 'Les meilleurs', 04);
+INSERT INTO equipe VALUES('equipeNullos', 'Les Nullos', 04);
 
 --Insertion dans joueur
 INSERT INTO joueur VALUES(01, NULL, NULL, 7,'Les papis');

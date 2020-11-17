@@ -8,9 +8,7 @@ DROP TABLE IF EXISTS joueur CASCADE;
 
 CREATE TABLE organisateur (
     identifiant VARCHAR(20) CONSTRAINT organisateur_PK PRIMARY KEY,
-    motDePasse VARCHAR(50) NOT NULL,
-    nom VARCHAR(20),
-    prenom VARCHAR(20)
+    motDePasse VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE evenement (
@@ -26,8 +24,8 @@ CREATE TABLE evenement (
 CREATE TABLE tournois (
     numTournois integer CONSTRAINT tournois_PK PRIMARY KEY,
     nom VARCHAR(40) NOT NULL,
+    classement VARCHAR(100),
     numEvenement integer NOT NULL,
-    classement VARCHAR(MAX),
     CONSTRAINT tournois_FK FOREIGN KEY (numEvenement) REFERENCES evenement(numEvenement) ON DELETE CASCADE
 );
 
