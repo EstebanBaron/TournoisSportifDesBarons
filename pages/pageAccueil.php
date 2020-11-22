@@ -1,5 +1,20 @@
 <?php
 session_start();
+
+
+function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
+  $tousLesTournoisSontFinis = true;
+  foreach ($resultatRequete as $ligne) {
+    if ($ligne['numevenement'] === $numEvenement) {
+      if ($ligne['classement'] === NULL) {
+        $tousLesTournoisSontFinis = false;
+      }
+    }
+  }
+
+  return $tousLesTournoisSontFinis;
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -9,14 +24,28 @@ session_start();
   <body>
     <h1>Accueil</h1>
     <h2>Mes événement en cours :</h2>
+    <form method="post" action="pageEvenement.php">
     <?php 
       try {
         $dbh = new PDO("pgsql:dbname=postgres;host=localhost;user=postgres;password=carpate3433;options='--client_encoding=UTF8'");
-        $evenement = $dbh->query('SELECT identifiant, E.nom, lieu, dateevenement, classement from organisateur O, evenement E, tournois T where idorga = identifiant AND T.numEvenement = E.numEvenement');
+        $evenement = $dbh->query('SELECT identifiant, numevenement, E.nom, lieu, dateevenement from organisateur O, evenement E where idorga = identifiant');
         if ($evenement) {
-          foreach($evenement as $row) {
-            if($row['identifiant'] === $_SESSION['identifiant'] && $row['classement'] === NULL) {
-              echo $row['nom'] . ' - ' . $row['lieu'] . ' - ' . $row['dateevenement'] . "<br>";
+          foreach ($evenement as $row) {
+            if ($row['identifiant'] === $_SESSION['identifiant']) {
+              $classements = $dbh->query('SELECT T.numevenement, classement from tournois T, evenement E where T.numevenement = E.numevenement');
+              $numEvenement = $row['numevenement'];
+              if ($classements) {
+                $tousLesTournoisSontFinis = tousLesTournoisSontFinis($classements, $numEvenement);
+              }
+              else {
+                echo "Erreur, les données de la base n'ont pas pu être récupérées ! <br>";
+                echo "Aucune donnée n'est donc affichée.";
+                $tousLesTournoisSontFinis = true;
+              }
+              if (!$tousLesTournoisSontFinis) {
+                echo '<input type="hidden" name="numevenement" value="' . $row["numevenement"] . '" />';
+                echo '<input type="submit" value="' . $row["nom"] . ' - ' . $row["lieu"] . ' - ' . $row["dateevenement"] . '" /><br>';
+              }
             }
           }
         }
@@ -33,12 +62,25 @@ session_start();
     <?php 
       try {
         $dbh = new PDO("pgsql:dbname=postgres;host=localhost;user=postgres;password=carpate3433;options='--client_encoding=UTF8'");
-        $evenement = $dbh->query('SELECT identifiant, E.nom, lieu, dateevenement, classement from organisateur O, evenement E, tournois T where idorga = identifiant AND T.numEvenement = E.numEvenement');
+        $evenement = $dbh->query('SELECT identifiant, numevenement, E.nom, lieu, dateevenement from organisateur O, evenement E where idorga = identifiant');
         if ($evenement) {
-          foreach($evenement as $row) {
-            if(!is_int($cle) && $row['identifiant'] === $_SESSION['identifiant'] && $row['classement'] !== NULL) {
-              $boutonClassement = '<a href="pageClassement.php"><input type="submit" value="classement"></a>';
-              echo $row['nom'] . ' - ' . $row['lieu'] . ' - ' . $row['dateevenement'] . ' ' . $boutonClassement . "<br>";
+          foreach ($evenement as $row) {
+            if ($row['identifiant'] === $_SESSION['identifiant']) {
+              $classements = $dbh->query('SELECT T.numevenement, classement from tournois T, evenement E where T.numevenement = E.numevenement');
+              $numEvenement = $row['numevenement'];
+              $tousLesTournoisSontFinis = false;
+              if ($classements) {
+                $tousLesTournoisSontFinis = tousLesTournoisSontFinis($classements, $numEvenement);
+              }
+              else {
+                echo "Erreur, les données de la base n'ont pas pu être récupérées ! <br>";
+                echo "Aucune donnée n'est donc affichée.";
+                $tousLesTournoisSontFinis = false;
+              }
+              if ($tousLesTournoisSontFinis) {
+                echo '<input type="hidden" name="numevenement" value="' . $row["numevenement"] . '" />';
+                echo '<input type="submit" value="' . $row["nom"] . ' - ' . $row["lieu"] . ' - ' . $row["dateevenement"] . '" /><br>';
+              }
             }
           }
         }
@@ -51,6 +93,7 @@ session_start();
         die();
     }
     ?>
+    </form>
     <br>
     <form action="pageCreationEvenement.php">
         <input type="submit" value="créer un événement">
