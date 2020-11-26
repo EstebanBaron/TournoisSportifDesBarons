@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-
 function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
   $tousLesTournoisSontFinis = true;
   foreach ($resultatRequete as $ligne) {
@@ -24,7 +23,6 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
   <body>
     <h1>Accueil</h1>
     <h2>Mes événement en cours :</h2>
-    <form method="post" action="pageEvenement.php">
     <?php 
       try {
         $dbh = new PDO("pgsql:dbname=postgres;host=localhost;user=postgres;password=carpate3433;options='--client_encoding=UTF8'");
@@ -43,8 +41,10 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
                 $tousLesTournoisSontFinis = true;
               }
               if (!$tousLesTournoisSontFinis) {
+                echo '<form method="post" action="pageEvenement.php">';
                 echo '<input type="hidden" name="numevenement" value="' . $row["numevenement"] . '" />';
                 echo '<input type="submit" value="' . $row["nom"] . ' - ' . $row["lieu"] . ' - ' . $row["dateevenement"] . '" /><br>';
+                echo '</form>';
               }
             }
           }
@@ -78,8 +78,10 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
                 $tousLesTournoisSontFinis = false;
               }
               if ($tousLesTournoisSontFinis) {
+                echo '<form method="post" action="pageEvenement.php">';
                 echo '<input type="hidden" name="numevenement" value="' . $row["numevenement"] . '" />';
                 echo '<input type="submit" value="' . $row["nom"] . ' - ' . $row["lieu"] . ' - ' . $row["dateevenement"] . '" /><br>';
+                echo '</form>';
               }
             }
           }
@@ -93,7 +95,6 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
         die();
     }
     ?>
-    </form>
     <br>
     <form action="pageCreationEvenement.php">
         <input type="submit" value="créer un événement">

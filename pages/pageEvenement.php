@@ -18,7 +18,7 @@ session_start();
             {
                 foreach($evenement as $row)
                 {
-                    if($row['numevenement'] === $_POST['numevenement'])
+                    if($row['numevenement'] == $_POST['numevenement'])
                     {
                         $nomEvenement = $row['nom'];
                     }
@@ -34,7 +34,7 @@ session_start();
         }
     
         ?>
-        <h1>Evenement <?php $infoEvenement['nom'] ?></h1>
+        <h1>Evenement : <?php echo '"' . $nomEvenement . '"';  ?></h1>
         <h2>Les Tournois : </h2>
         <?php 
         try{
@@ -44,9 +44,18 @@ session_start();
             {
                 foreach ($tournois as $row)
                 {
-                    if($row['numevenenment'] === $_POST['numevenenment'])
+                    if($row['numevenement'] == $_POST['numevenement'])
                     {
-                        echo 'Tournois ' . $row['nom'] . ' : <br>'; 
+                        echo $row["numtournois"] . "<br>";
+                        echo '<form method="post" action="pageTournois.php">';
+                        echo '<input type="hidden" name="numtournois" value="' . $row["numtournois"] . '" />';
+                        echo '<input type="submit" value="Tournois ' . $row['nom'] . '" />'; 
+                        echo '</form>';
+
+                        echo '<form method="post" action="pageClassement.php">';
+                        echo '<input type="hidden" name="numtournois" value="' . $row["numtournois"] . '" />';
+                        echo '<input type="submit" value="classement '. $row['nom'] . '" /><br>'; 
+                        echo '</form>';
                     }
                 }
             }
@@ -62,7 +71,7 @@ session_start();
     }
     else
     {
-        echo 'erreur pas d\'evenement trouvé';
+        echo 'Erreur pas d\'événement trouvé';
     }
     ?>
     </body>
