@@ -47,7 +47,7 @@ session_start();
                     if($row['numevenement'] == $_POST['numevenement'])
                     {
                         echo $row["numtournois"] . "<br>";
-                        echo '<form method="post" action="pageTournois.php">';
+                        echo '<form method="post" action="pageConfigTournois.php">';
                         echo '<input type="hidden" name="numtournois" value="' . $row["numtournois"] . '" />';
                         echo '<input type="submit" value="Tournois ' . $row['nom'] . '" />'; 
                         echo '</form>';
