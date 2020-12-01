@@ -37,45 +37,46 @@ session_start();
   ?>
   <h1>Tournois : <?php echo '"' . $nomTournois . '"';  ?> </h1>
   <?php
-    echo '<form methode="post" action = "pageEquipe.php"><br>';
-    echo '<input type="submit" value = "' . $_POST["numtournois"] . '" >';
-    echo '</form>';
-
-    $equipeOk = false;
-    $cloture = false;
-    try{
-      $dbh = new PDO("pgsql:dbname=postgres;host=localhost;user=postgres;password=carpate3433;options='--client_encoding=UTF8'");
-      $tournois = $dbh->query('SELECT numTournois , count(*) AS nbEquipe FROM tournois t, equipe e WHERE e.numTournois = t.numTournois GROUP BY t.numTournois');
-        
-      if($tournois)
+      $equipeOk = false;
+      $cloture = false;
+      if(!$equipeOk || !$cloture)
       {
-        foreach($tournois as $row)
-        {
-          if($row['numTournois'] == $_POST['numtournois'] && $row['nbEquipe'] > 2)
+        echo '<form methode="post" action = "pageEquipe.php"><br>';
+        echo '<input type="submit" value = "' . htmlspecialchars($_POST["numtournois"]) . '" >';
+        echo '</form>';
+        try{
+          $dbh = new PDO("pgsql:dbname=postgres;host=localhost;user=postgres;password=carpate3433;options='--client_encoding=UTF8'");
+          $tournois = $dbh->query('SELECT numTournois , count(*) AS nbEquipe FROM tournois t, equipe e WHERE e.numTournois = t.numTournois GROUP BY t.numTournois');
+            
+          if($tournois)
           {
-            $equipeOk = true;
-            echo '<button>colturer l\'ajout des équipes</button>'; //A TERMINER
+            foreach($tournois as $row)
+            {
+              if($row['numTournois'] == $_POST['numtournois'] && $row['nbEquipe'] > 2)
+              {
+                $equipeOk = true;
+                echo '<button>colturer l\'ajout des équipes</button>'; //A TERMINER
+              }
+              else{
+              echo 'pas assez d\'équipe (minimum : 2)';
+              }
+            }
           }
-          else{
-          echo 'pas assez d\'équipe (minimum : 2)';
+          else 
+          {
+            echo "Erreur, les données de la base n'ont pas pu être récupérées !"; 
           }
+        } catch (PDOException $e)
+        {
+            print "Erreur ! : " . $e->getMessage() . "<br>";
         }
       }
-      else 
+      else($equipeOk && $cloture)
       {
-        echo "Erreur, les données de la base n'ont pas pu être récupérées !"; 
+        echo '<form methode="post" action = "pageTournois.php"><br>';
+        echo '<input type="submit" value = "' . htmlspecialchars($_POST["numtournois"]) . '" >';
+        echo '</form>';
       }
-    } catch (PDOException $e)
-    {
-        print "Erreur ! : " . $e->getMessage() . "<br>";
-    }
-    if($equipeOk && $cloture)
-    {
-      echo '<form methode="post" action = "pageTournois.php"><br>';
-      echo '<input type="submit" value = "' . $_POST["numtournois"] . '" >';
-      echo '</form>';
-    }
-    }
     else
     {
         echo 'Erreur pas de Tournois trouvé';
