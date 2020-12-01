@@ -19,24 +19,24 @@ INSERT INTO organisateur VALUES('Julien', 'a64cd8062eaa4562c0ba463f2ee7c828');
 
 --Insertion dans evenement
 
-INSERT INTO evenement VALUES(01, 'event regional 1', 'Montpellier', '2020-11-9', 3, 'Esteban');
-INSERT INTO evenement VALUES(02, 'event regional 2', 'Montpellier', '2020-11-10', 2, 'Esteban');
-INSERT INTO evenement VALUES(03, 'event regional 3', 'Montpellier', '2020-11-11', 5, 'Esteban');
-INSERT INTO evenement VALUES(04, 'compet pez', 'Pezenas', '2020-12-10', 6, 'Julien');
+INSERT INTO evenement VALUES(01, 'event regional 1', 'Montpellier', '2020-11-9', 'Esteban');
+INSERT INTO evenement VALUES(02, 'event regional 2', 'Montpellier', '2020-11-10', 'Esteban');
+INSERT INTO evenement VALUES(03, 'event regional 3', 'Montpellier', '2020-11-11', 'Esteban');
+INSERT INTO evenement VALUES(04, 'compet pez', 'Pezenas', '2020-12-10', 'Julien');
 
 --Insertion dans tournois
 
-INSERT INTO tournois VALUES(01, 'tournois 1', NULL, 01);
-INSERT INTO tournois VALUES(05, 'tournois 3', NULL, 01);
+INSERT INTO tournois VALUES(01, 'tournois 1', NULL,4, 01);
+INSERT INTO tournois VALUES(05, 'tournois 3', NULL,5, 01);
 
-INSERT INTO tournois VALUES(02, 'tournois final', 'eq3 - eq4 - eq2 - eq1', 02);    
-INSERT INTO tournois VALUES(06, 'tournois 4', NULL, 02); 
+INSERT INTO tournois VALUES(02, 'tournois final', 'eq3 - eq4 - eq2 - eq1',6, 02);    
+INSERT INTO tournois VALUES(06, 'tournois 4', NULL,2, 02); 
 
-INSERT INTO tournois VALUES(03, 'tournois cadets', 'eq3 - eq4 - eq2 - eq1', 03);
-INSERT INTO tournois VALUES(07, 'tournois 5', 'eq3 - eq4 - eq2 - eq1', 03);
+INSERT INTO tournois VALUES(03, 'tournois cadets', 'eq3 - eq4 - eq2 - eq1',1, 03);
+INSERT INTO tournois VALUES(07, 'tournois 5', 'eq3 - eq4 - eq2 - eq1',10, 03);
 
-INSERT INTO tournois VALUES(04, 'tournois pour les grands', NULL, 04);
-INSERT INTO tournois VALUES(08, 'tournois 6', NULL, 04);
+INSERT INTO tournois VALUES(04, 'tournois pour les grands',4, NULL, 04);
+INSERT INTO tournois VALUES(08, 'tournois 6', NULL,4, 04);
 
 --Insertion dans terrain
 
