@@ -35,11 +35,13 @@ session_start();
   ?>
   <h1>Tournois : <?php echo '"' . $nomTournois . '"';  ?> </h1>
   <?php
+
     $equipeOk = false;
-    $cloture = false;
+    $cloture = false;// a enlever
+
     if(!$equipeOk || !$cloture)
     {
-      echo '<form method="post" action="pageEquipe.php"><br>';
+      echo '<form id="ajoutEq" method="post" action="pageEquipe.php"><br>';
       echo '<input type="hidden" value="' . htmlspecialchars($_POST["numtournois"]) . '" >';
       echo '<input type="submit" value="Ajouter des équipes">';
       echo '</form>';
@@ -56,7 +58,7 @@ session_start();
               if($row['nbequipe'] > 2) 
               {
                 $equipeOk = true;
-                echo '<button>cloturer l\'ajout des équipes</button>'; //A TERMINER
+                echo '<button id="bouton" type="button" onclick="clotureBouton()">cloturer l\'ajout des équipes</button>'; //A TERMINER
               }
               else
               {
@@ -77,7 +79,7 @@ session_start();
     else
     {
       echo '<form method="post" action="pageTournois.php"><br>';
-      echo '<input type="submit" value = "' . htmlspecialchars($_POST["numtournois"]) . '" >';
+      echo '<input type="submit" value = "' . htmlspecialchars($_POST["numtournois"]) . '" >'; //A enlever
       echo '</form>';
     }
   }
@@ -86,5 +88,19 @@ session_start();
       echo 'Erreur pas de Tournois trouvé';
   }
   ?>
+  <script>
+    function clotureBouton()
+    {
+      var r = confirm("ATTENTION! \n vous ne pourrais plus ajouter d'équipe");
+      if(r)
+      { 
+        $("#ajoutEq").hide();
+        $("#bouton").hide();
+        var txt = '<form method="post" action="pageTournois.php"><br><input type="submit" value = "' . htmlspecialchars($_POST["numtournois"]) . '" ></form>';
+        document.getElementsByTagName("body").innerHTML()=txt;
+      }
+      
+    }
+  </script>
   </body>
 </html>
