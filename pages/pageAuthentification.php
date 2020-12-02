@@ -21,7 +21,7 @@ session_start();
     <?php
     if (isset($_POST['id']) && isset($_POST['mdp']) && isset($_POST['authentification'])) {
         try {
-            $dbh = new PDO("pgsql:dbname=postgres;host=localhost;user=postgres;password=carpate3433;options='--client_encoding=UTF8'");
+            $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
             $organisateur = $dbh->query('SELECT * from organisateur');
 
             if ($organisateur) {

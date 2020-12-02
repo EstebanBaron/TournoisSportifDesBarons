@@ -38,7 +38,7 @@ session_start();
         <h2>Les Tournois : </h2>
         <?php 
         try{
-            $dbh = new PDO("pgsql:dbname=postgres;host=localhost;user=postgres;password=carpate3433;options='--client_encoding=UTF8'");
+            $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
             $tournois = $dbh->query('SELECT * FROM tournois');
             if($tournois)
             {
