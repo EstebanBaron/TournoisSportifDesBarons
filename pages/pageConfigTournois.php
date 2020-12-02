@@ -11,7 +11,7 @@ session_start();
   if(isset($_POST["numtournois"]))
   {
     try{
-      $dbh = new PDO("pgsql:dbname=postgres;host=localhost;user=postgres;password=carpate3433;options='--client_encoding=UTF8'");
+      $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
       $tournois = $dbh->query('SELECT * FROM tournois');
       $nomTournois = NULL; // la table de tournois selectionné
       if($tournois)
