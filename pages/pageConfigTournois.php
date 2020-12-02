@@ -5,6 +5,11 @@ session_start();
 <html>
   <head>
     <title>Page tournois</title>
+    <script
+        src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous">
+    </script>
   </head>
   <body>
   <?php 
@@ -36,51 +41,38 @@ session_start();
   <h1>Tournois : <?php echo '"' . $nomTournois . '"';  ?> </h1>
   <?php
 
-    $equipeOk = false;
-    $cloture = false;// a enlever
-
-    if(!$equipeOk || !$cloture)
-    {
-      echo '<form id="ajoutEq" method="post" action="pageEquipe.php"><br>';
-      echo '<input type="hidden" value="' . htmlspecialchars($_POST["numtournois"]) . '" >';
-      echo '<input type="submit" value="Ajouter des équipes">';
-      echo '</form>';
-      try{
-        $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
-        $tournois = $dbh->query('SELECT t.numtournois, count(*) AS nbequipe FROM tournois t, equipe e WHERE e.numtournois = t.numtournois GROUP BY t.numtournois');
-          
-        if($tournois)
+    echo '<form id="ajoutEq" method="post" action="pageEquipe.php"><br>';
+    echo '<input type="hidden" name="numtournois" value="' . htmlspecialchars($_POST["numtournois"]) . '" >';
+    echo '<input type="submit" value="Ajouter des équipes">';
+    echo '</form>';
+    try{
+      $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+      $tournois = $dbh->query('SELECT t.numtournois, count(*) AS nbequipe FROM tournois t, equipe e WHERE e.numtournois = t.numtournois GROUP BY t.numtournois');
+        
+      if($tournois)
+      {
+        foreach($tournois as $row)
         {
-          foreach($tournois as $row)
+          if($row['numtournois'] == $_POST['numtournois'])
           {
-            if($row['numtournois'] == $_POST['numtournois'])
+            if($row['nbequipe'] > 2) 
             {
-              if($row['nbequipe'] > 2) 
-              {
-                $equipeOk = true;
-                echo '<button id="bouton" type="button" onclick="clotureBouton()">cloturer l\'ajout des équipes</button>'; //A TERMINER
-              }
-              else
-              {
-                echo 'pas assez d\'équipe (minimum : 2)';
-              }
+              echo '<button id="bouton" type="button" onclick="clotureBouton()">cloturer l\'ajout des équipes</button>'; //A TERMINER
+            }
+            else
+            {
+              echo 'pas assez d\'équipe (minimum : 2)';
             }
           }
         }
-        else 
-        {
-          echo "Erreur, les données de la base n'ont pas pu être récupérées !"; 
-        }
-      } catch (PDOException $e)
-      {
-          print "Erreur ! : " . $e->getMessage() . "<br>";
       }
-    }
-    else
+      else 
+      {
+        echo "Erreur, les données de la base n'ont pas pu être récupérées !"; 
+      }
+    } catch (PDOException $e)
     {
-      echo '<form method="post" action="pageTournois.php"><br>';
-      echo '<input type="submit" value = "' . htmlspecialchars($_POST["numtournois"]) . '" >'; //A enlever
-      echo '</form>';
+        print "Erreur ! : " . $e->getMessage() . "<br>";
     }
   }
   else
@@ -88,19 +80,9 @@ session_start();
       echo 'Erreur pas de Tournois trouvé';
   }
   ?>
-  <script>
-    function clotureBouton()
-    {
-      var r = confirm("ATTENTION! \n vous ne pourrais plus ajouter d'équipe");
-      if(r)
-      { 
-        $("#ajoutEq").hide();
-        $("#bouton").hide();
-        var txt = '<form method="post" action="pageTournois.php"><br><input type="submit" value = "' . htmlspecialchars($_POST["numtournois"]) . '" ></form>';
-        document.getElementsByTagName("body").innerHTML()=txt;
-      }
-      
-    }
-  </script>
+  <form id="tournois" method="post" action="pageTournois.php">
+  <input type="hidden" name="numtournois" value = <?php echo htmlspecialchars($_POST["numtournois"])?>>
+  </form>
+  <script src="JsPageConfigTournois.js"></script>
   </body>
 </html>
