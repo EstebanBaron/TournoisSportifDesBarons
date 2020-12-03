@@ -31,15 +31,9 @@ CREATE TABLE tournois (
 
 CREATE TABLE terrain (
     numTerrain integer CONSTRAINT terrain_PK PRIMARY KEY,
-    sport VARCHAR(10) NOT NULL CHECK(sport IN ('Football', 'Rugby', 'Basketball', 'Volley', 'Petanque', 'Tennis'))
-);
-
-CREATE TABLE dispose (
-    numEvenement integer NOT NULL,  
-    CONSTRAINT disposeEvenement_FK FOREIGN KEY (numEvenement) REFERENCES evenement(numEvenement),
-    numTerrain integer NOT NULL,
-    CONSTRAINT disposeTerrain_FK FOREIGN KEY (numTerrain) REFERENCES terrain(numTerrain),
-    CONSTRAINT dispose_PK PRIMARY KEY (numEvenement, numTerrain)
+    sport VARCHAR(10) NOT NULL CHECK(sport IN ('Football', 'Rugby', 'Basketball', 'Volley', 'Petanque', 'Tennis')),
+    numEvenement integer NOT NULL,
+    CONSTRAINT terrain_FK FOREIGN KEY (numEvenement) REFERENCES evenement(numEvenement) ON DELETE CASCADE
 );
 
 CREATE TABLE equipe (

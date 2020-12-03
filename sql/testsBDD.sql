@@ -3,7 +3,6 @@
 -- suppression des anciennes insertions
 DELETE FROM joueur;
 DELETE FROM equipe;
-DELETE FROM dispose;
 DELETE FROM terrain;
 DELETE FROM tournois;
 DELETE FROM evenement;
@@ -40,19 +39,11 @@ INSERT INTO tournois VALUES(08, 'tournois 6', NULL,4, 04);
 
 --Insertion dans terrain
 
-INSERT INTO terrain VALUES(01, 'Petanque');
-INSERT INTO terrain VALUES(02, 'Petanque');
-INSERT INTO terrain VALUES(03, 'Petanque');
-INSERT INTO terrain VALUES(04, 'Petanque');
-INSERT INTO terrain VALUES(05, 'Basketball');
-
---Insertion dans dispose
-
-INSERT INTO dispose VALUES(01,01);
-INSERT INTO dispose VALUES(01,02);
-INSERT INTO dispose VALUES(01,03);
-INSERT INTO dispose VALUES(01,04);
-INSERT INTO dispose VALUES(02,05);
+INSERT INTO terrain VALUES(01, 'Petanque',01);
+INSERT INTO terrain VALUES(02, 'Petanque',02);
+INSERT INTO terrain VALUES(03, 'Petanque',03);
+INSERT INTO terrain VALUES(04, 'Petanque',04);
+INSERT INTO terrain VALUES(05, 'Basketball',04);
 
 --Insertion dans equipe
 

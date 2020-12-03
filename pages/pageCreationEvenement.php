@@ -299,7 +299,7 @@ function tousLesSportsSontDiff() {
                       $numterrain = getLastNumTerrain();
                       $saveNumTerrain = $numterrain + 1;
                       //preparation des requetes
-                      $sql = "INSERT INTO terrain (numterrain, sport) VALUES (?, ?)";
+                      $sql = "INSERT INTO terrain (numterrain, sport, numevenement) VALUES (?, ?, ?)";
                       $stmt = $dbh->prepare($sql); 
                       //varible pour la verification des contraintes 
                       $arraySportDispo = ['Football', 'Rugby', 'Basketball', 'Volley', 'Petanque', 'Tennis'];
@@ -312,8 +312,7 @@ function tousLesSportsSontDiff() {
                           $sport = $_POST['sport' . $indexTerrain];
                           //verification des contraintes
                           if(in_array($sport , $arraySportDispo)) {
-                            if (!$stmt->execute([$numterrain, $sport])) {
-                              echo "Erreur " . $numterrain . " " . $sport . "<br>";
+                            if (!$stmt->execute([$numterrain, $sport, $numevenement])) {
                               $malPasse = true;
                               echo "Erreur de l'ajout d'un terrain dans la base ! <br>";
                             }
@@ -333,6 +332,13 @@ function tousLesSportsSontDiff() {
                         supprimerTerrain($saveNumTerrain, $numterrain);
                         //evite de resupprimer
                         $malPasse = false;
+                      }
+                      else {
+                        //redirection sur la page Evenement en envoyant le numEvenement
+                        // echo '<form method="post" action="pageEvenement.php" id="formulairePourPageEvenement">';
+                        //le onload marche pas sur un input type hidden
+                        // echo '<input type="hidden" value="' . $numevenement . '" onload="soumettre()">';
+                        // echo '</form>';
                       }
                     }
                     else {
