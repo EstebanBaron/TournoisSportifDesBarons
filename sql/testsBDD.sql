@@ -40,11 +40,11 @@ INSERT INTO tournois VALUES(08, 'tournois 6', NULL,4, 04);
 
 --Insertion dans terrain
 
-INSERT INTO terrain VALUES(01, 'petanque');
-INSERT INTO terrain VALUES(02, 'petanque');
-INSERT INTO terrain VALUES(03, 'petanque');
-INSERT INTO terrain VALUES(04, 'petanque');
-INSERT INTO terrain VALUES(05, 'basket');
+INSERT INTO terrain VALUES(01, 'Petanque');
+INSERT INTO terrain VALUES(02, 'Petanque');
+INSERT INTO terrain VALUES(03, 'Petanque');
+INSERT INTO terrain VALUES(04, 'Petanque');
+INSERT INTO terrain VALUES(05, 'Basketball');
 
 --Insertion dans dispose
 

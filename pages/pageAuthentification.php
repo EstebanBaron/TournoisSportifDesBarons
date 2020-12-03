@@ -25,8 +25,8 @@ session_start();
             $organisateur = $dbh->query('SELECT * from organisateur');
 
             if ($organisateur) {
-                $id = $_POST['id'];
-                $mdp = $_POST['mdp'];
+                $id = htmlspecialchars($_POST['id']);
+                $mdp = htmlspecialchars($_POST['mdp']);
                 $authentifie = false;
                 foreach($organisateur as $row) {
                     if($id === $row['identifiant'] && md5($mdp) ===  $row['motdepasse']) {

@@ -14,7 +14,7 @@ CREATE TABLE organisateur (
 CREATE TABLE evenement (
     numEvenement integer CONSTRAINT evenement_PK PRIMARY KEY,
     nom VARCHAR(40),
-    lieu VARCHAR(20),
+    lieu VARCHAR(50),
     dateEvenement DATE,
     idOrga VARCHAR(20) NOT NULL,
     CONSTRAINT evenement_FK FOREIGN KEY (idOrga) REFERENCES organisateur(identifiant) ON DELETE CASCADE
@@ -31,7 +31,7 @@ CREATE TABLE tournois (
 
 CREATE TABLE terrain (
     numTerrain integer CONSTRAINT terrain_PK PRIMARY KEY,
-    sport VARCHAR(10) NOT NULL CHECK(sport IN ('foot', 'rugby', 'basket', 'volley', 'petanque', 'tennis'))
+    sport VARCHAR(10) NOT NULL CHECK(sport IN ('Football', 'Rugby', 'Basketball', 'Volley', 'Petanque', 'Tennis'))
 );
 
 CREATE TABLE dispose (

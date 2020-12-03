@@ -30,17 +30,6 @@ $("#boutonTournois").click(function autreTournois() {
     }
 })
 
-$("#boutonSupprimerTournois").click(function supprimerTournois() {
-    if (numTournois > 0) {
-        let idDivNumTournois = "#divNumTournois" + numTournois;
-        $(idDivNumTournois).remove(); 
-        numTournois--;
-    }
-    else {
-        console.log("Aucun élément à supprimer.");
-    }
-})
-
 $("#boutonTerrain").click(function autreTerrain() {
     if (numTerrain < 5) {
         numTerrain++;
@@ -57,10 +46,22 @@ $("#boutonTerrain").click(function autreTerrain() {
         html += '<input type="number" name="nbTerrain' + numTerrain + '" min="1" max="100" value="1"><br>';
         html += '</div>';
 
+        console.log(numTerrain);
         $("#terrain").append(html);
     }
     else {
         alert("Le nombre maximum de tournois a été atteint!");
+    }
+})
+
+$("#boutonSupprimerTournois").click(function supprimerTournois() {
+    if (numTournois > 0) {
+        let idDivNumTournois = "#divNumTournois" + numTournois;
+        $(idDivNumTournois).remove(); 
+        numTournois--;
+    }
+    else {
+        console.log("Aucun élément à supprimer.");
     }
 })
 
@@ -74,3 +75,7 @@ $("#boutonSupprimerTerrain").click(function supprimerTerrain() {
         console.log("Aucun élément à supprimer.");
     }
 })
+
+function alertSport() {
+    alert("Les sports doivent être tous différents !");
+}
