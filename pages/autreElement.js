@@ -76,10 +76,4 @@ $("#boutonSupprimerTerrain").click(function supprimerTerrain() {
     }
 });
 
-function alertSport() {
-    alert("Les sports doivent être tous différents !");
-}
 
-// function soumettre() {
-//     document.getElementById("formulairePourPageEvenement").submit();
-// }
