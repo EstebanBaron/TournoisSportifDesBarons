@@ -57,9 +57,9 @@ session_start();
         {
           if($row['numtournois'] == $_POST['numtournois'])
           {
-            if($row['nbequipe'] > 2) 
+            if($row['nbequipe'] >= 2) 
             {
-              echo '<button id="bouton" type="button" onclick="clotureBouton()">cloturer l\'ajout des équipes</button>'; //A TERMINER
+              echo '<button id="bouton" type="button" onclick="clotureBouton()">cloturer l\'ajout des équipes</button>';
             }
             else
             {
