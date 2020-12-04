@@ -182,10 +182,8 @@ function tousLesSportsSontDiff() {
     <!-- date evenement -->
     <label for="dateevenement"> Date de l'événement* :</label>
     <input type="date" name="dateevenement" required><br>
-    <!-- </form> -->
 
     <h3>Tournois : </h3>
-    <!-- <form method="post"> -->
     <div id="tournois">
       <div id="divNumTournois0">
       <label for="nomTournois0"> Nom du tournois* :</label>
@@ -204,11 +202,9 @@ function tousLesSportsSontDiff() {
       <br>
       </div>
     </div>
-    <button id="boutonTournois">autre tournois</button> <button id="boutonSupprimerTournois">supprimer</button><br>
-    <!-- </form> -->
+    <button type="button" id="boutonTournois">autre tournois</button> <button type="button" id="boutonSupprimerTournois">supprimer</button><br>
 
     <h3>Terrains : </h3>
-    <!-- <form method="post" action="pageAccueil.php"> -->
     <div id="terrain">
       <div id="divNumTerrain0">
       <select name="sport0">
@@ -222,7 +218,7 @@ function tousLesSportsSontDiff() {
       <input type="number" name="nbTerrain0" min="1" max="100" value="1"><br>
       </div>
     </div>
-    <button id="boutonTerrain">autre terrain</button> <button id="boutonSupprimerTerrain">supprimer</button><br>
+    <button type="button" id="boutonTerrain">autre terrain</button> <button type="button" id="boutonSupprimerTerrain">supprimer</button><br>
     
     <br><br>
     <input type="submit" value="Creer l'événement" name="creationevenement">

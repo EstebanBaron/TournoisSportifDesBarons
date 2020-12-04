@@ -6,21 +6,29 @@ if (isset($_POST['numtournois'])) {
   $numTournois = $_POST['numtournois'];
 }
 
-function nbJoueurParEquipe() {
+function nbJoueurParEquipe($numTournois) {
   try {
     $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
-    $nbEquipe = 0;
-    foreach ($dbh->query('SELECT typejeu FROM tournois') as $row) {
-      if ($row['numtournois'] == $numTournois)
-        $nbEquipe = $row['typejeu'];
+    $tournois = $dbh->query('SELECT numtournois, typejeu FROM tournois');
+    if ($tournois) {
+      $nbJoueurEquipe = 0;
+      foreach ($tournois as $row) {
+        if ($row['numtournois'] == $numTournois) {
+          $nbJoueurEquipe = $row['typejeu'];
+        }
+      }
+      return $nbJoueurEquipe;
     }
-    return $nbEquipe;
+    else {
+      echo "Erreur lors de la recuperation du type de jeu!";
+      return -1;
+    }
   } catch (PDOException $e) {
     print "Erreur ! : " . $e->getMessage() . "<br>";
     die();
   }
 }
-$nbJoueurParEquipe = nbJoueurParEquipe();
+$nbJoueurParEquipe = nbJoueurParEquipe($numTournois);
 
 ?>
 <!DOCTYPE html>
@@ -40,7 +48,7 @@ $nbJoueurParEquipe = nbJoueurParEquipe();
         <h1>Création des équipes :  </h1>
         <p>(Les champs prefixés par des * sont obligatoires)</p>
 
-        <form method="post">
+        <form method="post"> <!--action="pageConfigTournois.php"> -->
         <div id="equipes">
           <div id="equipe1">
           <h2>Equipe 1 :</h2>
@@ -61,19 +69,25 @@ $nbJoueurParEquipe = nbJoueurParEquipe();
               echo '<label for="prenomJoueur' . ($index+1) . 'Equipe1"> Prenom* :</label> ';
               echo '<input type="text" name="prenomJoueur' . ($index+1) . 'Equipe1" maxlength="20" required><br>';
               echo '<label for="niveauJoueur' . ($index+1) . 'Equipe1"> Niveau* :</label> ';
-              echo '<input type="number" name="niveauJoueur' . ($index+1) . 'Equipe1" min="1" max="7" value="0"></li><br>';
-              
+              echo '<select name="niveauJoueur' . ($index+1) . 'Equipe1">';
+              echo '<option value="1">Loisir</option>';
+              echo '<option value="2">Départemental</option>';
+              echo '<option value="3">Régional</option>';
+              echo '<option value="4">N3</option>';
+              echo '<option value="5">N2</option>';
+              echo '<option value="6">Elite</option>';
+              echo '<option value="7">Pro</option>';
+              echo '</select></li>';
               $index++;
             }
           ?>
           </ul>
           </div>
         </div>
-        </form>
-        <button id="boutonAjoutEquipe" onclick="ajoutEquipe(<?php echo $nbJoueurParEquipe;?>)">autre équipe</button> <button id="boutonSupprimerEquipe">supprimer</button><br>
+        <button type="button" id="boutonAjoutEquipe" onclick="ajoutEquipe(<?php echo $nbJoueurParEquipe;?>)">autre équipe</button> <button type="button" id="boutonSupprimerEquipe">supprimer</button><br>
         
-        <form mothod="post">
-        <input type="submit" value="Valider" name="ajoutequipe">
+        <input type="hidden" value=<?php echo '"' . $numTournois . '"' ?>>
+        <input type="submit" value="Valider" name="valider">
         </form>
       <?php
     }

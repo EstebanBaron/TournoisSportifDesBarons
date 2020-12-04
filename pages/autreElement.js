@@ -99,7 +99,15 @@ function ajoutEquipe(nbJoueur) {
             html += '<label for="prenomJoueur' + (index+1) + 'Equipe' + numEquipe + '"> Prenom* :</label> ';
             html += '<input type="text" name="prenomJoueur' + (index+1) + 'Equipe' + numEquipe + '" maxlength="20" required><br>';
             html += '<label for="niveauJoueur' + (index+1) + 'Equipe' + numEquipe + '"> Niveau* :</label> ';
-            html += '<input type="number" name="niveauJoueur' + (index+1) + 'Equipe' + numEquipe + '" min="1" max="7" value="0"></li><br>';
+            html += '<select name="niveauJoueur' + (index+1) + 'Equipe' + numEquipe + '">';
+            html += '<option value="1">Loisir</option>';
+            html += '<option value="2">Départemental</option>';
+            html += '<option value="3">Régional</option>';
+            html += '<option value="4">N3</option>';
+            html += '<option value="5">N2</option>';
+            html += '<option value="6">Elite</option>';
+            html += '<option value="7">Pro</option>';
+            html += '</select></li>';
             index++;
         }
         html += '</ul>';
