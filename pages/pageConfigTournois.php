@@ -43,7 +43,7 @@ session_start();
   <h1>Tournois : <?php echo '"' . $nomTournois . '"';  ?> </h1>
   <?php
 
-    echo '<form id="ajoutEq" method="post" action="pageEquipe.php"><br>';
+    echo '<form id="ajoutEq" method="post" action="pageAjoutEquipe.php"><br>';
     echo '<input type="hidden" name="numtournois" value="' . htmlspecialchars($_POST["numtournois"]) . '" >';
     echo '<input type="submit" value="Ajouter des équipes">';
     echo '</form>';

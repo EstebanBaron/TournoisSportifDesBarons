@@ -77,3 +77,51 @@ $("#boutonSupprimerTerrain").click(function supprimerTerrain() {
 });
 
 
+var numEquipe = 1;
+
+function ajoutEquipe(nbJoueur) {
+    if (numEquipe < 24) {
+        numEquipe++;
+        let html = "";
+        html += '<div id="equipe' + numEquipe + '">';
+        html += '<h2>Equipe ' + numEquipe + ':</h2>';
+        html += '<label for="nomEquipe' + numEquipe + '"> Nom d\'équipe* :</label> ';
+        html += '<input type="text" name="nomEquipe' + numEquipe + '" maxlength="30" required><br>';
+        html += '<label for="clubEquipe' + numEquipe + '">Club :</label> ';
+        html += '<input type="text" name="clubEquipe' + numEquipe + '" maxlength="30"><br>';
+        html += '<h3>Joueurs :</h3>';
+        html += '<ul>';
+        let index = 0;
+        while (index < nbJoueur) {
+            html += '<li>joueur ' + (index+1) + '<br>';
+            html += '<label for="nomJoueur' + (index+1) + 'Equipe' + numEquipe + '"> Nom* :</label> ';
+            html += '<input type="text" name="nomJoueur' + (index+1) + 'Equipe' + numEquipe + '" maxlength="20" required><br>';
+            html += '<label for="prenomJoueur' + (index+1) + 'Equipe' + numEquipe + '"> Prenom* :</label> ';
+            html += '<input type="text" name="prenomJoueur' + (index+1) + 'Equipe' + numEquipe + '" maxlength="20" required><br>';
+            html += '<label for="niveauJoueur' + (index+1) + 'Equipe' + numEquipe + '"> Niveau* :</label> ';
+            html += '<input type="number" name="niveauJoueur' + (index+1) + 'Equipe' + numEquipe + '" min="1" max="7" value="0"></li><br>';
+            index++;
+        }
+        html += '</ul>';
+        html += '</div>';
+
+        $("#equipes").append(html);
+    }
+    else {
+        alert("Le nombre maximum d'équipe a été atteint!");
+    }
+}
+
+$("#boutonSupprimerEquipe").click(function supprimerEquipe() {
+    if (numEquipe > 1) { 
+        let idDivNumEquipe = "#equipe" + numEquipe;
+        $(idDivNumEquipe).remove(); 
+        numEquipe--;
+    }
+    else {
+        console.log("Aucun élément à supprimer.");
+    }
+});
+
+
+
