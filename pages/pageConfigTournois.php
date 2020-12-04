@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,6 +16,7 @@ session_start();
   <?php 
   if(isset($_POST["numtournois"]))
   {
+    $_SESSION[htmlspecialchars($_POST["numtournois"])]="6x4"; // déclaration de la variable tournois qui nous donne la formule choisi (par default 6 poule de 4 equipe)
     try{
       $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
       $tournois = $dbh->query('SELECT * FROM tournois');
