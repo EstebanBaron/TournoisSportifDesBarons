@@ -1,6 +1,114 @@
 <?php
 session_start();
 
+//renvoi le dernier num evenement
+function getLastNumEvenement() {
+  try {
+    $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+    $num = 0;
+    foreach ($dbh->query('SELECT numevenement FROM evenement') as $row) {
+      if ($row['numevenement'] > $num)
+        $num = $row['numevenement'];
+    }
+    return $num;
+  } catch (PDOException $e) {
+    print "Erreur ! : " . $e->getMessage() . "<br>";
+    die();
+  }
+}
+
+//renvoi le dernier num tournois
+function getLastNumTournois() {
+  try {
+    $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+    $num = 0;
+    foreach ($dbh->query('SELECT numtournois FROM tournois') as $row) {
+      if ($row['numtournois'] > $num)
+        $num = $row['numtournois'];
+    }
+    return $num;
+  } catch (PDOException $e) {
+    print "Erreur ! : " . $e->getMessage() . "<br>";
+    die();
+  }
+}
+
+//renvoi le dernier num terrain
+function getLastNumTerrain() {
+  try {
+    $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+    $num = 0;
+    foreach ($dbh->query('SELECT numterrain FROM terrain') as $row) {
+      if ($row['numterrain'] > $num)
+        $num = $row['numterrain'];
+    }
+    return $num;
+  } catch (PDOException $e) {
+    print "Erreur ! : " . $e->getMessage() . "<br>";
+    die();
+  }
+}
+
+function supprimerEvenement($numevenement) {
+  try {
+    $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+    $sql = "DELETE FROM evenement WHERE numevenement = :num_evenement";
+    $stmt = $dbh->prepare($sql); 
+    $stmt->bindParam(':num_evenement', $numevenement);
+    if($stmt->execute())
+      echo "requête evenement supprimé. <br>";
+    else 
+      echo "suppression échouée! <br>";
+  } catch (PDOException $e) {
+    print "Erreur ! : " . $e->getMessage() . "<br>";
+    die();
+  }
+}
+
+function supprimerTournois($saveNumTournois, $numtournois) {  
+  try {
+    $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+    $sql = "DELETE FROM tournois WHERE numtournois = :num_tournois";
+    $tousLesTournoisSontSupp = true;
+    while ($saveNumTournois <= $numtournois) {
+      $stmt = $dbh->prepare($sql); 
+      $stmt->bindParam(':num_tournois', $saveNumTournois);
+      if(!$stmt->execute())
+        $tousLesTournoisSontSupp = false;
+      $saveNumTournois++;
+    }
+    if ($tousLesTournoisSontSupp)
+      echo "Tous les tournois ont bien été supprimé<br>";
+    else
+      echo "Erreur lors de la suppression des tournois<br>";
+  } catch (PDOException $e) {
+    print "Erreur ! : " . $e->getMessage() . "<br>";
+    die();
+  }
+}
+
+function supprimerTerrain($saveNumTerrain, $numterrain) {
+  try {
+    $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+    $sql = "DELETE FROM terrain WHERE numterrain = :num_terrain";
+    $tousLesTerrainSontSupp = true;
+    while ($saveNumTerrain <= $numterrain) {
+      $stmt = $dbh->prepare($sql); 
+      $stmt->bindParam(':num_terrain', $saveNumTerrain);
+      if(!$stmt->execute())
+        $tousLesTerrainSontSupp = false;
+      $saveNumTerrain++;
+    }
+    if ($tousLesTerrainSontSupp)
+      echo "Tous les terrains ont bien été supprimé. <br>";
+    else
+      echo "Erreur lors de la suppression des terrains. <br>";
+  } catch (PDOException $e) {
+    print "Erreur ! : " . $e->getMessage() . "<br>";
+    die();
+  }
+}
+
 function tousLesChampsSontRemplis() {
   $i = 0;
   $tournoisCreer = true;
@@ -69,7 +177,7 @@ function tousLesSportsSontDiff() {
 
     <!-- lieu -->
     <label for="lieu"> Lieu* :</label>
-    <input type="text" name="lieu" maxlength="20" required><br>
+    <input type="text" name="lieu" maxlength="50" required><br>
 
     <!-- date evenement -->
     <label for="dateevenement"> Date de l'événement* :</label>
@@ -77,7 +185,7 @@ function tousLesSportsSontDiff() {
     <!-- </form> -->
 
     <h3>Tournois : </h3>
-    <form method="post">
+    <!-- <form method="post"> -->
     <div id="tournois">
       <div id="divNumTournois0">
       <label for="nomTournois0"> Nom du tournois* :</label>
@@ -100,7 +208,7 @@ function tousLesSportsSontDiff() {
     <!-- </form> -->
 
     <h3>Terrains : </h3>
-    <!-- <form method="post"> -->
+    <!-- <form method="post" action="pageAccueil.php"> -->
     <div id="terrain">
       <div id="divNumTerrain0">
       <select name="sport0">
@@ -119,22 +227,141 @@ function tousLesSportsSontDiff() {
     <br><br>
     <input type="submit" value="Creer l'événement" name="creationevenement">
     </form>
+
     
     <?php
-    if (isset($_POST['nom'], $_POST['lieu'], $_POST['dateevenement'], $_POST['creationevenement'])) {
-      //check de tous les tournois
+    if (isset($_POST['nom'], $_POST['lieu'], $_POST['dateevenement'], $_POST['creationevenement']) && !empty($_POST['nom']) &&  !empty($_POST['lieu']) && !empty($_POST['dateevenement'])) {
+      //check => tous les tournois demandés sont bien remplis
       $tousLesChampsSontRemplis = tousLesChampsSontRemplis();
-      //check que tous les sports soient différents
+      //check => tous les sports sont différents
       $tousLesSportsSontDiff = tousLesSportsSontDiff();
 
-      if ($tousLesChampsSontRemplis) {
+      if ($tousLesChampsSontRemplis) {      //ici peut-etre mettre les deux dans 1 if
         if (!$tousLesSportsSontDiff) {
-          echo '<script type="text/javascript">';
-          echo 'alert("Les sports doivent être tous différents !");';
-          echo '</script>';
+          alertSport();
         }
         else {
-          echo "C bon";
+          $identifiant = $_POST['identifiant'];
+          $mdp = $_POST['motdepasse'];
+          $confirmMDP = $_POST['confirmationMDP'];
+          if ($mdp !== $confirmMDP) {
+              echo "Erreur, les mots de passes sont incohérents !";
+          }
+          else {
+            try {
+              $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+              //variables pour la requetes
+              $numevenement = getLastNumEvenement() + 1;
+              $nom = htmlspecialchars($_POST['nom']);
+              $lieu = htmlspecialchars($_POST['lieu']);
+              $dateevenement = htmlspecialchars($_POST['dateevenement']);
+              $idOrga = $_SESSION['identifiant'];
+              //preparation de la requete evenement
+              $sql = "INSERT INTO evenement (numevenement, nom, lieu, dateevenement, idorga) VALUES (?, ?, ?, ?, ?)";
+              $stmt = $dbh->prepare($sql);
+              
+              //variable pour verifier s'il y a une erreur
+              $malPasse = false;
+
+              //AJOUT EVENEMENT
+              //verification des contraintes
+              if(strlen($nom) <= 40 && strlen($lieu) <= 50) {
+                  if ($stmt->execute([$numevenement, $nom, $lieu, $dateevenement, $idOrga])) {
+                    //AJOUT DES TOURNOIS
+                    //variable utile pour les requetes tournois
+                    $numtournois = getLastNumTournois();
+                    $saveNumTournois = $numtournois + 1;
+                    $arrayTypeJeu = ['1vs1' => 1, '2vs2' => 2, '3vs3' => 3, '5vs5' => 5, '6vs6' => 6, '7vs7' => 7, '11vs11' => 11, '15vs15' => 15];
+                    //preparation des requetes tournois
+                    $sql = "INSERT INTO tournois (numtournois, nom, classement, typejeu, numevenement) VALUES (?, ?, ?, ?, ?)";
+                    $stmt = $dbh->prepare($sql);     
+                    $indexTournois = 0;
+                    while (isset($_POST['nomTournois' . $indexTournois]) && !$malPasse) {
+                      $numtournois++;
+                      $nomTournois = $_POST['nomTournois' . $indexTournois];
+                      $typeJeu = $arrayTypeJeu[$_POST['typeTournois' . $indexTournois]];
+                      //verification des contraintes
+                      if(strlen($nomTournois) <= 40 && $typeJeu >= 1 && $typeJeu <= 15) {
+                        if (!$stmt->execute([$numtournois, $nomTournois, NULL, $typeJeu, $numevenement])) {
+                          $malPasse = true;
+                          echo "Erreur d'ajout d'un tournois dans la base!<br>";
+                        }
+                      }
+                      else {
+                        echo "Erreur de taille ou de type de jeu sur les champs renseignés!<br>";
+                        $malPasse = true;
+                      }
+                      $indexTournois++;
+                    }
+                    if (!$malPasse) {
+                      //AJOUT DES TERRAINS
+                      //variable utile pour les requetes
+                      $numterrain = getLastNumTerrain();
+                      $saveNumTerrain = $numterrain + 1;
+                      //preparation des requetes
+                      $sql = "INSERT INTO terrain (numterrain, sport, numevenement) VALUES (?, ?, ?)";
+                      $stmt = $dbh->prepare($sql); 
+                      //varible pour la verification des contraintes 
+                      $arraySportDispo = ['Football', 'Rugby', 'Basketball', 'Volley', 'Petanque', 'Tennis'];
+
+                      $indexTerrain = 0;
+                      while (isset($_POST['sport' . $indexTerrain]) && !$malPasse) {
+                        $indexTerrainPourUnSport = $_POST['nbTerrain' . $indexTerrain];
+                        while ($indexTerrainPourUnSport > 0){
+                          $numterrain++;
+                          $sport = $_POST['sport' . $indexTerrain];
+                          //verification des contraintes
+                          if(in_array($sport , $arraySportDispo)) {
+                            if (!$stmt->execute([$numterrain, $sport, $numevenement])) {
+                              $malPasse = true;
+                              echo "Erreur de l'ajout d'un terrain dans la base ! <br>";
+                            }
+                          }
+                          else {
+                            echo "Erreur, le sport séléctionné n'est pas disponible! <br>";
+                            $malPasse = true;
+                          }
+                          $indexTerrainPourUnSport--;
+                        }
+                        $indexTerrain++;
+                      }
+                      if ($malPasse) {
+                        //supprime les tuples de evenement et tournois et affiche une erreur
+                        supprimerEvenement($numevenement);
+                        supprimerTournois($saveNumTournois, $numtournois);
+                        supprimerTerrain($saveNumTerrain, $numterrain);
+                        //evite de resupprimer
+                        $malPasse = false;
+                      }
+                      else {
+                        //redirection sur la page Evenement en envoyant le numEvenement
+                        // echo '<form method="post" action="pageEvenement.php" id="formulairePourPageEvenement">';
+                        //le onload marche pas sur un input type hidden
+                        // echo '<input type="hidden" value="' . $numevenement . '" onload="soumettre()">';
+                        // echo '</form>';
+                      }
+                    }
+                    else {
+                      //erreur lors d'une requete des tournois => drop la requête de l'événement
+                      //suppression de la requete evenement
+                      supprimerEvenement($numevenement);
+                      //suppression les requetes tournois qui ce sont executées jusqu'à celle qui a échouée
+                      supprimerTournois($saveNumTournois, $numtournois);
+                    }
+                  }
+                  else {
+                      echo "Erreur d'execution de la requête préparé evenement!<br>";
+                  }
+              }
+              else {
+                  echo "Erreur, la taille des champs renseigné dépasse la limite autorisé !<br>";
+              }
+              $dbh = null;
+            } catch (PDOException $e) {
+                print "Erreur ! : " . $e->getMessage() . "<br>";
+                die();
+            }
+          }
         }
       }
     }

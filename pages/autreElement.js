@@ -7,7 +7,7 @@ $("#boutonTournois").click(function autreTournois() {
         let html = "";
         html += '<div id="divNumTournois' + numTournois + '">';
         html += '<label for="nomTournois' + numTournois + '"> Nom du tournois* :</label> ';
-        html += '<input type="text" name="nomTournois' + numTournois + '" maxlength="40" required>&nbsp;&nbsp';
+        html += '<input type="text" name="nomTournois' + numTournois + '" maxlength="40" required>&nbsp;&nbsp;';
 
         html += '<label for="typeTournois' + numTournois + '"> Type du tournois* :</label> ';
         html += '<select name="typeTournois' + numTournois + '">';
@@ -28,18 +28,7 @@ $("#boutonTournois").click(function autreTournois() {
     else {
         alert("Le nombre maximum de tournois a été atteint!");
     }
-})
-
-$("#boutonSupprimerTournois").click(function supprimerTournois() {
-    if (numTournois > 0) {
-        let idDivNumTournois = "#divNumTournois" + numTournois;
-        $(idDivNumTournois).remove(); 
-        numTournois--;
-    }
-    else {
-        console.log("Aucun élément à supprimer.");
-    }
-})
+});
 
 $("#boutonTerrain").click(function autreTerrain() {
     if (numTerrain < 5) {
@@ -54,7 +43,8 @@ $("#boutonTerrain").click(function autreTerrain() {
         html += '<option value="Petanque">Pétanque</option>';
         html += '<option value="Volley">Volley</option>';
         html += '</select> ';
-        html += '<input type="number" name="nbTerrain' + numTerrain + '" min="1" max="100" value="1"><br>';
+        html += '<input type="number" name="nbTerrain' + numTerrain + '" min="1" max="100" value="1">';
+        html += '<br>';
         html += '</div>';
 
         $("#terrain").append(html);
@@ -62,7 +52,18 @@ $("#boutonTerrain").click(function autreTerrain() {
     else {
         alert("Le nombre maximum de tournois a été atteint!");
     }
-})
+});
+
+$("#boutonSupprimerTournois").click(function supprimerTournois() {
+    if (numTournois > 0) {
+        let idDivNumTournois = "#divNumTournois" + numTournois;
+        $(idDivNumTournois).remove(); 
+        numTournois--;
+    }
+    else {
+        console.log("Aucun élément à supprimer.");
+    }
+});
 
 $("#boutonSupprimerTerrain").click(function supprimerTerrain() {
     if (numTerrain > 0) { 
@@ -73,4 +74,12 @@ $("#boutonSupprimerTerrain").click(function supprimerTerrain() {
     else {
         console.log("Aucun élément à supprimer.");
     }
-})
+});
+
+function alertSport() {
+    alert("Les sports doivent être tous différents !");
+}
+
+// function soumettre() {
+//     document.getElementById("formulairePourPageEvenement").submit();
+// }
