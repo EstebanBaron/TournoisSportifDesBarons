@@ -42,6 +42,7 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
               }
               if (!$tousLesTournoisSontFinis) {
                 echo '<form method="post" action="pageEvenement.php">';
+                echo '<input type="hidden" name="estTermine" value="non" />';
                 echo '<input type="hidden" name="numevenement" value="' . $row["numevenement"] . '" />';
                 echo '<input type="submit" value="' . $row["nom"] . ' - ' . $row["lieu"] . ' - ' . $row["dateevenement"] . '" /><br>';
                 echo '</form>';
@@ -79,6 +80,7 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
               }
               if ($tousLesTournoisSontFinis) {
                 echo '<form method="post" action="pageEvenement.php">';
+                echo '<input type="hidden" name="estTermine" value="oui" />';
                 echo '<input type="hidden" name="numevenement" value="' . $row["numevenement"] . '" />';
                 echo '<input type="submit" value="' . $row["nom"] . ' - ' . $row["lieu"] . ' - ' . $row["dateevenement"] . '" /><br>';
                 echo '</form>';
