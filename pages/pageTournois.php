@@ -69,7 +69,7 @@ function nbEquipeTourSuivant($nb)
       }
       else if($nbtour == $_SESSION["TourActuel" . $_POST["numtournois"]] )
       { 
-        echo '<form type="post" action="pageTour.php" >';
+        echo '<form method="post" action="pageTour.php" >';
         echo '<input type="hidden" name="numt" value="' . $_POST["numtournois"] . '" >';
         echo '<input type="hidden" name="numtour" value="' . $nbtour . '" >';
         echo '<input type="submit" name="boutonpoule" value="Poules" >';
