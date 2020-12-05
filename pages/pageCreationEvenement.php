@@ -226,7 +226,7 @@ function tousLesSportsSontDiff() {
 
     
     <?php
-    if (isset($_POST['nom'], $_POST['lieu'], $_POST['dateevenement'], $_POST['creationevenement']) && !empty($_POST['nom']) &&  !empty($_POST['lieu']) && !empty($_POST['dateevenement'])) {
+    if (isset($_POST['nom'], $_POST['lieu'], $_POST['dateevenement'], $_POST['creationevenement']) && !empty($_POST['nom']) && !empty($_POST['lieu']) && !empty($_POST['dateevenement'])) {
       //check => tous les tournois demandés sont bien remplis
       $tousLesChampsSontRemplis = tousLesChampsSontRemplis();
       //check => tous les sports sont différents
@@ -322,8 +322,6 @@ function tousLesSportsSontDiff() {
                       supprimerEvenement($numevenement);
                       supprimerTournois($saveNumTournois, $numtournois);
                       supprimerTerrain($saveNumTerrain, $numterrain);
-                      //evite de resupprimer
-                      // $malPasse = false;
                     }
                     else {
                       //redirection sur la page Evenement en envoyant le numEvenement

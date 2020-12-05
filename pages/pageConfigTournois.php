@@ -14,9 +14,18 @@ session_start();
   </head>
   <body>
   <?php 
-  if(isset($_POST["numtournois"]))
+  //recup du num tournois
+  $numTournois = NULL;
+  if (isset($_POST['numtournois'])) {
+      $numTournois = $_POST['numtournois'];
+  }
+  else if (isset($_SESSION['numtournois'])) {
+      $numTournois = $_SESSION['numtournois'];
+  }
+
+  if($numTournois !== NULL)
   {
-    $_SESSION["formule" . $_POST["numtournois"]]="8x2"; // déclaration de la variable tournois qui nous donne la formule choisi (par default 6 poule de 4 equipe)
+    $_SESSION["formule" . $numTournois]="8x2"; // déclaration de la variable tournois qui nous donne la formule choisi (par default 6 poule de 4 equipe)
     try{
       $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
       $tournois = $dbh->query('SELECT * FROM tournois');
@@ -25,7 +34,7 @@ session_start();
       {
           foreach($tournois as $row)
           {
-              if($row['numtournois'] == $_POST['numtournois'])
+              if($row['numtournois'] == $numTournois)
               {
                   $nomTournois = $row['nom'];
               }
@@ -33,7 +42,7 @@ session_start();
       }
       else 
       {
-          echo "Erreur, les données de la base n'ont pas pu être récupérées !"; 
+          echo "Erreur, les données de la base n'ont pas pu être récupérées !<br>"; 
       }
     } catch (PDOException $e)
     {
@@ -44,7 +53,7 @@ session_start();
   <?php
 
     echo '<form id="ajoutEq" method="post" action="pageAjoutEquipe.php"><br>';
-    echo '<input type="hidden" name="numtournois" value="' . htmlspecialchars($_POST["numtournois"]) . '" >';
+    echo '<input type="hidden" name="numtournois" value="' . htmlspecialchars($numTournois) . '" >';
     echo '<input type="submit" value="Ajouter des équipes">';
     echo '</form>';
     try{
@@ -55,7 +64,7 @@ session_start();
       {
         foreach($tournois as $row)
         {
-          if($row['numtournois'] == $_POST['numtournois'])
+          if($row['numtournois'] == $numTournois)
           {
             if($row['nbequipe'] >= 2) 
             {
@@ -70,7 +79,7 @@ session_start();
       }
       else 
       {
-        echo "Erreur, les données de la base n'ont pas pu être récupérées !"; 
+        echo "Erreur, les données de la base n'ont pas pu être récupérées !<br>"; 
       }
     } catch (PDOException $e)
     {
@@ -79,11 +88,11 @@ session_start();
   }
   else
   {
-      echo 'Erreur pas de Tournois trouvé';
+      echo 'Erreur pas de Tournois trouvé<br>';
   }
   ?>
   <form id="tournois" method="post" action="pageTournois.php">
-  <input type="hidden" name="numtournois" value = <?php echo htmlspecialchars($_POST["numtournois"])?>>
+  <input type="hidden" name="numtournois" value = <?php echo htmlspecialchars($numTournois)?>>
   </form>
   <script src="JsPageConfigTournois.js"></script>
   </body>
