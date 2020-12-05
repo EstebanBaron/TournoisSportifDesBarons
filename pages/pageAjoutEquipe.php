@@ -4,6 +4,10 @@ session_start();
 $numTournois = NULL;
 if (isset($_POST['numtournois'])) {
   $numTournois = $_POST['numtournois'];
+  $_SESSION['numtournois'] = $_POST['numtournois'];
+}
+else if (isset($_SESSION['numtournois'])) {
+  $numTournois = $_SESSION['numtournois'];
 }
 
 function nbJoueurParEquipe($numTournois) {
@@ -30,6 +34,65 @@ function nbJoueurParEquipe($numTournois) {
 }
 $nbJoueurParEquipe = nbJoueurParEquipe($numTournois);
 
+function nomEquipeLibre($nomEquipe) {
+  try {
+    $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+    $libre = true;
+    foreach ($dbh->query('SELECT nom FROM equipe') as $row) {
+      if ($nomEquipe == $row['nom']) {
+        $libre = false;
+      }
+    }
+    return $libre;
+  } catch (PDOException $e) {
+    print "Erreur ! : " . $e->getMessage() . "<br>";
+    die();
+  }
+}
+
+function getLastNumJoueur() {
+  try {
+    $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+    $num = 0;
+    foreach ($dbh->query('SELECT numjoueur FROM joueur') as $row) {
+      if ($row['numjoueur'] > $num)
+        $num = $row['numjoueur'];
+    }
+    return $num;
+  } catch (PDOException $e) {
+    print "Erreur ! : " . $e->getMessage() . "<br>";
+    die();
+  }
+}
+
+function tousLesChampsSontRemplis() {
+  $tousLesChampsSontRemplis = true;
+  $index = 1;
+  //on verifie que tous les champs sur la page sont bien rempli
+  while (isset($_POST['nomEquipe' . $index])) {
+    if (empty($_POST['nomEquipe' . $index])) {
+      $tousLesChampsSontRemplis = false;
+      "Erreur ! Le nom d'équipe n'a pas été rempli";
+    }
+    else {
+      $indexNbJoueur = 1;
+      while ($indexNbJoueur <= $nbJoueurParEquipe) {
+        $nomJoueur = 'nomJoueur' . $indexNbJoueur . 'Equipe' . $index;
+        $prenomJoueur = 'prenomJoueur' . $indexNbJoueur . 'Equipe' . $index;
+        $niveauJoueur = 'niveauJoueur' . $indexNbJoueur . 'Equipe' . $index;
+        if (!isset($_POST[$nomJoueur], $_POST[$prenomJoueur], $_POST[$niveauJoueur]) || empty($_POST[$nomJoueur]) || empty($_POST[$prenomJoueur])) {
+          echo "Erreur ! Tous les champs ne sont pas remplis";
+          $tousLesChampsSontRemplis = false;
+        } 
+      $indexNbJoueur++;
+      }
+    }
+    $index++;
+  }
+
+  return $tousLesChampsSontRemplis;
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -48,7 +111,7 @@ $nbJoueurParEquipe = nbJoueurParEquipe($numTournois);
         <h1>Création des équipes :  </h1>
         <p>(Les champs prefixés par des * sont obligatoires)</p>
 
-        <form method="post"> <!--action="pageConfigTournois.php"> -->
+        <form method="post"> <!-- action="pageConfigTournois.php"> -->
         <div id="equipes">
           <div id="equipe1">
           <h2>Equipe 1 :</h2>
@@ -86,13 +149,95 @@ $nbJoueurParEquipe = nbJoueurParEquipe($numTournois);
         </div>
         <button type="button" id="boutonAjoutEquipe" onclick="ajoutEquipe(<?php echo $nbJoueurParEquipe;?>)">autre équipe</button> <button type="button" id="boutonSupprimerEquipe">supprimer</button><br>
         
-        <input type="hidden" value=<?php echo '"' . $numTournois . '"' ?>>
+        <!-- <input type="hidden" name="numtournois" value=<?php //echo '"' . $numTournois . '"' ?>> -->
         <input type="submit" value="Valider" name="valider">
         </form>
       <?php
+
+      $tousLesChampsSontRemplis = false;
+      if (isset($_POST['valider'])) {
+        $tousLesChampsSontRemplis = tousLesChampsSontRemplis();
+      }
+      if ($tousLesChampsSontRemplis) {
+        $bienPasse = true;
+        try {
+          $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+          //envoi des données
+          $index = 1;
+          //on verifie que tous les champs sur la page sont bien rempli
+          while (isset($_POST['nomEquipe' . $index])) {    //tant qu'on a une equipe
+            //AJOUT DES EQUIPES
+            $nomEquipe = htmlspecialchars($_POST['nomEquipe' . $index]);
+            if (nomEquipeLibre($nomEquipe)) {
+              $club = NULL;
+              if (isset($_POST['clubEquipe' . $index])) {
+                $club = htmlspecialchars($_POST['clubEquipe' . $index]);
+              }
+              //preparation de la requete evenement
+              $sql = "INSERT INTO equipe (nom, club, numtournois) VALUES (?, ?, ?)";
+              $stmt = $dbh->prepare($sql);
+              //verification des contraintes
+              if(strlen($nomEquipe) <= 30 && strlen($club) <= 30) {
+                if ($stmt->execute([$nomEquipe, $club, $numTournois])) {
+                  $indexNbJoueur = 1;
+                  while ($indexNbJoueur <= $nbJoueurParEquipe) {
+                    //AJOUT DES JOUEURS
+                    //variables
+                    $numJoueur = getLastNumJoueur() + 1;
+                    $nomJoueur = htmlspecialchars($_POST['nomJoueur' . $indexNbJoueur . 'Equipe' . $index]);
+                    $prenomJoueur = htmlspecialchars($_POST['prenomJoueur' . $indexNbJoueur . 'Equipe' . $index]);
+                    $niveauJoueur = htmlspecialchars($_POST['niveauJoueur' . $indexNbJoueur . 'Equipe' . $index]);
+                    $sql = "INSERT INTO joueur (numjoueur, nom, prenom, niveau, nomequipe) VALUES (?, ?, ?, ?, ?)";
+                    $stmt = $dbh->prepare($sql);
+                    //verification des contraintes
+                    if(strlen($nomJoueur) <= 20 && strlen($prenomJoueur) <= 20 && $niveauJoueur >= 1 && $niveauJoueur <= 7) {
+                      if (!$stmt->execute([$numJoueur, $nomJoueur, $prenomJoueur, $niveauJoueur, $nomEquipe])) {
+                        echo "Erreur, le joueur n'a pas pu être ajouté dans la base de donnée!<br>";
+                        //suppression des joueur et equipe deja ajouté
+                        $bienPasse = false;
+                      }
+                    }
+                    else {
+                      echo "Erreur, les contraintes pour la créaction du joueur pas respecté !<br>";
+                      $bienPasse = false;
+                    }
+                    $indexNbJoueur++;
+                  }
+                }
+                else {
+                  echo "Erreur, l'équipe n'a pas pu être ajouté dans la base de donnée!<br>";
+                  $bienPasse = false;
+                }
+              }
+              else {
+                echo "Erreur, la contrainte du nom d'équipe n'est pas respecté!<br>";
+                $bienPasse = false;
+              }
+            }
+            else {
+              echo "Erreur, le nom d'équipe n'est pas disponible<br>";
+              $bienPasse = false;
+            }
+            $index++;
+          }
+          if ($bienPasse) {
+            ?>
+            <br>
+            <h3>Ajout des équipes réussi !</h3>
+            <h4>Redirection en cours...</h4>
+            <script type="text/javascript">
+                setTimeout(function() {window.location.href = "pageConfigTournois.php";}, 2500);
+            </script>
+            <?php
+          }
+        } catch (PDOException $e) {
+          print "Erreur ! : " . $e->getMessage() . "<br>";
+          die();
+        }
+      }
     }
     else {
-      echo "Erreur lors de l'envoi du numero de tournois !";
+      echo "Erreur, la page n'a pas pu être chargé !<br>";
     }
   ?>
   <script src="autreElement.js"></script>
