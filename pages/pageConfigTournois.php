@@ -19,13 +19,9 @@ session_start();
   if (isset($_POST['numtournois'])) {
       $numTournois = $_POST['numtournois'];
   }
-  else if (isset($_SESSION['numtournois'])) {
-      $numTournois = $_SESSION['numtournois'];
-  }
 
   if($numTournois !== NULL)
   {
-    $_SESSION["formule" . $numTournois]="8x2"; // déclaration de la variable tournois qui nous donne la formule choisi (par default 6 poule de 4 equipe)
     try{
       $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
       $tournois = $dbh->query('SELECT * FROM tournois');
@@ -51,7 +47,7 @@ session_start();
   ?>
   <h1>Tournois : <?php echo '"' . $nomTournois . '"';  ?> </h1>
   <?php
-
+    $nbEquipe = 0;
     echo '<form id="ajoutEq" method="post" action="pageAjoutEquipe.php"><br>';
     echo '<input type="hidden" name="numtournois" value="' . htmlspecialchars($numTournois) . '" >';
     echo '<input type="submit" value="Ajouter des équipes">';
@@ -68,11 +64,12 @@ session_start();
           {
             if($row['nbequipe'] >= 2) 
             {
-              echo '<button id="bouton" type="button" onclick="clotureBouton()">cloturer l\'ajout des équipes</button>';
+              $nbEquipe = $row['nbequipe'];
+              echo '<button id="bouton" type="button" onclick="clotureEquipe()">cloturer l\'ajout des équipes</button>';
             }
             else
             {
-              echo 'pas assez d\'équipe (minimum : 2)';
+              echo 'Pas assez d\'équipe pour cloturer l\'ajout (il en faut au minimum 2).<br>';
             }
           }
         }
@@ -90,10 +87,14 @@ session_start();
   {
       echo 'Erreur pas de Tournois trouvé<br>';
   }
+
   ?>
+
+  <!-- Commencer le tournois -->
   <form id="tournois" method="post" action="pageTournois.php">
-  <input type="hidden" name="numtournois" value = <?php echo htmlspecialchars($numTournois)?>>
+    <input type="hidden" name="numtournois" value = <?php echo htmlspecialchars($numTournois)?>>
   </form>
+
   <script src="JsPageConfigTournois.js"></script>
   </body>
 </html>

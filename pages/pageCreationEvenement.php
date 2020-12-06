@@ -49,6 +49,7 @@ function getLastNumTerrain() {
   }
 }
 
+//supprime l'événement mis dans la base si une requête s'est map passé
 function supprimerEvenement($numevenement) {
   try {
     $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
@@ -65,6 +66,7 @@ function supprimerEvenement($numevenement) {
   }
 }
 
+//supprime tous les tournois ajouté dans la base jusqu'au tournois qui a eu un problème
 function supprimerTournois($saveNumTournois, $numtournois) {  
   try {
     $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
@@ -87,6 +89,7 @@ function supprimerTournois($saveNumTournois, $numtournois) {
   }
 }
 
+//supprime tous les terrain ajouté dans la base jusqu'au terrain qui a eu un problème
 function supprimerTerrain($saveNumTerrain, $numterrain) {
   try {
     $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
@@ -109,6 +112,7 @@ function supprimerTerrain($saveNumTerrain, $numterrain) {
   }
 }
 
+//vérifie si tous les champs sont remplis
 function tousLesChampsSontRemplis() {
   $i = 0;
   $tournoisCreer = true;
@@ -132,6 +136,7 @@ function tousLesChampsSontRemplis() {
   return $tousLesChampsSontRemplis;
 }
 
+//vérifie que tous les sports lors de l'ajout des terrains soient différents
 function tousLesSportsSontDiff() {
   $tousLesSportsSontDiff = true;
   $sports = array();
@@ -232,7 +237,7 @@ function tousLesSportsSontDiff() {
       //check => tous les sports sont différents
       $tousLesSportsSontDiff = tousLesSportsSontDiff();
 
-      if ($tousLesChampsSontRemplis) {      //ici peut-etre mettre les deux dans 1 if
+      if ($tousLesChampsSontRemplis) { 
         if (!$tousLesSportsSontDiff) {
           ?>
           <script type="text/javascript">
@@ -240,7 +245,7 @@ function tousLesSportsSontDiff() {
           </script>
           <?php
         }
-        else {
+        else {  //ajout de l'événement, des tournois de l'événement et de ses terrains
           try {
             $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
             //AJOUT EVENEMENT
@@ -324,7 +329,7 @@ function tousLesSportsSontDiff() {
                       supprimerTerrain($saveNumTerrain, $numterrain);
                     }
                     else {
-                      //redirection sur la page Evenement en envoyant le numEvenement
+                      //redirection sur la page Evenement en envoyant le numEvenement (par la variable de session)
                       $_SESSION['numevenement'] = $numevenement;
                       ?>
                       <br>

@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+//vérifie que tous les tournois sont fini et donc que l'événement est terminé ou en cours
 function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
   $tousLesTournoisSontFinis = true;
   foreach ($resultatRequete as $ligne) {
@@ -24,12 +25,15 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
     <h1>Accueil</h1>
     <h2>Mes événement en cours :</h2>
     <?php 
+      //ici on va afficher les événements en cours de l'organisateur identifié 
       try {
         $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
         $evenement = $dbh->query('SELECT identifiant, numevenement, E.nom, lieu, dateevenement from organisateur O, evenement E where idorga = identifiant');
+        //on recupere les evenements par organisateur
         if ($evenement) {
           foreach ($evenement as $row) {
             if ($row['identifiant'] === $_SESSION['identifiant']) {
+              //on recupere les classements de chaque tournois pour savoir si l'événement est terminé ou non
               $classements = $dbh->query('SELECT T.numevenement, classement from tournois T, evenement E where T.numevenement = E.numevenement');
               $numEvenement = $row['numevenement'];
               if ($classements) {
@@ -40,7 +44,7 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
                 echo "Aucune donnée n'est donc affichée.";
                 $tousLesTournoisSontFinis = true;
               }
-              if (!$tousLesTournoisSontFinis) {
+              if (!$tousLesTournoisSontFinis) { //cas où ils ne sont pas terminé 
                 echo '<form method="post" action="pageEvenement.php">';
                 echo '<input type="hidden" name="estTermine" value="non" />';
                 echo '<input type="hidden" name="numevenement" value="' . $row["numevenement"] . '" />';
@@ -61,6 +65,7 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
     ?>
     <h2>Mes événement terminés :</h2>
     <?php 
+      //idem qu'au dessus mais pour les événements terminé
       try {
         $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
         $evenement = $dbh->query('SELECT identifiant, numevenement, E.nom, lieu, dateevenement from organisateur O, evenement E where idorga = identifiant');
@@ -78,7 +83,7 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
                 echo "Aucune donnée n'est donc affichée.";
                 $tousLesTournoisSontFinis = false;
               }
-              if ($tousLesTournoisSontFinis) {
+              if ($tousLesTournoisSontFinis) { //cas où ils sont terminé 
                 echo '<form method="post" action="pageEvenement.php">';
                 echo '<input type="hidden" name="estTermine" value="oui" />';
                 echo '<input type="hidden" name="numevenement" value="' . $row["numevenement"] . '" />';
@@ -98,6 +103,7 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
     }
     ?>
     <br>
+    <!-- bouton pour aller sur la page de création d'événement -->
     <form action="pageCreationEvenement.php">
         <input type="submit" value="créer un événement">
     </form>

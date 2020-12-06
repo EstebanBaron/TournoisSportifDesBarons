@@ -1,6 +1,8 @@
+//variables à incrémenter pour les names des input ajouté dynamiquement
 var numTournois = 0;
 var numTerrain = 0;
 
+//ajout d'un tournois
 $("#boutonTournois").click(function autreTournois() {
     if (numTournois < 9) {
         numTournois++;
@@ -30,6 +32,7 @@ $("#boutonTournois").click(function autreTournois() {
     }
 });
 
+//ajout d'un terrain
 $("#boutonTerrain").click(function autreTerrain() {
     if (numTerrain < 5) {
         numTerrain++;
@@ -54,6 +57,7 @@ $("#boutonTerrain").click(function autreTerrain() {
     }
 });
 
+//suppression d'un tournois
 $("#boutonSupprimerTournois").click(function supprimerTournois() {
     if (numTournois > 0) {
         let idDivNumTournois = "#divNumTournois" + numTournois;
@@ -65,6 +69,7 @@ $("#boutonSupprimerTournois").click(function supprimerTournois() {
     }
 });
 
+//suppression d'un terrain
 $("#boutonSupprimerTerrain").click(function supprimerTerrain() {
     if (numTerrain > 0) { 
         let idDivNumTerrain = "#divNumTerrain" + numTerrain;
@@ -77,8 +82,10 @@ $("#boutonSupprimerTerrain").click(function supprimerTerrain() {
 });
 
 
+//variable à incrémenter pour les name lors de l'ajout d'une equipe
 var numEquipe = 1;
 
+//ajout equipe en fonction du nombre de joueur (typeJeu choisi)
 function ajoutEquipe(nbJoueur) {
     if (numEquipe < 24) {
         numEquipe++;
@@ -120,6 +127,7 @@ function ajoutEquipe(nbJoueur) {
     }
 }
 
+//supprimer une equipe
 $("#boutonSupprimerEquipe").click(function supprimerEquipe() {
     if (numEquipe > 1) { 
         let idDivNumEquipe = "#equipe" + numEquipe;

@@ -36,6 +36,7 @@ session_start();
             try {
                 $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
                 $organisateur = $dbh->query('SELECT * from organisateur');
+                //on vérifie que le nom d'utilisateur n'est pas déjà utilisé (clé primaire)
                 if ($organisateur) {
                     $dejaUtilise = false;
                     foreach($organisateur as $row) {
@@ -46,7 +47,7 @@ session_start();
                             }
                         }
                     }
-                    if(!$dejaUtilise) {
+                    if(!$dejaUtilise) { //on insert dans la base le nouveau organisateur
                         $sql = "INSERT INTO organisateur (identifiant, motdepasse, nom, prenom) VALUES (?, ?)";
                         $stmt = $dbh->prepare($sql);
                         //ajout utilisateur

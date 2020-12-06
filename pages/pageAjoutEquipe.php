@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+//récupère le numero de tournois et on le sauvegarde dans une variable de session lorsque l'on vient de la page config tournois
+//le sauvegarder nous permet de rester sur la page quand il y a un probleme lors de l'ajout des equipes
 $numTournois = NULL;
 if (isset($_POST['numtournois'])) {
   $numTournois = $_POST['numtournois'];
@@ -10,6 +12,7 @@ else if (isset($_SESSION['numtournois'])) {
   $numTournois = $_SESSION['numtournois'];
 }
 
+//récupère le nombre de joueur par équipe (typeJeu du tournois)
 function nbJoueurParEquipe($numTournois) {
   try {
     $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
@@ -34,6 +37,7 @@ function nbJoueurParEquipe($numTournois) {
 }
 $nbJoueurParEquipe = nbJoueurParEquipe($numTournois);
 
+//vérifie si le nom d'équipe choisi est unique (clé primaire dans la bdd)
 function nomEquipeLibre($nomEquipe) {
   try {
     $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
@@ -50,6 +54,7 @@ function nomEquipeLibre($nomEquipe) {
   }
 }
 
+//return le dernier NumJoueur pour l'ajout des joueurs dans la base
 function getLastNumJoueur() {
   try {
     $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
@@ -65,6 +70,7 @@ function getLastNumJoueur() {
   }
 }
 
+//vérifie si tous les champs sur la page sont remplis
 function tousLesChampsSontRemplis() {
   $tousLesChampsSontRemplis = true;
   $index = 1;
@@ -124,6 +130,7 @@ function tousLesChampsSontRemplis() {
           <h3>Joueurs :</h3>
           <ul>
           <?php
+            //ajout dynamique des joueurs en fonction du nombre de joueur par équipe (typejeu du tournois)
             $index = 0;
             while ($index < $nbJoueurParEquipe) {
               echo '<li>joueur'. ($index+1) . ' <br>';
@@ -147,9 +154,9 @@ function tousLesChampsSontRemplis() {
           </ul>
           </div>
         </div>
+        <!-- boutons pour ajouter ou supprimer des équipes au code html -->
         <button type="button" id="boutonAjoutEquipe" onclick="ajoutEquipe(<?php echo $nbJoueurParEquipe;?>)">autre équipe</button> <button type="button" id="boutonSupprimerEquipe">supprimer</button><br>
         
-        <!-- <input type="hidden" name="numtournois" value=<?php //echo '"' . $numTournois . '"' ?>> -->
         <input type="submit" value="Valider" name="valider">
         </form>
       <?php
@@ -158,13 +165,13 @@ function tousLesChampsSontRemplis() {
       if (isset($_POST['valider'])) {
         $tousLesChampsSontRemplis = tousLesChampsSontRemplis();
       }
+      //si tous les champs sont remplis on envoi dans la base les équipes et les joueurs
       if ($tousLesChampsSontRemplis) {
         $bienPasse = true;
         try {
           $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
           //envoi des données
           $index = 1;
-          //on verifie que tous les champs sur la page sont bien rempli
           while (isset($_POST['nomEquipe' . $index])) {    //tant qu'on a une equipe
             //AJOUT DES EQUIPES
             $nomEquipe = htmlspecialchars($_POST['nomEquipe' . $index]);
@@ -193,7 +200,6 @@ function tousLesChampsSontRemplis() {
                     if(strlen($nomJoueur) <= 20 && strlen($prenomJoueur) <= 20 && $niveauJoueur >= 1 && $niveauJoueur <= 7) {
                       if (!$stmt->execute([$numJoueur, $nomJoueur, $prenomJoueur, $niveauJoueur, $nomEquipe])) {
                         echo "Erreur, le joueur n'a pas pu être ajouté dans la base de donnée!<br>";
-                        //suppression des joueur et equipe deja ajouté
                         $bienPasse = false;
                       }
                     }
@@ -220,6 +226,7 @@ function tousLesChampsSontRemplis() {
             }
             $index++;
           }
+          //si toutes les requêtes se sont bien passées
           if ($bienPasse) {
             ?>
             <br>

@@ -28,9 +28,17 @@ function nbPoulesSuivant($nb)
   </head>
   <body>
   <?php 
-  if(isset($_POST["numtournois"]))
+  //recup du num tournois
+  $numTournois = NULL;
+  if (isset($_POST['numtournois'])) {
+      $numTournois = $_POST['numtournois'];
+  }
+  else if (isset($_SESSION['numtournois'])) {
+      $numTournois = $_SESSION['numtournois'];
+  }
+  
+  if($numTournois !== NULL)
   {
-    //try pour avoir le nom du tournois actuel
     try{
       $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
       $tournois = $dbh->query('SELECT * FROM tournois');
@@ -55,10 +63,22 @@ function nbPoulesSuivant($nb)
     }
   ?>
   <h1>Tournois : <?php echo '"' . $nomTournois . '"';  ?> </h1>
+  <!-- choisir la formule -->
+  <form id="choixFormule" method="post" action="pageChoixFormule.php">
+    <input type="hidden" name="numtournois" value = <?php echo $_POST["numtournois"];?>>
+    <input type="submit" value = "choisir la formule">
+  </form>
 
   <?php 
-    //initialisation des variables nécessaire à la boucle while qui suit
-    //récupération de la formule du tournois
+    //Mise par default de la formule
+    if ($nbEquipe > 0) {
+      if ($nbEquipe % 2 == 0) { //CAS PAIR
+        $_SESSION["formule" . $numTournois] = ($nbEquipe/2) ."x2";
+      }
+      else{   //CAS IMPAIR
+        $_SESSION["formule" . $numTournois] = ($nbEquipe/2 - 1) ."x2+1x3";
+      }  
+    }
     $formule = $_SESSION["formule" . $_POST["numtournois"]];
     $nbEquipe = $formule[0];
     $nbtour = 1;
