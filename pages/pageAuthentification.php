@@ -15,7 +15,7 @@ session_start();
         <!-- mdp -->
         <label for="mdp"> Mot de passe :</label>
         <input type="password" name="mdp" maxlength="20" required><br>
-        <!-- bouton -->
+        <!-- bouton authentification -->
         <input type="submit" value="s'identifier" name="authentification">
     </form>
     <?php
@@ -23,13 +23,14 @@ session_start();
         try {
             $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
             $organisateur = $dbh->query('SELECT * from organisateur');
-
+            //on vérifie si les champs renseignés sont bien dans la base
             if ($organisateur) {
                 $id = htmlspecialchars($_POST['id']);
                 $mdp = htmlspecialchars($_POST['mdp']);
                 $authentifie = false;
                 foreach($organisateur as $row) {
                     if($id === $row['identifiant'] && md5($mdp) ===  $row['motdepasse']) {
+                        //l'organisateur s'est bien authentifié
                         $authentifie = true;
                         $_SESSION['identifiant'] = $id;
                         echo "<h3>Authentifaction réussi. Bienvenue " . htmlspecialchars($_SESSION['identifiant']) . " !</h3>";

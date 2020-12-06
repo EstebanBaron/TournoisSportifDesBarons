@@ -18,7 +18,7 @@ session_start();
         foreach ($tournois as $row) {
           if ($row['numtournois'] == $_POST['numtournois']) {
             if ($row['classement'] !== NULL) {
-              $classement = $row['classement'];
+              $classement = $row['classement'];  //on récupère le classement du tournois dans la base
             }
           }
         }
@@ -26,6 +26,7 @@ session_start();
           echo "Le classement n'est pas encore disponible, revenez quand le tournois est terminé.";
         }
         else {
+          //On affiche le classement
           $tabDeClassement = preg_split('/ - /', $classement);
           $position = 1;
           foreach ($tabDeClassement as $equipe) {

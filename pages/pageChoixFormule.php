@@ -6,6 +6,27 @@ if (isset($_POST['numtournois'])) {
     $numTournois = $_POST['numtournois'];
 }
 
+function getNbEquipe() {
+    //récupère le nb équipe pour proposer des formules
+    $nbEquipe = -1;
+    try{
+        $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+        $tournois = $dbh->query('SELECT t.numtournois, count(*) AS nbequipe FROM tournois t, equipe e WHERE e.numtournois = t.numtournois GROUP BY t.numtournois');
+            
+        if ($tournois) {
+            foreach ($tournois as $row) {
+                if ($row['numtournois'] == $numTournois) {
+                    $nbEquipe = $row['nbequipe'];
+                }
+            }
+        }
+    } catch (PDOException $e) {
+        print "Erreur ! : " . $e->getMessage() . "<br>";
+    }
+
+    return $nbEquipe;
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,41 +35,32 @@ if (isset($_POST['numtournois'])) {
   </head>
   <body>
     <h1>Choisissez une formules pour les poules :</h1>
+    <form method="post">
+        <input type="hidden" value=<?php echo $_POST["numtournois"]; ?>>
+        <select name="choix">
     <?php
+    echo $_POST['numtournois'];
     if ($numTournois !== NULL) {
-        //récupère le nb équipe pour proposer des formules
-        $nbEquipe = 0;
-        try{
-            $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
-            $tournois = $dbh->query('SELECT t.numtournois, count(*) AS nbequipe FROM tournois t, equipe e WHERE e.numtournois = t.numtournois GROUP BY t.numtournois');
-                
-            if ($tournois) {
-                foreach ($tournois as $row) {
-                    if ($row['numtournois'] == $numTournois) {
-                        $nbEquipe = $row['nbequipe'];
-                    }
-                }
-            }
-            else {
-                echo "Erreur, les données de la base n'ont pas pu être récupérées !<br>"; 
-            }
-        } catch (PDOException $e) {
-            print "Erreur ! : " . $e->getMessage() . "<br>";
-        }
+        $nbEquipe = getNbEquipe();
 
-        //propose différentes formules
-        echo $nbEquipe;
-        //formule par défault
-        if ($nbEquipe % 2 == 0) { //CAS PAIR
-            echo ($nbEquipe/2) ."x2";
+        if ($nbEquipe != -1) {
+            //propose différentes formules
+            //formule par défault
+            if ($nbEquipe % 2 == 0) { //CAS PAIR
+                echo '<option value="' . ($nbEquipe/2) .'x2"> ' . ($nbEquipe/2) . 'x2 </option>';
+            }
+            else{   //CAS IMPAIR
+                echo '<option value="' . ($nbEquipe/2 - 1) . 'x2+1x3"> ' . ($nbEquipe/2 - 1) . 'x2+1x3 </option>';
+            } 
         }
-        else{   //CAS IMPAIR
-            echo ($nbEquipe/2 - 1) ."x2+1x3";
-        } 
     }
     else {
         echo "Erreur, les données de la page n'ont pas pu être récupérées !<br>";
     }
     ?>
+        </select>
+        <br>
+        <input type="submit" value="Valider">
+    </form>
   </body>
 </html>

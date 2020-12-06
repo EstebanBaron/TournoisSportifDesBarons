@@ -19,9 +19,6 @@ session_start();
   if (isset($_POST['numtournois'])) {
       $numTournois = $_POST['numtournois'];
   }
-  else if (isset($_SESSION['numtournois'])) {
-      $numTournois = $_SESSION['numtournois'];
-  }
 
   if($numTournois !== NULL)
   {
@@ -91,20 +88,7 @@ session_start();
       echo 'Erreur pas de Tournois trouvé<br>';
   }
 
-  //Mise par default de la formule
-  if ($nbEquipe > 0) {
-    if ($nbEquipe % 2 == 0) { //CAS PAIR
-      $_SESSION["formule" . $numTournois] = ($nbEquipe/2) ."x2";
-    }
-    else{   //CAS IMPAIR
-      $_SESSION["formule" . $numTournois] = ($nbEquipe/2 - 1) ."x2+1x3";
-    }  
-  }
   ?>
-  <!-- choisir la formule -->
-  <form id="choixFormule" method="post" action="pageChoixFormule.php">
-    <input type="hidden" name="numtournois" value = <?php echo htmlspecialchars($numTournois)?>>
-  </form>
 
   <!-- Commencer le tournois -->
   <form id="tournois" method="post" action="pageTournois.php">
