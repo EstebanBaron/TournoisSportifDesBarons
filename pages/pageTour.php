@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+//renvoie le niveaux le plus élevé de la liste passé en parametre
 function PGNiveaux($listeNiveaux)
 {
     $pgn = 1;
@@ -14,30 +15,61 @@ function PGNiveaux($listeNiveaux)
     return $pgn;
 }
 
+//fonction utile aux test
+// function afficheArray($liste)
+// {
+//     echo '( ';
+//     for($i=0; $i<count($liste); $i++)
+//     {
+//         if(gettype($liste[$i]) == "array")
+//         {
+//             afficheArray($liste[$i]);
+//         }
+//         else
+//         {
+//             echo $liste[$i] . ', ';
+//         }
+//     }
+//     echo ' ) ';
+// }
+
+//cree une liste de liste remplit de façon aléatoire ex:((eq1,eq3)(eq4,eq5)(eq6,eq7))
 function creePouleRandom($listeEquipe, $listeNiveaux, $nbPoules)
 {
-    $pouleRandom = array(array());// faire une fonction qui créé un tableau de tableau bisous
+    $pouleRandom = array();
+    for($k=0; $k<$nbPoules; $k++)
+    {
+        array_push($pouleRandom,array());
+    }
+
     $pgn = PGNiveaux($listeNiveaux);
+    
     $listeN = $listeNiveaux;
-    for($i=0; $i<count($listeEquipe); $i++)
+    $i=0;
+    while($i < count($listeEquipe))
     {
         for($j=0; $j<count($listeEquipe); $j++)
         {
-            if($listeN[$i] = $pgn)
+            if($listeN[$j] == $pgn)
             {
-                array_push($pouleRandom[$i>$nbPoules ? ($i-$nbPoules) : $i],$listeEquipe[$i]);
-                $listeN[$i] = null;
+                array_push($pouleRandom[$i>=$nbPoules ? ($i-$nbPoules) : $i],$listeEquipe[$j]);
+                $listeN[$j] = null;
+                $i++;
             }
-            else if($j++==count($listeEquipe))
+            else if($j+1==count($listeEquipe) && $pgn != 1)
             {
                 $pgn--;
             }
         }
-        $pgn--;//pas sur
     }
 
     return $pouleRandom;
 }
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -46,8 +78,9 @@ function creePouleRandom($listeEquipe, $listeNiveaux, $nbPoules)
     </head>
     <body>
         <?php 
-        if(isset($_POST['numt']) && isset($_POST['numtour']))
+        if(isset($_POST['numtournois']) && isset($_POST['numtour']))
         {
+            //try pour avoir le nom du tournois actuel
             try{
             $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
             $tournois = $dbh->query('SELECT * FROM tournois');
@@ -56,7 +89,7 @@ function creePouleRandom($listeEquipe, $listeNiveaux, $nbPoules)
             {
                 foreach($tournois as $row)
                 {
-                    if($row['numtournois'] == $_POST['numt'])
+                    if($row['numtournois'] == $_POST['numtournois'])
                     {
                         $nomTournois = $row['nom'];
                     }
@@ -73,16 +106,16 @@ function creePouleRandom($listeEquipe, $listeNiveaux, $nbPoules)
         ?>
         <h1>Tournois : <?php echo $nomTournois;  ?> <br> Tour n°: <?php echo  $_POST["numtour"];?></h1>
 
-
+            <!-- bouton qui mène a la page modifPoule -->
         <form method ="post" action="pageModifPoules.php">
         <input type="submit" name="modifPoules" value="modifier les Poules">
         </form>
-
+            <!-- bouton qui mène a la page Poules -->
         <form method ="post" action="pagePoule.php">
         <input type="submit" name="CommencerPoules" value="Commencer les Poules">
         </form>
         <?php 
-            print_r(creePouleRandom(array("eq1","eq2","eq3","eq4","eq5","eq6"),array(1,2,1,3,2,1),3));
+        //    afficheArray(creePouleRandom(array("eq1","eq2","eq3","eq4","eq5","eq6"),array(1,2,1,3,2,1),3)); test de la fonction 
         }
         else
         {
