@@ -1,62 +1,6 @@
 <?php
 session_start();
 
-function getNiveauEquipe($listeEquipe)
-{
-    $listeNiveaux=array();
-    try{
-        $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
-        $joueurs = $dbh->query('SELECT * FROM joueur J, equipe E WHERE j.nomEquipe = E.nom');
-        if($joueurs)
-        {
-            for($i=0; $i<count($listeEquipe); $i++)
-            {
-                
-                $sommeNiveaux = 0;
-                $nbJoueurs = 0;
-                foreach($joueurs as $row)
-                {
-                    //echo (($row['nomequipe'] == $listeEquipe[$i] && $row['numtournois'] == $_POST['numtournois'])? "oui" : "non" )." ";
-                    if($row['nomequipe'] == $listeEquipe[$i] && $row['numtournois'] == $_POST['numtournois'])
-                    {
-                        
-                        $sommeNiveaux += $row['niveau'];
-                        //echo $row['niveau'] .' ';
-                        $nbJoueurs++;
-                        //echo $nbJoueurs . '<br>';
-                    }
-                }
-                array_push($listeNiveaux,$sommeNiveaux/$nbJoueurs);
-                echo $row;
-                unset($row);
-                echo $row;
-            }
-        }
-        else 
-        {
-            echo "Erreur, les données de la base n'ont pas pu être récupérées !"; 
-        }
-        } catch (PDOException $e)
-        {
-            print "Erreur ! : " . $e->getMessage() . "<br>";
-        }
-        return $listeNiveaux;
-}
-
-//renvoie le niveaux le plus élevé de la liste passé en parametre
-function PGNiveaux($listeNiveaux)
-{
-    $pgn = 1;
-    for($i = 0 ; $i< count($listeNiveaux); $i++)
-    {
-        if($listeNiveaux[$i] > $pgn)
-        {
-            $pgn=$listeNiveaux[$i];
-        }
-    }
-    return $pgn;
-}
-
 //fonction utile aux test
 function afficheArray($liste)
 {
@@ -74,6 +18,90 @@ function afficheArray($liste)
     }
     echo ' ) ';
 }
+
+function nbJoueurParEquipe($numTournois) {
+    try {
+      $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+      $tournois = $dbh->query('SELECT numtournois, typejeu FROM tournois');
+      if ($tournois) {
+        $nbJoueurEquipe = 0;
+        foreach ($tournois as $row) {
+          if ($row['numtournois'] == $numTournois) {
+            $nbJoueurEquipe = $row['typejeu'];
+          }
+        }
+        return $nbJoueurEquipe;
+      }
+      else {
+        echo "Erreur lors de la recuperation du type de jeu!";
+        return -1;
+      }
+    } catch (PDOException $e) {
+      print "Erreur ! : " . $e->getMessage() . "<br>";
+      die();
+    }
+  }
+
+
+function getNiveauEquipe($listeEquipe)
+{
+    $tableauEquipesNiveaux=array();
+    try{
+        $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+        $joueurs = $dbh->query('SELECT * FROM joueur J, equipe E WHERE j.nomequipe = E.nom');
+        if($joueurs)
+        {
+            foreach($joueurs as $row)
+            {
+                if($row['numtournois'] == $_POST['numtournois'])
+                {
+                    if(array_key_exists($row['nomequipe'],$tableauEquipesNiveaux))
+                    {
+                        $tableauEquipesNiveaux[$row['nomequipe']] += $row['niveau'];
+                    }
+                    else{
+                        array_push($tableauEquipesNiveaux, $row['nomequipe']);
+                        $tableauEquipesNiveaux[$row['nomequipe']] = $row['niveau'];
+                    }
+                }
+            }
+            $nbJoueurs = nbJoueurParEquipe($_POST['numtournois']);
+            $tableauEquipesNiveaux = array_unique($tableauEquipesNiveaux);
+            print_r($tableauEquipesNiveaux);
+            foreach($tableauEquipesNiveaux as $cle => $valeur)
+            {
+                //echo 'cle='.$cle . ' valeur=' . $valeur;
+                $tableauEquipesNiveaux[$cle] = ($valeur/$nbJoueurs); 
+            }
+            return $tableauEquipesNiveaux;
+        }
+        else 
+        {
+            echo "Erreur, les données de la base n'ont pas pu être récupérées !"; 
+            return array();
+        }
+        } catch (PDOException $e)
+        {
+            print "Erreur ! : " . $e->getMessage() . "<br>";
+        }
+        
+}
+
+//renvoie le niveaux le plus élevé de la liste passé en parametre
+function PGNiveaux($listeNiveaux)
+{
+    $pgn = 1;
+    for($i = 0 ; $i< count($listeNiveaux); $i++)
+    {
+        if($listeNiveaux[$i] > $pgn)
+        {
+            $pgn=$listeNiveaux[$i];
+        }
+    }
+    return $pgn;
+}
+
+
 //CHANGER POUR REVOYER UN STRING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //cree une liste de liste remplit de façon aléatoire ex:((eq1,eq3)(eq4,eq5)(eq6,eq7))
 function creePouleRandom($listeEquipe, $listeNiveaux, $nbPoules)
@@ -158,8 +186,11 @@ function creePouleRandom($listeEquipe, $listeNiveaux, $nbPoules)
         <input type="submit" name="CommencerPoules" value="Commencer les Poules">
         </form>
         <?php 
-            $listeEquipe=explode(',',$_POST["listeEquipe"]);
+
+            //met les équipe dans une array
+            $listeEquipe=explode(',',$_SESSION["classementTour"]);
             afficheArray($listeEquipe);
+            //avoir la liste des niveaux moyens de chaque équipe
             $listeNiveauxDesEquipes=getNiveauEquipe($listeEquipe);
             afficheArray($listeNiveauxDesEquipes);
         //    afficheArray(creePouleRandom(array("eq1","eq2","eq3","eq4","eq5","eq6"),array(1,2,1,3,2,1),3)); test de la fonction 
