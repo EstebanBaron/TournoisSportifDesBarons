@@ -6,7 +6,7 @@ if (isset($_POST['numtournois'])) {
     $numTournois = $_POST['numtournois'];
 }
 
-function getNbEquipe() {
+function getNbEquipe($numTournois) {
     //récupère le nb équipe pour proposer des formules
     $nbEquipe = -1;
     try{
@@ -41,15 +41,16 @@ function getNbEquipe() {
     <?php
     echo $_POST['numtournois'];
     if ($numTournois !== NULL) {
-        $nbEquipe = getNbEquipe();
+        $nbEquipe = getNbEquipe($numTournois);
 
         if ($nbEquipe != -1) {
             //propose différentes formules
-            //formule par défault
             if ($nbEquipe % 2 == 0) { //CAS PAIR
+                //1 - formule par défault
                 echo '<option value="' . ($nbEquipe/2) .'x2"> ' . ($nbEquipe/2) . 'x2 </option>';
             }
             else{   //CAS IMPAIR
+                //1 - formule par défault
                 echo '<option value="' . ($nbEquipe/2 - 1) . 'x2+1x3"> ' . ($nbEquipe/2 - 1) . 'x2+1x3 </option>';
             } 
         }

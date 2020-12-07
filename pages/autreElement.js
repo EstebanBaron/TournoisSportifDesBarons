@@ -87,7 +87,7 @@ var numEquipe = 1;
 
 //ajout equipe en fonction du nombre de joueur (typeJeu choisi)
 function ajoutEquipe(nbJoueur) {
-    if (numEquipe < 24) {
+    if (numEquipe < 16) {
         numEquipe++;
         let html = "";
         html += '<div id="equipe' + numEquipe + '">';

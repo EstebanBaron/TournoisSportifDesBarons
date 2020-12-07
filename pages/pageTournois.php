@@ -20,6 +20,26 @@ function nbPoulesSuivant($nb)
     }
   }
 }
+
+function getNbEquipe($numTournois) {
+  $nbEquipe = -1;
+  try{
+    $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+    $tournois = $dbh->query('SELECT t.numtournois, count(*) AS nbequipe FROM tournois t, equipe e WHERE e.numtournois = t.numtournois GROUP BY t.numtournois');
+        
+    if ($tournois) {
+        foreach ($tournois as $row) {
+            if ($row['numtournois'] == $numTournois) {
+                $nbEquipe = $row['nbequipe'];
+            }
+        }
+    }
+  } catch (PDOException $e) {
+      print "Erreur ! : " . $e->getMessage() . "<br>";
+  }
+
+  return $nbEquipe;
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,11 +47,12 @@ function nbPoulesSuivant($nb)
     <title>Page Tournois</title>
   </head>
   <body>
-  <?php 
+  <?php
   //recup du num tournois
   $numTournois = NULL;
   if (isset($_POST['numtournois'])) {
       $numTournois = $_POST['numtournois'];
+      $_SESSION['numtournois'] = $numTournois;
   }
   else if (isset($_SESSION['numtournois'])) {
       $numTournois = $_SESSION['numtournois'];
@@ -47,7 +68,7 @@ function nbPoulesSuivant($nb)
       {
           foreach($tournois as $row)
           {
-              if($row['numtournois'] == $_POST['numtournois'])
+              if($row['numtournois'] == $numTournois)
               {
                   $nomTournois = $row['nom'];
               }
@@ -63,13 +84,11 @@ function nbPoulesSuivant($nb)
     }
   ?>
   <h1>Tournois : <?php echo '"' . $nomTournois . '"';  ?> </h1>
-  <!-- choisir la formule -->
-  <form id="choixFormule" method="post" action="pageChoixFormule.php">
-    <input type="hidden" name="numtournois" value = <?php echo $_POST["numtournois"];?>>
-    <input type="submit" value = "choisir la formule">
-  </form>
 
   <?php 
+    //nb Equipes
+    $nbEquipe = getNbEquipe($numTournois);
+
     //Mise par default de la formule
     if ($nbEquipe > 0) {
       if ($nbEquipe % 2 == 0) { //CAS PAIR
@@ -79,27 +98,42 @@ function nbPoulesSuivant($nb)
         $_SESSION["formule" . $numTournois] = ($nbEquipe/2 - 1) ."x2+1x3";
       }  
     }
-    $formule = $_SESSION["formule" . $_POST["numtournois"]];
-    $nbEquipe = $formule[0];
-    $nbtour = 1;
-    $_SESSION["TourActuel" . $_POST["numtournois"]]=2;
+    $formule = $_SESSION["formule" . $numTournois];
+
+    //de 1 à 4
+    $numtour = 1;
+    
+
+    $_SESSION["TourActuel" . $numTournois]=1;
     //boucle qui affiche tous les tours d'un tournois avec leurs états
     while($nbEquipe != 1)
     {
       //affiche les tours terminés d'abord tel que : Tour 1 : Terminé (remplacé terminé par le résultat du tour)
-      echo '<p>Tour ' . $nbtour . ' : </p>';
-      if($nbtour < $_SESSION["TourActuel" . $_POST["numtournois"]] )
+      ?>
+      <div id="tour<?php echo $numtour;?>">
+      <h3>Tour <?php echo $numtour; ?> : </h3>
+      <!-- choisir la formule -->
+      <?php
+      if($numtour < $_SESSION["TourActuel" . $_POST["numtournois"]] )
       {
         echo ' Terminé';
       }
       //affiche le tour en cours tel que : Tour 2 : Poules (Poules étant le bouton permettant d'aller a la page pageTour correspondant)
-      else if($nbtour == $_SESSION["TourActuel" . $_POST["numtournois"]] )
+      else if($numtour == $_SESSION["TourActuel" . $_POST["numtournois"]] )
       { 
-        echo '<form method="post" action="pageTour.php" >';
-        echo '<input type="hidden" name="numtournois" value="' . $_POST["numtournois"] . '" >';
-        echo '<input type="hidden" name="numtour" value="' . $nbtour . '" >';
-        echo '<input type="submit" name="boutonpoule" value="Poules" >';
-        echo '</form>';
+        ?>
+        <p>Formule actuelle : <?php echo $formule; ?></p>
+        <form id="choixFormule" method="post" action="pageChoixFormule.php">
+          <input type="hidden" name="numtournois" value =<?php echo $numTournois;?>>
+          <input type="submit" value = "changer la formule">
+        </form>
+
+        <form method="post" action="pageTour.php" >
+        <input type="hidden" name="numtournois" value=<?php echo $numTournois; ?>>
+        <input type="hidden" name="numtour" value=<?php echo $numtour; ?>>
+        <input type="submit" name="boutonpoule" value="accès aux poules">
+        </form>
+        <?php
       }
       //affiche les tours à venir tel que : Tour 3 : à venir ...
       else
@@ -107,9 +141,11 @@ function nbPoulesSuivant($nb)
         echo ' à venir ...';
       }
       $nbEquipe = nbPoulesSuivant($nbEquipe);
-      $nbtour++;
+      $numtour++;
+      ?>
+      </div>
+      <?php
     }
-
   }
   else
   {
