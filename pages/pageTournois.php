@@ -102,6 +102,7 @@ function getNbEquipe($numTournois) {
     $numtour = 1;
     
     $_SESSION["TourActuel" . $numTournois]=1; //remplacer par une variable
+
     //boucle qui affiche tous les tours d'un tournois avec leurs états
     while($nbEquipe != 1)
     {
@@ -128,6 +129,7 @@ function getNbEquipe($numTournois) {
         <form method="post" action="pageTour.php" >
         <input type="hidden" name="numtournois" value=<?php echo $numTournois; ?>>
         <input type="hidden" name="numtour" value=<?php echo $numtour; ?>>
+        <input type="hidden" name="listeEquipe" value="Les papis,NomEq1,NomEq2">
         <input type="submit" name="boutonpoule" value="accès aux poules">
         </form>
         <?php
