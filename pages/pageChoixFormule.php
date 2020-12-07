@@ -35,24 +35,34 @@ function getNbEquipe($numTournois) {
   </head>
   <body>
     <h1>Choisissez une formules pour les poules :</h1>
-    <form method="post">
-        <input type="hidden" value=<?php echo $_POST["numtournois"]; ?>>
-        <select name="choix">
-    <?php
-    echo $_POST['numtournois'];
+    <?php 
     if ($numTournois !== NULL) {
         $nbEquipe = getNbEquipe($numTournois);
-
+        echo 'Le tournois est composé de ' . $nbEquipe . ' équipes.<br>';
+        echo '<form method="post" action="pageTournois.php">';
+        echo '<input type="hidden" name="numtournois" value="' . $numTournois . '">';
+        echo '<label for="choix">Choisissez une formule (nombre de poule x nombre d\'équipe) :</label> ';
+        echo '<select name="choix">';
+    
         if ($nbEquipe != -1) {
             //propose différentes formules
+            //1 - formule par défault
             if ($nbEquipe % 2 == 0) { //CAS PAIR
-                //1 - formule par défault
-                echo '<option value="' . ($nbEquipe/2) .'x2"> ' . ($nbEquipe/2) . 'x2 </option>';
+                echo '<option value="' . ($nbEquipe/2) . 'x2"> ' . ($nbEquipe/2) . 'x2 </option>';
             }
             else{   //CAS IMPAIR
-                //1 - formule par défault
                 echo '<option value="' . ($nbEquipe/2 - 1) . 'x2+1x3"> ' . ($nbEquipe/2 - 1) . 'x2+1x3 </option>';
             } 
+
+            if ($nbEquipe % 3 == 0) {
+                echo '<option value="' . ($nbEquipe/3) . 'x3"> ' . ($nbEquipe/3) . 'x3 </option>';
+            }
+            if ($nbEquipe % 4 == 0) {
+                echo '<option value="' . ($nbEquipe/2) . 'x4"> ' . ($nbEquipe/2) . 'x4 </option>';
+            }
+            if ($nbEquipe % 5 == 0) {
+                echo '<option value="' . ($nbEquipe/5) . 'x5"> ' . ($nbEquipe/5) . 'x5 </option>';
+            }
         }
     }
     else {
@@ -60,6 +70,7 @@ function getNbEquipe($numTournois) {
     }
     ?>
         </select>
+        <br>
         <br>
         <input type="submit" value="Valider">
     </form>

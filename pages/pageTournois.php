@@ -40,6 +40,28 @@ function getNbEquipe($numTournois) {
 
   return $nbEquipe;
 }
+
+function getListeEquipe($numTournois) {
+  $listeEquipes = "";
+  try{
+    $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+    $equipes = $dbh->query('SELECT nom, numtournois FROM equipe');
+        
+    if ($equipes) {
+        foreach ($equipes as $row) {
+            if ($row['numtournois'] == $numTournois) {
+              $listeEquipes .= $row['nom'] . ",";
+            }
+        }
+        $listeEquipes = substr($listeEquipes, 0, -1);   //enlève la dernière virgule
+    }
+  } catch (PDOException $e) {
+      print "Erreur ! : " . $e->getMessage() . "<br>";
+  }
+
+  return $listeEquipes;
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -90,18 +112,33 @@ function getNbEquipe($numTournois) {
     $nbEquipe = getNbEquipe($numTournois);
 
     //Mise par default de la formule
-    if ($nbEquipe > 0) {
-      if ($nbEquipe % 2 == 0) { //CAS PAIR
-        $_SESSION["formule" . $numTournois] = ($nbEquipe/2) ."x2";
-      }
-      else{   //CAS IMPAIR
-        $_SESSION["formule" . $numTournois] = ($nbEquipe/2 - 1) ."x2+1x3";
-      }  
+    if (isset($_POST['choix'])) { 
+      $_SESSION["formule" . $numTournois] = $_POST['choix'];
     }
-    $formule = $_SESSION["formule" . $numTournois];
+    else if ($_SESSION["formule" . $numTournois] == NULL) { //mise par defaut
+      if ($nbEquipe > 0) {
+        if ($nbEquipe % 2 == 0) { //CAS PAIR
+          $_SESSION["formule" . $numTournois] = ($nbEquipe/2) ."x2";
+        }
+        else{   //CAS IMPAIR
+          $_SESSION["formule" . $numTournois] = ($nbEquipe/2 - 1) ."x2+1x3";
+        }  
+      }
+    }
+
     $numtour = 1;
-    
-    $_SESSION["TourActuel" . $numTournois]=1; //remplacer par une variable
+
+    if (!isset($_SESSION["TourActuel" . $numTournois])) { //premiere fois qu'on arrive sur la page
+      $_SESSION["TourActuel" . $numTournois] = 1;
+    }
+    else if (isset($_POST['classementTour'])) { //si on arrive de la page match tour et qu'un tour est terminé
+      $_SESSION["TourActuel" . $numTournois] = $_SESSION["TourActuel" . $numTournois] + 1;
+      $_SESSION['classementTour'] = $_POST["classementTour"];
+    }
+    //aucun tour n'a encore été commencé
+    if (!isset($_SESSION['classementTour'])) {
+      $_SESSION['classementTour'] = getListeEquipe($numTournois);
+    }
 
     //boucle qui affiche tous les tours d'un tournois avec leurs états
     while($nbEquipe != 1)
@@ -145,12 +182,18 @@ function getNbEquipe($numTournois) {
       </div>
       <?php
     }
+    $nombreTourTotal = $numtour;
+    if (isset($_POST['classementTour']) && $_SESSION['TourActuel' . $numTournois] == $nombreTourTotal) {
+      //remplir la bdd et echo le formulaire si tout c'est bien passé
+      echo '<form method="post" action="pageEvenement.php">';
+      echo '<input type="submit" value="Fin du tournois" name="finTournois">';
+      echo '</form>';
+    }
   }
   else
   {
       echo 'Erreur pas de Tournois trouvé';
   }
-  ?>
- 
+  ?>  
   </body>
 </html>

@@ -27,7 +27,7 @@ session_start();
         }
         else {
           //On affiche le classement
-          $tabDeClassement = preg_split('/ - /', $classement);
+          $tabDeClassement = preg_split('/,/', $classement);
           $position = 1;
           foreach ($tabDeClassement as $equipe) {
             echo $position . " : " . $equipe . "<br>"; 
