@@ -45,3 +45,55 @@ function onDrop(event) {
             .clearData();
     }
 }
+
+
+function verifieChangement(nbEquipeParPoule, formuleImpaire) {
+    // let nbPoules = document.getElementById("ContentantDesPoules").childElementCount;
+    let poules = document.getElementsByClassName("poules");
+    let poulesString = "";
+
+    let bienModifie = true;
+    let index = 0;
+    //on parcours les divs qui contient les poules
+    while (poules[index] != null) {
+        console.log(poules[index]);
+        let nbEquipeDeLaPoule = poules[index].childElementCount;
+
+        //une poule peut avoir 3 équipes pour la formule 2x2+1x3 par exemple
+        let nbEquipeParPouleFormuleImpaire = nbEquipeParPoule;
+        if (formuleImpaire) {
+            nbEquipeParPouleFormuleImpaire++;
+        }
+        if (nbEquipeDeLaPoule !== nbEquipeParPoule && nbEquipeDeLaPoule !== nbEquipeParPouleFormuleImpaire) {
+            bienModifie = false;
+        }
+        //on créer le noubeau string des poules à renvoyer
+        let indexEquipe = 0;
+        let equipes = poules[index].childNodes;
+        while (indexEquipe < nbEquipeDeLaPoule - 1) {
+            poulesString += equipes[indexEquipe].textContent + '-';
+            indexEquipe++;  
+        }
+        poulesString += equipes[indexEquipe].textContent + ',';
+
+        index++;
+    }
+    poulesString = poulesString.substr(0, poulesString.length-1);   //enlève la dernière virgule
+
+    console.log(poulesString);
+    //creer le formulaire avec le numtournois et les poules modifiées
+    if (bienModifie) {
+        $("#verifie").remove();
+
+        let message = "<h3>Tous les changements effectué sont valides</h3>"
+        $("#message").append(message);
+
+        let poulesModifiees = '<input type="hidden" name="poules" value=' + poulesString + '>';
+        let bouton = '<input type="submit" value="confirmer les changements">';
+        $("#formulaire").append(poulesModifiees);
+        $("#formulaire").append(bouton);
+    }
+    else {
+        alert("Erreur, le nombre d'équipe par poule n'est pas correct !");
+    }
+}
