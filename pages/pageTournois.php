@@ -40,6 +40,28 @@ function getNbEquipe($numTournois) {
 
   return $nbEquipe;
 }
+
+function getListeEquipe($numTournois) {
+  $listeEquipes = "";
+  try{
+    $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+    $equipes = $dbh->query('SELECT nom, numtournois FROM equipe');
+        
+    if ($equipes) {
+        foreach ($equipes as $row) {
+            if ($row['numtournois'] == $numTournois) {
+              $listeEquipes .= $row['nom'] . ",";
+            }
+        }
+        $listeEquipes = substr($listeEquipes, 0, -1);   //enlève la dernière virgule
+    }
+  } catch (PDOException $e) {
+      print "Erreur ! : " . $e->getMessage() . "<br>";
+  }
+
+  return $listeEquipes;
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -104,10 +126,20 @@ function getNbEquipe($numTournois) {
       }
     }
 
-    $formule = $_SESSION["formule" . $numTournois];
     $numtour = 1;
-    
-    $_SESSION["TourActuel" . $numTournois]=1; //remplacer par une variable
+
+    if (!isset($_SESSION["TourActuel" . $numTournois])) { //premiere fois qu'on arrive sur la page
+      $_SESSION["TourActuel" . $numTournois] = 1;
+    }
+    else if (isset($_POST['classementTour'])) { //si on arrive de la page match tour et qu'un tour est terminé
+      $_SESSION["TourActuel" . $numTournois] = $_SESSION["TourActuel" . $numTournois] + 1;
+      $_SESSION['classementTour'] = $_POST["classementTour"];
+    }
+    //aucun tour n'a encore été commencé
+    if (!isset($_SESSION['classementTour'])) {
+      $_SESSION['classementTour'] = getListeEquipe($numTournois);
+    }
+
     //boucle qui affiche tous les tours d'un tournois avec leurs états
     while($nbEquipe != 1)
     {
