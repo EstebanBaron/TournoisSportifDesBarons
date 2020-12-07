@@ -50,6 +50,8 @@ INSERT INTO terrain VALUES(05, 'Basketball',04);
 INSERT INTO equipe VALUES('Les papis', 'PPP', 01);
 INSERT INTO equipe VALUES('NomEq1', 'nomClub1', 01);
 INSERT INTO equipe VALUES('NomEq2', 'nomClub2', 01);
+INSERT INTO equipe VALUES('NomEq10', 'nomClub10', 01);
+INSERT INTO equipe VALUES('NomEq11', 'nomClub11', 01);
 INSERT INTO equipe VALUES('NomEq3', 'nomClub3', 02);
 INSERT INTO equipe VALUES('NomEq4', 'nomClub4', 02);
 INSERT INTO equipe VALUES('NomEq5', 'nomClub5', 03);

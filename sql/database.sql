@@ -23,7 +23,7 @@ CREATE TABLE evenement (
 CREATE TABLE tournois (
     numTournois integer CONSTRAINT tournois_PK PRIMARY KEY,
     nom VARCHAR(40) NOT NULL,
-    classement VARCHAR(100),
+    classement VARCHAR(495),
     typeJeu integer CHECK(typeJeu BETWEEN 1 AND 15),
     numEvenement integer NOT NULL,
     CONSTRAINT tournois_FK FOREIGN KEY (numEvenement) REFERENCES evenement(numEvenement) ON DELETE CASCADE
