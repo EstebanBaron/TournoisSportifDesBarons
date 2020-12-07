@@ -63,18 +63,21 @@ function getNiveauEquipe($listeEquipe)
                         array_push($tableauEquipesNiveaux, $row['nomequipe']);
                         $tableauEquipesNiveaux[$row['nomequipe']] = $row['niveau'];
                     }
+                    
                 }
             }
             $nbJoueurs = nbJoueurParEquipe($_POST['numtournois']);
-            echo "nbJoueur" . $nbJoueurs . "<br>";
-            $tableauEquipesNiveaux = array_unique($tableauEquipesNiveaux);
             foreach($tableauEquipesNiveaux as $cle => $valeur)
             {
                 if (!is_int($cle)) {
                     $tableauEquipesNiveaux[$cle] = ($valeur/$nbJoueurs); 
                 }
+                else
+                {
+                    unset($tableauEquipesNiveaux[$cle]);
+                }
             }
-            print_r($tableauEquipesNiveaux);
+
 
             return $tableauEquipesNiveaux;
         }
@@ -90,51 +93,72 @@ function getNiveauEquipe($listeEquipe)
         
 }
 
+//INUTILE JE PENSE
 //renvoie le niveaux le plus élevé de la liste passé en parametre
-function PGNiveaux($listeNiveaux)
-{
-    $pgn = 1;
-    for($i = 0 ; $i< count($listeNiveaux); $i++)
-    {
-        if($listeNiveaux[$i] > $pgn)
-        {
-            $pgn=$listeNiveaux[$i];
-        }
-    }
-    return $pgn;
-}
+// function PGNiveaux($tableauEquipesNiveaux)
+// {
+//     $pgn = 0;
+//     foreach($tableauEquipesNiveaux as $cle => $valeur)
+//     {
+//         if(!is_int($cle) && $valeur > $pgn)
+//         {
+//             $pgn=$valeur;
+//         }
+//     }
+//     return $pgn;
+// }
 
 
 //CHANGER POUR REVOYER UN STRING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//cree une liste de liste remplit de façon aléatoire ex:((eq1,eq3)(eq4,eq5)(eq6,eq7))
-function creePouleRandom($listeEquipe, $listeNiveaux, $nbPoules)
+//cree une liste de liste remplit de façon aléatoire ex:((eq1,eq3)(eq4,eq5)(eq6,eq7)) eq1-eq2,eq3-eq4,eq5-eq6
+function creePouleRandom($tableauEquipesNiveaux)
 {
+    //print_r($tableauEquipesNiveaux);
+    $nbPoules = 0;
+    //$nbJoueurParPoule = 0;
+    //$estImpair = false;
     $pouleRandom = array();
+    $formule = $_SESSION['formule'.$_POST['numtournois']];
+    if(strpos($formule,'+'))
+    {
+        //exemple : "3x2+1x3"
+        $parties = explode('+',$formule);
+        $partieG = explode('x',$parties[0]);
+        $partieD = explode('x',$parties[1]);
+        $nbPoules = $partieD[0]+$partieG[0];
+        //$nbJoueurParPoule = $partieG[1];
+        
+        //$estImpair = true;
+    }
+    else
+    {
+        //exemple : "3x2"
+        $partie = explode('x',$formule);
+        $nbPoules = $partie[0];
+        //$nbJoueurParPoule = $partie[1];
+    }
+
     for($k=0; $k<$nbPoules; $k++)
     {
         array_push($pouleRandom,array());
     }
 
-    $pgn = PGNiveaux($listeNiveaux);
-    
-    $listeN = $listeNiveaux;
+    $copieTableau = $tableauEquipesNiveaux;
+    // print_r($copieTableau);
+    arsort($copieTableau);
     $i=0;
-    while($i < count($listeEquipe))
+    $j=1;
+    foreach($copieTableau as $cle => $valeur)//a modifier
     {
-        for($j=0; $j<count($listeEquipe); $j++)
+        array_push($pouleRandom[$i>=($nbPoules*$j) ? ($i-($nbPoules*$j)) : $i] ,$cle);
+        if($i>=($nbPoules*$j))
         {
-            if($listeN[$j] == $pgn)
-            {
-                array_push($pouleRandom[$i>=$nbPoules ? ($i-$nbPoules) : $i],$listeEquipe[$j]);
-                $listeN[$j] = null;
-                $i++;
-            }
-            else if($j+1==count($listeEquipe) && $pgn != 1)
-            {
-                $pgn--;
-            }
+            $j++;
         }
+        $i++;
+        
     }
+    
 
     return $pouleRandom;
 }
@@ -151,7 +175,7 @@ function creePouleRandom($listeEquipe, $listeNiveaux, $nbPoules)
     </head>
     <body>
         <?php 
-        if(isset($_POST['numtournois']) && isset($_POST['numtour']) && isset($_POST['listeEquipe']))
+        if(isset($_POST['numtournois']) && isset($_POST['numtour']))
         {
             //try pour avoir le nom du tournois actuel
             try{
@@ -193,11 +217,13 @@ function creePouleRandom($listeEquipe, $listeNiveaux, $nbPoules)
 
             //met les équipe dans une array
             $listeEquipe=explode(',',$_SESSION["classementTour"]);
-            afficheArray($listeEquipe);
+            
+            //afficheArray($listeEquipe);
             //avoir la liste des niveaux moyens de chaque équipe
             $listeNiveauxDesEquipes=getNiveauEquipe($listeEquipe);
-            afficheArray($listeNiveauxDesEquipes);
-        //    afficheArray(creePouleRandom(array("eq1","eq2","eq3","eq4","eq5","eq6"),array(1,2,1,3,2,1),3)); test de la fonction 
+            //print_r($listeNiveauxDesEquipes);
+        
+           afficheArray(creePouleRandom($listeNiveauxDesEquipes)); 
         }
         else
         {
