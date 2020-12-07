@@ -181,12 +181,18 @@ function getListeEquipe($numTournois) {
       </div>
       <?php
     }
+    $nombreTourTotal = $numtour;
+    if (isset($_POST['classementTour']) && $_SESSION['TourActuel' . $numTournois] == $nombreTourTotal) {
+      //remplir la bdd et echo le formulaire si tout c'est bien passé
+      echo '<form method="post" action="pageEvenement.php">';
+      echo '<input type="submit" value="Fin du tournois" name="finTournois">';
+      echo '</form>';
+    }
   }
   else
   {
       echo 'Erreur pas de Tournois trouvé';
   }
-  ?>
- 
+  ?>  
   </body>
 </html>

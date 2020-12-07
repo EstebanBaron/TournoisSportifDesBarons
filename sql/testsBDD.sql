@@ -28,11 +28,11 @@ INSERT INTO evenement VALUES(04, 'compet pez', 'Pezenas', '2020-12-10', 'Julien'
 INSERT INTO tournois VALUES(01, 'tournois 1', NULL,4, 01);
 INSERT INTO tournois VALUES(05, 'tournois 3', NULL,5, 01);
 
-INSERT INTO tournois VALUES(02, 'tournois final', 'eq3 - eq4 - eq2 - eq1',6, 02);    
+INSERT INTO tournois VALUES(02, 'tournois final', 'eq3,eq4,eq2,eq1',6, 02);    
 INSERT INTO tournois VALUES(06, 'tournois 4', NULL,2, 02); 
 
-INSERT INTO tournois VALUES(03, 'tournois cadets', 'eq3 - eq4 - eq2 - eq1',1, 03);
-INSERT INTO tournois VALUES(07, 'tournois 5', 'eq3 - eq4 - eq2 - eq1',10, 03);
+INSERT INTO tournois VALUES(03, 'tournois cadets', 'eq3,eq4,eq2,eq1',1, 03);
+INSERT INTO tournois VALUES(07, 'tournois 5', 'eq3,eq4,eq2,eq1',10, 03);
 
 INSERT INTO tournois VALUES(04, 'tournois pour les grands',4, NULL, 04);
 INSERT INTO tournois VALUES(08, 'tournois 6', NULL,4, 04);
