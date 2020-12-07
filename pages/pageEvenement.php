@@ -1,5 +1,24 @@
 <?php 
 session_start();
+
+function estTermine($numTournois) {
+    try{
+        $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+        $tournois = $dbh->query('SELECT numtournois, classement FROM tournois');
+            
+        if ($tournois) {
+            foreach ($tournois as $row) {
+                if ($row['numtournois'] == $numTournois) {
+                  return $row['classement'] !== NULL;
+                }
+            }
+        }
+    } catch (PDOException $e) {
+        print "Erreur ! : " . $e->getMessage() . "<br>";
+    }
+
+    return false;
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -11,11 +30,11 @@ session_start();
     $numEvenement = NULL;
     if (isset($_POST['numevenement'])) {
         $numEvenement = $_POST['numevenement'];
+        $_SESSION['numevenement'] = $_POST['numevenement'];
     }
     else if (isset($_SESSION['numevenement'])) {
         $numEvenement = $_SESSION['numevenement'];
     }
-    $estTermine = isset($_POST['estTermine']) ? $_POST['estTermine'] : "non";
     if ($numEvenement !== NULL) {
         try{
             $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
@@ -53,7 +72,8 @@ session_start();
                 {
                     if($row['numevenement'] == $numEvenement)
                     {
-                        if ($estTermine == "non") {
+                        $estTermine = estTermine($row["numtournois"]);
+                        if (!$estTermine) {
                             echo '<form method="post" action="pageConfigTournois.php">';
                             echo '<input type="hidden" name="numtournois" value="' . $row["numtournois"] . '" />';
                             echo '<input type="submit" value="Tournois ' . $row['nom'] . '" />'; 

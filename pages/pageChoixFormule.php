@@ -51,7 +51,9 @@ function getNbEquipe($numTournois) {
                 echo '<option value="' . ($nbEquipe/2) . 'x2"> ' . ($nbEquipe/2) . 'x2 </option>';
             }
             else{   //CAS IMPAIR
-                echo '<option value="' . ($nbEquipe/2 - 1) . 'x2+1x3"> ' . ($nbEquipe/2 - 1) . 'x2+1x3 </option>';
+                $nbPoulesADeuxJoueur = floor($nbEquipe/2 - 1);
+                if ($nbPoulesADeuxJoueur != 0)
+                    echo '<option value="' . $nbPoulesADeuxJoueur . 'x2+1x3"> ' . $nbPoulesADeuxJoueur . 'x2+1x3 </option>';
             } 
 
             if ($nbEquipe % 3 == 0) {
@@ -64,15 +66,15 @@ function getNbEquipe($numTournois) {
                 echo '<option value="' . ($nbEquipe/5) . 'x5"> ' . ($nbEquipe/5) . 'x5 </option>';
             }
         }
+        echo '</select>';
+        echo '<br>';
+        echo '<br>';
+        echo '<input type="submit" value="Valider">';
+        echo '</form>';
     }
     else {
         echo "Erreur, les données de la page n'ont pas pu être récupérées !<br>";
     }
     ?>
-        </select>
-        <br>
-        <br>
-        <input type="submit" value="Valider">
-    </form>
   </body>
 </html>
