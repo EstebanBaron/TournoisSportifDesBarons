@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-// fonction renvoyant selon un nombre d'équipe le nombre de poules
-function nbPoulesSuivant($nb)
+// fonction renvoyant selon un nombre d'équipe le nombre de poules au tour prochain
+function nbEquipeSuivant($nb)
 {
   if($nb == 2 || $nb == 3)
   {
@@ -16,7 +16,7 @@ function nbPoulesSuivant($nb)
     }
     else
     {
-      return nbPoulesSuivant(floor($nb/2)) + nbPoulesSuivant(ceil($nb/2));
+      return nbEquipeSuivant(floor($nb/2)) + nbEquipeSuivant(ceil($nb/2));
     }
   }
 }
@@ -99,12 +99,9 @@ function getNbEquipe($numTournois) {
       }  
     }
     $formule = $_SESSION["formule" . $numTournois];
-
-    //de 1 à 4
     $numtour = 1;
     
-
-    $_SESSION["TourActuel" . $numTournois]=1;
+    $_SESSION["TourActuel" . $numTournois]=1; //remplacer par une variable
     //boucle qui affiche tous les tours d'un tournois avec leurs états
     while($nbEquipe != 1)
     {
@@ -116,7 +113,7 @@ function getNbEquipe($numTournois) {
       <?php
       if($numtour < $_SESSION["TourActuel" . $_POST["numtournois"]] )
       {
-        echo ' Terminé';
+        echo ' Terminé';//changer pour afficher Résultat du tour
       }
       //affiche le tour en cours tel que : Tour 2 : Poules (Poules étant le bouton permettant d'aller a la page pageTour correspondant)
       else if($numtour == $_SESSION["TourActuel" . $_POST["numtournois"]] )
@@ -140,7 +137,7 @@ function getNbEquipe($numTournois) {
       {
         echo ' à venir ...';
       }
-      $nbEquipe = nbPoulesSuivant($nbEquipe);
+      $nbEquipe = nbEquipeSuivant($nbEquipe);
       $numtour++;
       ?>
       </div>
