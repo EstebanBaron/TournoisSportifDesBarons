@@ -66,13 +66,16 @@ function getNiveauEquipe($listeEquipe)
                 }
             }
             $nbJoueurs = nbJoueurParEquipe($_POST['numtournois']);
+            echo "nbJoueur" . $nbJoueurs . "<br>";
             $tableauEquipesNiveaux = array_unique($tableauEquipesNiveaux);
-            print_r($tableauEquipesNiveaux);
             foreach($tableauEquipesNiveaux as $cle => $valeur)
             {
-                //echo 'cle='.$cle . ' valeur=' . $valeur;
-                $tableauEquipesNiveaux[$cle] = ($valeur/$nbJoueurs); 
+                if (!is_int($cle)) {
+                    $tableauEquipesNiveaux[$cle] = ($valeur/$nbJoueurs); 
+                }
             }
+            print_r($tableauEquipesNiveaux);
+
             return $tableauEquipesNiveaux;
         }
         else 

@@ -60,7 +60,8 @@ INSERT INTO equipe VALUES('equipeNullos', 'Les Nullos', 04);
 --Insertion dans joueur
 INSERT INTO joueur VALUES(01, NULL, NULL, 7,'Les papis');
 INSERT INTO joueur VALUES(02, NULL, NULL, 6, 'Les papis');
-INSERT INTO joueur VALUES(03, NULL, NULL, 7, 'Les papis');
+INSERT INTO joueur VALUES(03, NULL, NULL, 6, 'Les papis');
+INSERT INTO joueur VALUES(34, NULL, NULL, 1, 'Les papis');
 INSERT INTO joueur VALUES(04, NULL, NULL, 7, 'NomEq1');
 INSERT INTO joueur VALUES(05, NULL, NULL, 7, 'NomEq1');
 INSERT INTO joueur VALUES(06, NULL, NULL, 7, 'NomEq1');
