@@ -180,8 +180,9 @@ function creePouleRandom($listeEquipe, $listeNiveaux, $nbPoules)
         <h1>Tournois : <?php echo $nomTournois;  ?> <br> Tour n°: <?php echo  $_POST["numtour"];?></h1>
 
             <!-- bouton qui mène a la page modifPoule -->
-        <form method ="post" action="pageModifierPoules.php">
+        <form method="post" action="pageModifierPoules.php">
             <input type="hidden" name="numtournois" value=<?php echo $_POST['numtournois']; ?>>
+            <input type="hidden" name="poules" value="eq1-eq4,eq2-eq3,eq5-eq6">
             <input type="submit" name="modifPoules" value="modifier les Poules">
         </form>
             <!-- bouton qui mène a la page Poules -->
