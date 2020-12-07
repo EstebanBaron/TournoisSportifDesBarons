@@ -90,14 +90,20 @@ function getNbEquipe($numTournois) {
     $nbEquipe = getNbEquipe($numTournois);
 
     //Mise par default de la formule
-    if ($nbEquipe > 0) {
-      if ($nbEquipe % 2 == 0) { //CAS PAIR
-        $_SESSION["formule" . $numTournois] = ($nbEquipe/2) ."x2";
-      }
-      else{   //CAS IMPAIR
-        $_SESSION["formule" . $numTournois] = ($nbEquipe/2 - 1) ."x2+1x3";
-      }  
+    if (isset($_POST['choix'])) { 
+      $_SESSION["formule" . $numTournois] = $_POST['choix'];
     }
+    else if ($_SESSION["formule" . $numTournois] == NULL) { //mise par defaut
+      if ($nbEquipe > 0) {
+        if ($nbEquipe % 2 == 0) { //CAS PAIR
+          $_SESSION["formule" . $numTournois] = ($nbEquipe/2) ."x2";
+        }
+        else{   //CAS IMPAIR
+          $_SESSION["formule" . $numTournois] = ($nbEquipe/2 - 1) ."x2+1x3";
+        }  
+      }
+    }
+
     $formule = $_SESSION["formule" . $numTournois];
     $numtour = 1;
     
