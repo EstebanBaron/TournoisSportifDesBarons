@@ -20,11 +20,13 @@ else if (isset($_SESSION['numtournois'], $_SESSION['numtour'])) {
 function toArray($poule)
 {
   $oui = explode(',',$poule);
+  $arraypoule = array();
   for($i=0; $i<count($oui); $i++)
   {
-
+    $non = explode('-',$oui[$i]);
+    array_push($arraypoule,$non);
   }
-
+  return $arraypoule;
 }
 
 function composeMatchs($poule)
@@ -52,7 +54,7 @@ function creeMatchsArray($poule)
     }
     else
     {
-      array_push($matchsArray,composeMatchs($poule));
+      return composeMatchs($poule);
     }
   }
   return $matchsArray;
@@ -75,17 +77,28 @@ function creeMatchsArray($poule)
 
     <!-- tests -->
     <input type="hidden" name="numtournois" value=<?php echo $numTournois; ?>>
-    <input type="hidden" name="score" value=<?php echo "0-0"; ?>>  <!-- ex : score = "4-6" -->
-    <input type="hidden" name="equipes" value=<?php echo "LesBambous-LesFleurs"; ?>>
+    <input type="hidden" name="score" value="0-0">  <!-- ex : score = "4-6" -->
+    <input type="hidden" name="equipes" value="LesBambous-LesFleurs">
 
-    <input type="submit" name="match" value=<?php //echo $equipe; ?>>
+    <input type="submit" name="match" value="LesBambous-LesFleurs">
   </form>
   <?php
-
-    $arrayPoules = toArray($poules);
-
-
-
+    $arrayPoules = toArray("eq1-eq2-eq3,eq4-eq5-eq6-eq7,eq8-eq9-eq10");
+    //$arrayPoules = toArray($poules);
+    $arrayMatchs = creeMatchsArray($arrayPoules);
+    for($numPoule=0; $numPoule<count($arrayMatchs); $numPoule++)
+    {
+      echo "<h3>Poule n°".($numPoule+1)." :</h3>";
+      for($matchs=0; $matchs<count($arrayMatchs[$numPoule]); $matchs++)
+      {
+        echo '<form method ="post" action="pageMatch.php">';
+        echo '<input type="hidden" name="numtournois" value='.$numTournois.'>';
+        echo '<input type="hidden" name="score" value=' . $score .'>';//score = "4-6"
+        echo '<input type="hidden" name="equipes" value=' . $arrayMatchs[$numPoule][$matchs] . '>';
+        echo '<input type="submit" name="match" value=' .  $arrayMatchs[$numPoule][$matchs] .'>';
+        echo '</form>';
+      }
+    }
     //RAjouter modifier $_SESSION['classement'] et verif que tout les matchs sont fini?>
     <form method ="post" action="pageTournois.php">
     <input type="hidden" name="numtournois" value=<?php echo $numTournois; ?>>
