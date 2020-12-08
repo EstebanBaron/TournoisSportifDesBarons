@@ -89,10 +89,9 @@ function initialisationTableauScore($arraymatch)
   }
   foreach($Tableauscore as $cle => $valeur)
   {
-      if (is_int($cle)) {
-        unset($Tableauscore[$cle]);
-      }
-      
+    if (is_int($cle)) {
+      unset($Tableauscore[$cle]);
+    } 
   }
   return $Tableauscore;
 }
@@ -159,7 +158,7 @@ else
     <input type="hidden" name="numtournois" value=<?php echo $numTournois; ?>>
     <input type="hidden" name="numtour" value=<?php echo $numTour ?>>
     </form>
-    <button type="button" onclick=<?php echo 'validerTour("' . convertiTableauEnString($tableauscore) . '");'?> >Valider Tour</button>
+    <button type="button" onclick=<?php echo 'validerTour("' . convertiTableauEnString($tableauscore) . '",' . '"' . $poules . '");'?> >Valider Tour</button>
     <script src="js/scriptPageMatchsPoules.js"></script>
   </body>
 </html>
