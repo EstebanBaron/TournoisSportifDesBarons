@@ -106,7 +106,7 @@ function getNiveauEquipe($listeEquipe, $numTournois)
 }
 
 //cree une liste de liste remplit de façon aléatoire ex:((eq1,eq3)(eq4,eq5)(eq6,eq7)) eq1-eq2,eq3-eq4,eq5-eq6
-function creePouleRandom2($tableauEquipesNiveaux, $numTournois)
+function creePouleRandom($tableauEquipesNiveaux, $numTournois)
 {
     $nbPoules = 0;
     $pouleRandom = array();
@@ -142,7 +142,7 @@ function creePouleRandom2($tableauEquipesNiveaux, $numTournois)
             $index = 0;
         }
     }
-    
+
     return $pouleRandom;
 }
 
@@ -260,9 +260,7 @@ function affichePoules($poules) {
                 //avoir la liste des niveaux moyens de chaque équipe
                 $listeNiveauxDesEquipes=getNiveauEquipe($listeEquipe, $numTournois);
                 
-            
-            // afficheArray(creePouleRandom($listeNiveauxDesEquipes)); 
-            afficheArray(creePouleRandom2($listeNiveauxDesEquipes, $numTournois));
+                afficheArray(creePouleRandom($listeNiveauxDesEquipes, $numTournois));
         }
         else
         {
