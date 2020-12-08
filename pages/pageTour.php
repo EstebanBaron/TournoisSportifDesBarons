@@ -269,6 +269,14 @@ function affichePoules($poules) {
             <input type="submit" name="CommencerPoules" value="Commencer les Poules">
             </form>
             <?php 
+                
+                //met les équipe dans une array
+                $listeEquipe=explode(',',$_SESSION["classementTour"]);
+                //afficheArray($listeEquipe);
+                //avoir la liste des niveaux moyens de chaque équipe
+                $listeNiveauxDesEquipes=getNiveauEquipe($listeEquipe, $numTournois);
+                
+                afficheArray(creePouleRandom($listeNiveauxDesEquipes, $numTournois));
         }
         else
         {

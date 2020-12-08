@@ -60,6 +60,52 @@ function creeMatchsArray($poule)
   return $matchsArray;
 }
 
+function initialisationTableauScore($arraymatch)
+{
+  $Tableauscore = array();
+  for($i=0; $i<count($arraymatch); $i++)
+  {
+    for($j=0; $j<count($arraymatch[$i]); $j++)
+    {
+      if(array_key_exists($arraymatch[$i][$j],$Tableauscore))
+      {
+        $Tableauscore[$arraymatch[$i][$j]] = NULL;
+      }
+      else{
+        array_push($Tableauscore, $arraymatch[$i][$j]);
+        $Tableauscore[$arraymatch[$i][$j]] = NULL;
+      }
+    }
+  }
+  foreach($Tableauscore as $cle => $valeur)
+  {
+      if (is_int($cle)) {
+        unset($Tableauscore[$cle]);
+      }
+      
+  }
+  return $Tableauscore;
+}
+
+$arrayPoules = toArray("eq1-eq2-eq3,eq4-eq5-eq6-eq7,eq8-eq9-eq10");
+//$arrayPoules = toArray($poules);
+$arrayMatchs = creeMatchsArray($arrayPoules);
+
+$_POST['score'] = 'eq1-eq2_14-15';
+
+if(isset($_SESSION['TableauScore']))
+{
+  $tableauscore = $_SESSION['TableauScore'];
+  $nameScore = explode('_',$_POST['score']);
+  $tableauscore[$nameScore[0]] = $nameScore[1];
+  $_SESSION['TableauScore'] = $tableauscore;
+}
+else
+{
+  $_SESSION['TableauScore'] = initialisationTableauScore($arrayMatchs);
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -76,9 +122,7 @@ function creeMatchsArray($poule)
     <input type="hidden" name="equipes" value=<?php //echo $equipes; ?>> -->
   </form>
   <?php
-    $arrayPoules = toArray("eq1-eq2-eq3,eq4-eq5-eq6-eq7,eq8-eq9-eq10");
-    //$arrayPoules = toArray($poules);
-    $arrayMatchs = creeMatchsArray($arrayPoules);
+
     for($numPoule=0; $numPoule<count($arrayMatchs); $numPoule++)
     {
       echo "<h3>Poule n°".($numPoule+1)." :</h3>";
@@ -86,13 +130,19 @@ function creeMatchsArray($poule)
       {
         echo '<form method ="post" action="pageMatch.php">';
         echo '<input type="hidden" name="numtournois" value='.$numTournois.'>';
-        echo '<input type="hidden" name="score" value=' . $score .'>';//score = "4-6"
+        echo '<input type="hidden" name="score" value=' . $tableauscore[$arrayMatchs[$numPoule][$matchs]] .'>';//score = "4-6"
         echo '<input type="hidden" name="equipes" value=' . $arrayMatchs[$numPoule][$matchs] . '>';
         echo '<input type="submit" name="match" value=' .  $arrayMatchs[$numPoule][$matchs] .'>';
+        if($tableauscore[$arrayMatchs[$numPoule][$matchs]]!=NULL)
+          echo $tableauscore[$arrayMatchs[$numPoule][$matchs]];
+        else
+          echo 'pas joué';
         echo '</form>';
+
       }
     }
     //RAjouter modifier $_SESSION['classement'] et verif que tout les matchs sont fini?>
+    <br><br>
     <form method ="post" action="pageTournois.php">
     <input type="hidden" name="numtournois" value=<?php echo $numTournois; ?>>
     <input type="hidden" name="numtour" value=<?php echo $numTour ?>>
