@@ -108,6 +108,6 @@ function formuleImpaire($formule) {
             echo "Erreur, la page n'a pas pu être chargé!<br>";
         }
         ?>
-        <script src="dragAndDrop.js"></script>
+        <script src="js/dragAndDrop.js"></script>
     </body>
 </html>
