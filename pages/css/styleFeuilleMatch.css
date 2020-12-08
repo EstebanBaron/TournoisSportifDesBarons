@@ -1,0 +1,51 @@
+h1 {
+    text-align: center;
+    padding-bottom: 40px;
+}
+
+table {
+    width: 100%;
+}
+
+table tr th {
+    padding: 10px;
+}
+
+#nomEquipes {
+    font-size: 20px;    
+}
+
+#nomEquipes th {
+    border-bottom: 2px solid black;
+}
+
+#equipe1 {
+    border-right: 2px solid black;
+}
+
+#equipe2 {
+    border-bottom: 2px solid black;
+}
+
+#score {
+
+}
+
+#scoreJ1 {
+    border-right: 2px solid black;
+}
+
+#scoreJ2 {
+
+}
+
+#boutons th button {
+    /* float: right; */
+}
+
+#boutonJ1 {
+    border-right: 2px solid black;
+}
+
+#boutonJ2 {
+}

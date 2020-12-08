@@ -41,7 +41,7 @@ function formuleImpaire($formule) {
 <html>
     <head>
         <title>Page modification poules</title>
-        <link rel="stylesheet" href="stylePoules.css" />
+        <link rel="stylesheet" href="css/stylePoules.css" />
         <script
             src="https://code.jquery.com/jquery-3.5.1.js"
             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="

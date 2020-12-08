@@ -116,6 +116,11 @@ else
   <body>
   <h1>Les Matchs du Tour <?php echo '"' . $numtour . '"';  ?> </h1>
 
+  <form method ="post" action="pageMatch.php">
+    <!-- <input type="hidden" name="numtournois" value=<?php //echo $numTournois; ?>>
+    <input type="hidden" name="score" value=<?php //echo $score ?>>  ex : score = "4-6"
+    <input type="hidden" name="equipes" value=<?php //echo $equipes; ?>> -->
+  </form>
   <?php
 
     for($numPoule=0; $numPoule<count($arrayMatchs); $numPoule++)
