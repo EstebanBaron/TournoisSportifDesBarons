@@ -262,7 +262,10 @@ function affichePoules($poules) {
                 <input type="submit" name="modifPoules" value="modifier les Poules">
             </form>
                 <!-- bouton qui mène a la page Poules -->
-            <form method ="post" action="pagePoule.php">
+            <form method ="post" action="pageMatchsPoules.php">
+            <input type="hidden" name="numtournois" value=<?php echo $numTournois; ?>>
+            <input type="hidden" name="numtour" value=<?php echo $numTour ?>>
+            <input type="hidden" name="poules" value=<?php echo $poules; ?>>
             <input type="submit" name="CommencerPoules" value="Commencer les Poules">
             </form>
             <?php 
