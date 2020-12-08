@@ -256,7 +256,7 @@ function affichePoules($poules) {
             <input type="submit" name="CommencerPoules" value="Commencer les Poules">
             </form>
             <?php 
-
+                
                 //met les équipe dans une array
                 $listeEquipe=explode(',',$_SESSION["classementTour"]);
                 //afficheArray($listeEquipe);
