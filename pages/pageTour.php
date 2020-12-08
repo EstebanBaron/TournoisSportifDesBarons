@@ -146,17 +146,23 @@ function creePouleRandom($tableauEquipesNiveaux, $numTournois)
     return $pouleRandom;
 }
 
-// function convertiPoulesEnString($tableauPoules) {
-//     $poules = "";
-//     $index = 0;
-//     while ($tableauPoules[$index]) {
-//         $poule = $tableauPoules[$index];
-//         $indexToFinPoule = 0;
-//         while ()
-//     }
+function convertiPoulesEnString($tableauPoules) {
+    $poules = "";
+    $index = 0;
+    while ($tableauPoules[$index]) {
+        $poule = $tableauPoules[$index];
+        $indexParcoursEquipes = 0;
+        while ($poule[$indexParcoursEquipes]) {
+            $poules .= $poule[$indexParcoursEquipes] . '-';
+            $indexParcoursEquipes++;
+        }
+        $poules = substr_replace($poules, ',', strlen($poules) - 1);
+        $index++;
+    }
+    $poules = substr($poules, 0, -1);   //enlève la dernière virgule
     
-//     return $poules;
-// }
+    return $poules;
+}
 
 function affichePoules($poules) {
     $separationPoules = explode(',', $poules);
@@ -191,7 +197,7 @@ function affichePoules($poules) {
 <html>
     <head>
         <title>Page Tour</title>
-        <link rel="stylesheet" href="stylePoules.css" />
+        <link rel="stylesheet" href="css/stylePoules.css" />
     </head>
     <body>
         <?php 
@@ -224,9 +230,16 @@ function affichePoules($poules) {
             <h1>Tournois : <?php echo $nomTournois;  ?> <br> Tour n°: <?php echo  $numTour;?></h1>
             
             <?php
-            //get poules
-            $_SESSION['poules'] = NULL;
-            $poules = "eq1-eq4,eq2-eq3,eq5-eq6"; //ici changer par la mise sous forme de string de la fonction pouleRandom
+            //Creer les poules
+            //met les équipe dans une array
+            $listeEquipes = explode(',', $_SESSION["listeEquipes"]);
+
+            //avoir la liste des niveaux moyens de chaque équipe
+            $listeNiveauxDesEquipes=getNiveauEquipe($listeEquipes, $numTournois);
+            
+            //converti le tableau des poules en string
+            $poules = convertiPoulesEnString(creePouleRandom($listeNiveauxDesEquipes, $numTournois));
+
             if (isset($_POST['poules'])) {
                 $poules = $_POST['poules'];
                 $_SESSION['poules'] = $_POST['poules'];
@@ -253,14 +266,6 @@ function affichePoules($poules) {
             <input type="submit" name="CommencerPoules" value="Commencer les Poules">
             </form>
             <?php 
-
-                //met les équipe dans une array
-                $listeEquipe=explode(',',$_SESSION["classementTour"]);
-                //afficheArray($listeEquipe);
-                //avoir la liste des niveaux moyens de chaque équipe
-                $listeNiveauxDesEquipes=getNiveauEquipe($listeEquipe, $numTournois);
-                
-                afficheArray(creePouleRandom($listeNiveauxDesEquipes, $numTournois));
         }
         else
         {

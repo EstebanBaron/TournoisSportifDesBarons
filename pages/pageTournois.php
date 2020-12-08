@@ -158,13 +158,13 @@ function ajouteClassementTournois($classement, $numTournois) {
     if (!isset($_SESSION["TourActuel" . $numTournois])) { //premiere fois qu'on arrive sur la page
       $_SESSION["TourActuel" . $numTournois] = 1;
     }
-    else if (isset($_POST['classementTour'])) { //si on arrive de la page match tour et qu'un tour est terminé
+    else if (isset($_POST['listeEquipes'])) { //si on arrive de la page match tour et qu'un tour est terminé
       $_SESSION["TourActuel" . $numTournois] = $_SESSION["TourActuel" . $numTournois] + 1;
-      $_SESSION['classementTour'] = $_POST["classementTour"];
+      $_SESSION['listeEquipes'] = $_POST["listeEquipes"];
     }
     //aucun tour n'a encore été commencé
-    if (!isset($_SESSION['classementTour'])) {
-      $_SESSION['classementTour'] = getListeEquipe($numTournois);
+    if (!isset($_SESSION['listeEquipes'])) {
+      $_SESSION['listeEquipes'] = getListeEquipe($numTournois);
     }
 
     $numtour = 1;
@@ -210,10 +210,11 @@ function ajouteClassementTournois($classement, $numTournois) {
       <?php
     }
     $nombreTourTotal = $numtour;
-    //ex : $_POST['classementTour'] = "eq3,eq4,eq1,eq2.."
-    if (isset($_POST['classementTour']) && $_SESSION['TourActuel' . $numTournois] == $nombreTourTotal) {
+    //ex : $_SESSION['classementTournois'] = "eq3,eq4,eq1,eq2.."
+    //bouton fin du tournois, on y aura acces quand le dernier strlen($_POST['listeEquipes']) = 1
+    if (isset($_POST['listeEquipes']) && strlen($_POST['listeEquipes']) === 1 && $_SESSION['TourActuel' . $numTournois] == $nombreTourTotal) {
       //remplir la bdd et echo le formulaire si tout c'est bien passé
-      ajouteClassementTournois($_POST['classementTour'], $numTournois);
+      ajouteClassementTournois($_SESSION['classementTournois'], $numTournois); 
     }
   }
   else
