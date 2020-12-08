@@ -16,6 +16,16 @@ else if (isset($_SESSION['numtournois'], $_SESSION['numtour'])) {
     $numTour = $_SESSION['numtour'];
 }
 
+function convertiTableauEnString($tableau) {
+  $TabString = "";
+
+  foreach($tableau as $cle => $value) {
+      $TabString .= $cle . "_" . $value . ",";
+  }
+  $TabString = substr($TabString, 0, -1);   //enlève la dernière virgule
+  
+  return $TabString;
+}
 
 function toArray($poule)
 {
@@ -91,7 +101,7 @@ $arrayPoules = toArray("eq1-eq2-eq3,eq4-eq5-eq6-eq7,eq8-eq9-eq10");
 //$arrayPoules = toArray($poules);
 $arrayMatchs = creeMatchsArray($arrayPoules);
 
-$_POST['score'] = 'eq1-eq2_14-15';
+
 
 if(isset($_SESSION['TableauScore']))
 {
@@ -112,6 +122,11 @@ else
 <html>
   <head>
     <title>Page Poules</title>
+    <script
+        src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous">
+    </script>
   </head>
   <body>
   <h1>Les Matchs du Tour <?php echo '"' . $numtour . '"';  ?> </h1>
@@ -128,9 +143,9 @@ else
       echo "<h3>Poule n°".($numPoule+1)." :</h3>";
       for($matchs=0; $matchs<count($arrayMatchs[$numPoule]); $matchs++)
       {
-        echo '<form method ="post" action="pageMatch.php">';
+        echo '<form method="post" action="pageMatch.php">';
         echo '<input type="hidden" name="numtournois" value='.$numTournois.'>';
-        echo '<input type="hidden" name="score" value=' . $tableauscore[$arrayMatchs[$numPoule][$matchs]] .'>';//score = "4-6"
+        echo '<input type="hidden" name="score" value=' . ($tableauscore[$arrayMatchs[$numPoule][$matchs]]===NULL ? "0-0" : $tableauscore[$arrayMatchs[$numPoule][$matchs]]).'>';//score = "4-6"
         echo '<input type="hidden" name="equipes" value=' . $arrayMatchs[$numPoule][$matchs] . '>';
         echo '<input type="submit" name="match" value=' .  $arrayMatchs[$numPoule][$matchs] .'>';
         if($tableauscore[$arrayMatchs[$numPoule][$matchs]]!=NULL)
@@ -141,13 +156,16 @@ else
 
       }
     }
-    //RAjouter modifier $_SESSION['classement'] et verif que tout les matchs sont fini?>
+
+    //RAjouter modifier $_SESSION['classement'] et verif que tout les matchs sont fini
+    ?>
     <br><br>
     <form method ="post" action="pageTournois.php">
     <input type="hidden" name="numtournois" value=<?php echo $numTournois; ?>>
     <input type="hidden" name="numtour" value=<?php echo $numTour ?>>
     <input type="hidden" name="listeEquipes" value=<?php echo $_POST['listeEquipes']; ?>>
-    <input type="submit" name="ValiderTour" value="Valider Tour">
     </form>
+    <button type="button" onclick='validerTour(<?php echo '"'. convertiTableauEnString($tableauscore) . '"' ; ?>)' >Valider Tour</button>
+    <script src="js/scriptPageMatchsPoules.js"></script>
   </body>
 </html>
