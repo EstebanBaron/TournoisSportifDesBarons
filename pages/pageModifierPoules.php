@@ -53,6 +53,7 @@ function formuleImpaire($formule) {
         if ($poules !== NULL && $numTournois !== NULL) {
         ?>
         <h1>Poules actuelles : </h1>
+        <p>(Vous pouvez changer les équipes de place avec la technique du Drag&Drop)</p>
         <div id="ContentantDesPoules">
             <?php
             $separationPoules = explode(',', $poules);
@@ -69,6 +70,8 @@ function formuleImpaire($formule) {
             while ($indexToNbPoules < $nbPoules) {  //pour toutes les poules séparé par des virgules
                 $equipes = explode('-', $separationPoules[$indexToNbPoules]);
                 echo '<div class="poules" ondragover="onDragOver(event);" ondrop="onDrop(event);">';
+                //il faut changer le code de la fonction dans le fichier js pour mettre ça
+                // echo '<h3>Poule ' . ($indexToNbPoules+1) . '</h3>'; 
                 $indexToNbEquipe = 0;
                 while ($equipes[$indexToNbEquipe]) { //pour chaque équipe de la poule
                     echo '<div style="border : 1px solid black;" id="equipe' . ($indexToNbEquipe+1) . 'Poule' . ($indexToNbPoules+1) . '" draggable="true" ondragstart="onDragStart(event);">'; //ex : equipe1Poule1

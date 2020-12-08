@@ -48,7 +48,6 @@ function onDrop(event) {
 
 
 function verifieChangement(nbEquipeParPoule, formuleImpaire) {
-    // let nbPoules = document.getElementById("ContentantDesPoules").childElementCount;
     let poules = document.getElementsByClassName("poules");
     let poulesString = "";
 

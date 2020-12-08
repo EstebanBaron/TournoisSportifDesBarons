@@ -147,8 +147,11 @@ function ajouteClassementTournois($classement, $numTournois) {
           $_SESSION["formule" . $numTournois] = ($nbEquipe/2) ."x2";
         }
         else{   //CAS IMPAIR
-          $_SESSION["formule" . $numTournois] = ($nbEquipe/2 - 1) ."x2+1x3";
-        }  
+          if (floor($nbEquipe/2 - 1) != 0)
+            $_SESSION["formule" . $numTournois] = floor($nbEquipe/2 - 1) ."x2+1x3";
+          else  //cas où il y a 3 équipes
+            $_SESSION["formule" . $numTournois] = "1x3";
+        } 
       }
     }
 
