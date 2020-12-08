@@ -173,6 +173,7 @@ function tousLesSportsSontDiff() {
     </script>
   </head>
   <body>
+    <a href="pageAccueil.php" style="text-decoration: none;">retour</a>
     <h1>Créer votre événement :</h1>
     <form method="post">
     <p>(Les champs prefixés par des * sont obligatoires)</p>
@@ -365,6 +366,6 @@ function tousLesSportsSontDiff() {
       }
     }
     ?>
-    <script src="autreElement.js"></script>
+    <script src="js/autreElement.js"></script>
   </body>
 </html>

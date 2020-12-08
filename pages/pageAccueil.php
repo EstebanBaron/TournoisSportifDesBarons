@@ -15,6 +15,11 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
   return $tousLesTournoisSontFinis;
 }
 
+function deconnection() {
+  session_unset();
+  session_destroy();
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -22,6 +27,7 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
     <title>Page d'accueil</title>
   </head>
   <body>
+    <a id="boutonDeconnection" href="pageAuthentification.php"><button type="button" onclick="deconnection()">déconnection</button></a>
     <h1>Accueil</h1>
     <h2>Mes événement en cours :</h2>
     <?php 

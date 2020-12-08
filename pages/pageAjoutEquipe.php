@@ -111,6 +111,7 @@ function tousLesChampsSontRemplis() {
     </script>
   </head>
   <body>
+    <a href="pageConfigTournois.php" style="text-decoration: none;">retour</a>
   <?php
     if ($numTournois !== NULL) {
       ?>
@@ -247,6 +248,6 @@ function tousLesChampsSontRemplis() {
       echo "Erreur, la page n'a pas pu être chargé !<br>";
     }
   ?>
-  <script src="autreElement.js"></script>
+  <script src="js/autreElement.js"></script>
   </body>
 </html>

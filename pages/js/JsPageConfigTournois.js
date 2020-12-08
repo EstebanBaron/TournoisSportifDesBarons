@@ -6,7 +6,7 @@ function clotureEquipe()
         $("#ajoutEq").remove();
         $("#bouton").remove();
 
-        let commencerTournois = '<input type="submit" value = "commencer tournois" >';
+        let commencerTournois = '<input type="submit" name="boutonCloture" value="commencer tournois" >';
         $("#tournois").append(commencerTournois);
     }  
 }

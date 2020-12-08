@@ -1,6 +1,15 @@
 <?php 
 session_start();
 
+$numEvenement = NULL;
+if (isset($_POST['numevenement'])) {
+    $numEvenement = $_POST['numevenement'];
+    $_SESSION['numevenement'] = $_POST['numevenement'];
+}
+else if (isset($_SESSION['numevenement'])) {
+    $numEvenement = $_SESSION['numevenement'];
+}
+
 function estTermine($numTournois) {
     try{
         $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
@@ -26,15 +35,8 @@ function estTermine($numTournois) {
         <title>Page Evenement</title>
     </head>
     <body>
+    <a href="pageAccueil.php" style="text-decoration: none;">retour</a>
     <?php 
-    $numEvenement = NULL;
-    if (isset($_POST['numevenement'])) {
-        $numEvenement = $_POST['numevenement'];
-        $_SESSION['numevenement'] = $_POST['numevenement'];
-    }
-    else if (isset($_SESSION['numevenement'])) {
-        $numEvenement = $_SESSION['numevenement'];
-    }
     if ($numEvenement !== NULL) {
         try{
             $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
