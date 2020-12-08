@@ -1,13 +1,6 @@
 <?php
 session_start();
 
-function getScoreJ1() {
-
-}
-
-function getScoreJ2() {
-
-}
 ?>
 <!DOCTYPE html>
 <html>

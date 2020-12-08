@@ -130,12 +130,6 @@ else
   </head>
   <body>
   <h1>Les Matchs du Tour <?php echo '"' . $numtour . '"';  ?> </h1>
-
-  <form method ="post" action="pageMatch.php">
-    <!-- <input type="hidden" name="numtournois" value=<?php //echo $numTournois; ?>>
-    <input type="hidden" name="score" value=<?php //echo $score ?>>  ex : score = "4-6"
-    <input type="hidden" name="equipes" value=<?php //echo $equipes; ?>> -->
-  </form>
   <?php
 
     for($numPoule=0; $numPoule<count($arrayMatchs); $numPoule++)
@@ -157,15 +151,15 @@ else
       }
     }
 
-    //RAjouter modifier $_SESSION['classement'] et verif que tout les matchs sont fini
+    print_r($tableauscore);
+    //Rajouter modifier $_SESSION['classement'] et verif que tout les matchs sont fini
     ?>
     <br><br>
-    <form method ="post" action="pageTournois.php">
+    <form id="validerTour" method ="post" action="pageTournois.php">
     <input type="hidden" name="numtournois" value=<?php echo $numTournois; ?>>
     <input type="hidden" name="numtour" value=<?php echo $numTour ?>>
-    <input type="hidden" name="listeEquipes" value=<?php echo $_POST['listeEquipes']; ?>>
     </form>
-    <button type="button" onclick='validerTour(<?php echo '"'. convertiTableauEnString($tableauscore) . '"' ; ?>)' >Valider Tour</button>
+    <button type="button" onclick=<?php echo 'validerTour("' . convertiTableauEnString($tableauscore) . '");'?> >Valider Tour</button>
     <script src="js/scriptPageMatchsPoules.js"></script>
   </body>
 </html>
