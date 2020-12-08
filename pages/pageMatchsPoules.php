@@ -74,13 +74,6 @@ function creeMatchsArray($poule)
     <!-- <input type="hidden" name="numtournois" value=<?php //echo $numTournois; ?>>
     <input type="hidden" name="score" value=<?php //echo $score ?>>  ex : score = "4-6"
     <input type="hidden" name="equipes" value=<?php //echo $equipes; ?>> -->
-
-    <!-- tests -->
-    <input type="hidden" name="numtournois" value=<?php echo $numTournois; ?>>
-    <input type="hidden" name="score" value="0-0">  <!-- ex : score = "4-6" -->
-    <input type="hidden" name="equipes" value="LesBambous-LesFleurs">
-
-    <input type="submit" name="match" value="LesBambous-LesFleurs">
   </form>
   <?php
     $arrayPoules = toArray("eq1-eq2-eq3,eq4-eq5-eq6-eq7,eq8-eq9-eq10");

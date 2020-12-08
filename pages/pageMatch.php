@@ -1,12 +1,24 @@
 <?php
 session_start();
 
+function getScoreJ1() {
+
+}
+
+function getScoreJ2() {
+
+}
 ?>
 <!DOCTYPE html>
 <html>
   <head>
     <title>Page de match</title>
     <link rel="stylesheet" href="css/styleFeuilleMatch.css" />
+    <script
+        src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous">
+    </script>
   </head>
   <body>
     <?php
@@ -25,24 +37,25 @@ session_start();
                 <th id="equipe2"><?php echo $equipes[1]; ?></th>
             </tr>
             <tr id="score">
-                <div id="divJ1">
-                    <th id="scoreJ1"><?php echo $score[0]; ?></th>
-                </div>
-                <div id="divJ2">
-                    <th id="scoreJ2"><?php echo $score[1]; ?></th>
-                </div>
+                <th id="scoreJ1"><?php echo $score[0]; ?></th>
+                <th id="scoreJ2"><?php echo $score[1]; ?></th>
             </tr>
-            <tr id="boutons">
-                <th id="boutonJ1"><button type="button" name="plusUnJ1" onclick="plusUnJ1($score[0]);">+1</button></th>
-                <th id="boutonJ2"><button type="button" name="plusUnJ2" onclick="plusUnJ2($score[1]);">+1</button></th>
+            <tr id="boutons">  
+                <th id="boutonJ1">
+                    <button type="button" name="plusUnJ1" onclick="plusUnJ1();">+1</button>
+                    <button type="button" name="moinsUnJ1" onclick="moinsUnJ1();">-1</button>
+                </th>
+                <th id="boutonJ2">
+                    <button type="button" name="plusUnJ2" onclick="plusUnJ2();">+1</button>
+                    <button type="button" name="moinsUnJ2" onclick="moinsUnJ2();">-1</button>               
+                </th>
             </tr>
         </table>
 
-        <form method="post" action="">
+        <form id="formulaire" method="post" action="pageMatchsPoules.php">
             <input type="hidden" name="numtournois" value=<?php echo $numTournois;?>>
-            <input type="hidden" name="equipes" value=<?php echo $equipes[0] . '-' . $equipes[1];?>>
-            <input type="hidden" name="score" value=<?php echo getScoreJ1() . '-' . getScoreJ2();?>>
         </form>
+        <button type="button" name="boutonAjoutScore" onclick="ajoutScore();">fin du match</button>
         <?php
     }
     else {
