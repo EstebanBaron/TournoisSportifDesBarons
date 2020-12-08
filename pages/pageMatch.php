@@ -6,6 +6,7 @@ session_start();
 <html>
   <head>
     <title>Page de match</title>
+    <link rel="stylesheet" href="css/styleFeuilleMatch.css" />
   </head>
   <body>
     <?php
@@ -17,27 +18,37 @@ session_start();
         $equipes = explode('-', $equipes);
         $score = explode('-', $score);
         ?>
-        <h1>Match qui oppose <?php echo $equipes[0] . " vs " . $equipes[1]; ?></h1>
+        <h1>Match qui oppose <?php echo '"' . $equipes[0] . '" et "' . $equipes[1] . '"' ?></h1>
         <table>
             <tr id="nomEquipes">
-                <th><?php echo $equipes[0]; ?></th>
-                <th><?php echo $equipes[1]; ?></th>
+                <th id="equipe1"><?php echo $equipes[0]; ?></th>
+                <th id="equipe2"><?php echo $equipes[1]; ?></th>
             </tr>
             <tr id="score">
-                <th id="scoreJ1"><?php echo $score[0]; ?></th>
-                <th id="scoreJ2"><?php echo $score[1]; ?></th>
+                <div id="divJ1">
+                    <th id="scoreJ1"><?php echo $score[0]; ?></th>
+                </div>
+                <div id="divJ2">
+                    <th id="scoreJ2"><?php echo $score[1]; ?></th>
+                </div>
             </tr>
             <tr id="boutons">
-                <th><button type="button" name="plusUnJ1" value="+1" onclick="plusUnJ1($score[0]);"></th>
-                <th><button type="button" name="plusUnJ2" value="+1" onclick="plusUnJ2($score[1]);"></th>
+                <th id="boutonJ1"><button type="button" name="plusUnJ1" onclick="plusUnJ1($score[0]);">+1</button></th>
+                <th id="boutonJ2"><button type="button" name="plusUnJ2" onclick="plusUnJ2($score[1]);">+1</button></th>
             </tr>
         </table>
+
+        <form method="post" action="">
+            <input type="hidden" name="numtournois" value=<?php echo $numTournois;?>>
+            <input type="hidden" name="equipes" value=<?php echo $equipes[0] . '-' . $equipes[1];?>>
+            <input type="hidden" name="score" value=<?php echo getScoreJ1() . '-' . getScoreJ2();?>>
+        </form>
         <?php
     }
     else {
         echo "Erreur lors du chargement des données de la page ! <br>";
     } 
     ?>
-    <script src="feuilleMatch.js"></script>
+    <script src="js/feuilleMatch.js"></script>
   </body>
 </html>
