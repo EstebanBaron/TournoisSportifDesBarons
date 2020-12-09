@@ -6,24 +6,16 @@ if (isset($_POST['numtournois'])) {
     $numTournois = $_POST['numtournois'];
 }
 
-function getNbEquipe($numTournois) {
-    //récupère le nb équipe pour proposer des formules
-    $nbEquipe = -1;
-    try{
-        $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
-        $tournois = $dbh->query('SELECT t.numtournois, count(*) AS nbequipe FROM tournois t, equipe e WHERE e.numtournois = t.numtournois GROUP BY t.numtournois');
-            
-        if ($tournois) {
-            foreach ($tournois as $row) {
-                if ($row['numtournois'] == $numTournois) {
-                    $nbEquipe = $row['nbequipe'];
-                }
-            }
-        }
-    } catch (PDOException $e) {
-        print "Erreur ! : " . $e->getMessage() . "<br>";
+function getNbEquipe($listeEquipes) {
+    $nbEquipe = 0;
+    
+    $tabEquipe = explode(',', $listeEquipes);
+    $index = 0;
+    while ($index < count($tabEquipe)) {
+      $nbEquipe++;
+      $index++;
     }
-
+  
     return $nbEquipe;
 }
 
@@ -37,7 +29,7 @@ function getNbEquipe($numTournois) {
     <h1>Choisissez une formules pour les poules :</h1>
     <?php 
     if ($numTournois !== NULL) {
-        $nbEquipe = getNbEquipe($numTournois);
+        $nbEquipe = getNbEquipe($_SESSION["listeEquipes" . $numTournois]);
         echo 'Le tournois est composé de ' . $nbEquipe . ' équipes.<br>';
         echo '<form method="post" action="pageTournois.php">';
         echo '<input type="hidden" name="numtournois" value="' . $numTournois . '">';

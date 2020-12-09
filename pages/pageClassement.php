@@ -17,10 +17,8 @@ session_start();
         $classement = "";
         if ($tournois) {
           foreach ($tournois as $row) {
-            if ($row['numtournois'] == $_POST['numtournois']) {
-              if ($row['classement'] !== NULL) {
+            if ($row['numtournois'] == $_POST['numtournois'] && $row['classement'] !== NULL) {
                 $classement = $row['classement'];  //on récupère le classement du tournois dans la base
-              }
             }
           }
           if ($classement === "") {
@@ -28,11 +26,13 @@ session_start();
           }
           else {
             //On affiche le classement
-            $tabDeClassement = preg_split('/,/', $classement);
+            $tabDeClassement = explode(',', $classement);
             $position = 1;
-            foreach ($tabDeClassement as $equipe) {
-              echo $position . " : " . $equipe . "<br>"; 
+            $index = 0;
+            while ($index < count($tabDeClassement)) {
+              echo $position . " : " . $tabDeClassement[$index] . "<br>"; 
               $position++;
+              $index++;
             }
           }
         }

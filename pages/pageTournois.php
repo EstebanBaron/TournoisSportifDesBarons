@@ -1,44 +1,14 @@
 <?php
 session_start();
 
-// fonction renvoyant selon un nombre d'équipe le nombre de poules au tour prochain
-function nbEquipeSuivant($nb)
-{
-  if($nb == 2 || $nb == 3)
-  {
-    return 1;
-  }
-  else
-  {
-    if(fmod($nb, 2) == 0)
-    {
-      return $nb/2;
-    }
-    else
-    {
-      return nbEquipeSuivant(floor($nb/2)) + nbEquipeSuivant(ceil($nb/2));
-    }
-  }
+//recup du num tournois
+$numTournois = NULL;
+if (isset($_POST['numtournois'])) {
+    $numTournois = $_POST['numtournois'];
+    $_SESSION['numtournois'] = $numTournois;
 }
-
-function getNbEquipe($numTournois) {
-  $nbEquipe = -1;
-  try{
-    $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
-    $tournois = $dbh->query('SELECT t.numtournois, count(*) AS nbequipe FROM tournois t, equipe e WHERE e.numtournois = t.numtournois GROUP BY t.numtournois');
-        
-    if ($tournois) {
-        foreach ($tournois as $row) {
-            if ($row['numtournois'] == $numTournois) {
-                $nbEquipe = $row['nbequipe'];
-            }
-        }
-    }
-  } catch (PDOException $e) {
-      print "Erreur ! : " . $e->getMessage() . "<br>";
-  }
-
-  return $nbEquipe;
+else if (isset($_SESSION['numtournois'])) {
+    $numTournois = $_SESSION['numtournois'];
 }
 
 function getListeEquipe($numTournois) {
@@ -55,6 +25,9 @@ function getListeEquipe($numTournois) {
         }
         $listeEquipes = substr($listeEquipes, 0, -1);   //enlève la dernière virgule
     }
+    else {
+      echo "Erreur, la requête a échouée!<br>";
+    }
   } catch (PDOException $e) {
       print "Erreur ! : " . $e->getMessage() . "<br>";
   }
@@ -62,29 +35,91 @@ function getListeEquipe($numTournois) {
   return $listeEquipes;
 }
 
-function ajouteClassementTournois($classement, $numTournois) {
-  try{
-    $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
-    $sql = 'UPDATE tournois SET classement = :classement WHERE numtournois = :numTournois';
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':classement', $classement);
-    $stmt->bindValue(':numTournois', $numTournois);
-            
-    if(strlen($classement) <= 495) { //nb max de caractère possible pour un classement
-      if ($stmt->execute([$classement, $numTournois])) {
-        echo '<form method="post" action="pageEvenement.php">';
-        echo '<input type="submit" value="Fin du tournois" name="finTournois">';
-        echo '</form>';
-      }
-      else {
-        echo "Erreur d'envoie des données dans la base !<br>";
-      }
+//on recupere le tour actuel, la liste des equipes du tour et on met à jour le classement du tournois
+if (!isset($_SESSION["TourActuel" . $numTournois])) { //premiere fois qu'on arrive sur la page
+  $_SESSION["TourActuel" . $numTournois] = 1;
+}
+else if (isset($_POST['listeEquipes'], $_POST['classementTour']) && $_SESSION['listeEquipes' . $numTournois] != $_POST['listeEquipes']) { //si on arrive de la page match tour et qu'un tour est terminé
+  $_SESSION["TourActuel" . $numTournois] = $_SESSION["TourActuel" . $numTournois] + 1;
+  $_SESSION['classementTournois' . $numTournois] = $_POST["classementTour"] . "," . $_SESSION['classementTournois' . $numTournois];
+  $_SESSION['listeEquipes' . $numTournois] = $_POST['listeEquipes'];
+}
+//aucun tour n'a encore été commencé
+if (!isset($_SESSION['listeEquipes' . $numTournois], $_SESSION['classementTournois' . $numTournois])) {
+  $_SESSION['listeEquipes' . $numTournois] = getListeEquipe($numTournois);
+  $_SESSION['classementTournois' . $numTournois] = "";
+}
+
+
+
+function getNbEquipe($listeEquipes) {
+  $nbEquipe = 0;
+  
+  $tabEquipe = explode(',', $listeEquipes);
+  $index = 0;
+  while ($index < count($tabEquipe)) {
+    $nbEquipe++;
+    $index++;
+  }
+
+  return $nbEquipe;
+}
+
+//nb Equipes
+$nbEquipe = getNbEquipe($_SESSION['listeEquipes' . $numTournois]);
+
+//Mise par default de la formule
+if (isset($_POST['choix'])) { 
+  $_SESSION["formule" . $numTournois] = $_POST['choix'];
+}
+else { //mise par defaut
+  if ($nbEquipe > 0) {
+    if ($nbEquipe % 2 == 0) { //CAS PAIR
+      $_SESSION["formule" . $numTournois] = ($nbEquipe/2) ."x2";
     }
-    else {
-      echo "Erreur, le nombre de caractère dépasse la limite max (495 caractères) !<br>";
+    else{   //CAS IMPAIR
+      if (floor($nbEquipe/2 - 1) != 0)
+        $_SESSION["formule" . $numTournois] = floor($nbEquipe/2 - 1) ."x2+1x3";
+      else  //cas où il y a 3 équipes
+        $_SESSION["formule" . $numTournois] = "1x3";
+    } 
+  }
+}
+
+function ajouteClassementTournois($classement, $numTournois) {
+  try {
+    $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+    $classementVide = true;
+    foreach ($dbh->query('SELECT * FROM tournois') as $row) {
+      if ($row['numtournois'] == $numTournois) {
+        if ($row['classement'] !== NULL) {
+          $classementVide = false;
+        }
+      }
     }
   } catch (PDOException $e) {
-      print "Erreur ! : " . $e->getMessage() . "<br>";
+    print "Erreur ! : " . $e->getMessage() . "<br>";
+    die();
+  }
+  if ($classementVide) {
+    try{
+      $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+      $sql = 'UPDATE tournois SET classement = :classement WHERE numtournois = :numTournois';
+      $stmt = $dbh->prepare($sql);
+      $stmt->bindValue(':classement', $classement);
+      $stmt->bindValue(':numTournois', $numTournois);
+              
+      if(strlen($classement) <= 495) { //nb max de caractère possible pour un classement
+        if (!$stmt->execute([$classement, $numTournois])) {
+          echo "Erreur d'envoie des données dans la base !<br>";
+        }
+      }
+      else {
+        echo "Erreur, le nombre de caractère dépasse la limite max (495 caractères) !<br>";
+      }
+    } catch (PDOException $e) {
+        print "Erreur ! : " . $e->getMessage() . "<br>";
+    }
   }
 }
 
@@ -96,16 +131,6 @@ function ajouteClassementTournois($classement, $numTournois) {
   </head>
   <body>
   <?php
-  //recup du num tournois
-  $numTournois = NULL;
-  if (isset($_POST['numtournois'])) {
-      $numTournois = $_POST['numtournois'];
-      $_SESSION['numtournois'] = $numTournois;
-  }
-  else if (isset($_SESSION['numtournois'])) {
-      $numTournois = $_SESSION['numtournois'];
-  }
-  
   if($numTournois !== NULL)
   {
     try{
@@ -133,43 +158,13 @@ function ajouteClassementTournois($classement, $numTournois) {
   ?>
   <h1>Tournois : <?php echo '"' . $nomTournois . '"';  ?> </h1>
 
-  <?php 
-    //nb Equipes
-    $nbEquipe = getNbEquipe($numTournois);
-
-    //Mise par default de la formule
-    if (isset($_POST['choix'])) { 
-      $_SESSION["formule" . $numTournois] = $_POST['choix'];
-    }
-    else if (!isset($_SESSION["formule" . $numTournois])) { //mise par defaut
-      if ($nbEquipe > 0) {
-        if ($nbEquipe % 2 == 0) { //CAS PAIR
-          $_SESSION["formule" . $numTournois] = ($nbEquipe/2) ."x2";
-        }
-        else{   //CAS IMPAIR
-          if (floor($nbEquipe/2 - 1) != 0)
-            $_SESSION["formule" . $numTournois] = floor($nbEquipe/2 - 1) ."x2+1x3";
-          else  //cas où il y a 3 équipes
-            $_SESSION["formule" . $numTournois] = "1x3";
-        } 
-      }
-    }
-
-    if (!isset($_SESSION["TourActuel" . $numTournois])) { //premiere fois qu'on arrive sur la page
-      $_SESSION["TourActuel" . $numTournois] = 1;
-    }
-    else if (isset($_POST['listeEquipes'])) { //si on arrive de la page match tour et qu'un tour est terminé
-      $_SESSION["TourActuel" . $numTournois] = $_SESSION["TourActuel" . $numTournois] + 1;
-      $_SESSION['listeEquipes'] = $_POST["listeEquipes"];
-    }
-    //aucun tour n'a encore été commencé
-    if (!isset($_SESSION['listeEquipes'])) {
-      $_SESSION['listeEquipes'] = getListeEquipe($numTournois);
-    }
+  <?php
+    echo "tour : " . $_SESSION["TourActuel" . $numTournois] . "<br>";
 
     $numtour = 1;
     //boucle qui affiche tous les tours d'un tournois avec leurs états
-    while($nbEquipe != 1)
+    //getNbTotalTour
+    while($numtour <= $_SESSION["TourActuel" . $numTournois])
     {
       //affiche les tours terminés d'abord tel que : Tour 1 : Terminé (remplacé terminé par le résultat du tour)
       ?>
@@ -182,7 +177,7 @@ function ajouteClassementTournois($classement, $numTournois) {
         echo ' Terminé';//changer pour afficher Résultat du tour
       }
       //affiche le tour en cours tel que : Tour 2 : Poules (Poules étant le bouton permettant d'aller a la page pageTour correspondant)
-      else if($numtour == $_SESSION["TourActuel" . $numTournois])
+      else if($numtour == $_SESSION["TourActuel" . $numTournois] && $nbEquipe !== 1)
       { 
         ?>
         <p>Formule actuelle : <?php echo $_SESSION["formule" . $numTournois]; ?></p>
@@ -198,23 +193,30 @@ function ajouteClassementTournois($classement, $numTournois) {
         </form>
         <?php
       }
-      //affiche les tours à venir tel que : Tour 3 : à venir ...
-      else
-      {
-        echo ' à venir ...';
+      else {
+        ?>
+        <h3>Tournois terminé</h3>
+        <?php
       }
-      $nbEquipe = nbEquipeSuivant($nbEquipe);
       $numtour++;
       ?>
       </div>
       <?php
     }
-    $nombreTourTotal = $numtour;
     //ex : $_SESSION['classementTournois'] = "eq3,eq4,eq1,eq2.."
     //bouton fin du tournois, on y aura acces quand le dernier strlen($_POST['listeEquipes']) = 1
-    if (isset($_POST['listeEquipes']) && strlen($_POST['listeEquipes']) === 1 && $_SESSION['TourActuel' . $numTournois] == $nombreTourTotal) {
+    if (isset($_POST['listeEquipes'], $_POST['classementTour']) && $nbEquipe === 1) {
+      $tabClassement = explode(',', $_SESSION['classementTournois' . $numTournois]);
+      if ($tabClassement[0] != $_SESSION['listeEquipes' . $numTournois]) {
+        $_SESSION['classementTournois' . $numTournois] = $_SESSION["listeEquipes" . $numTournois] . "," . $_SESSION['classementTournois' . $numTournois];  
+        $_SESSION['classementTournois' . $numTournois] = substr($_SESSION['classementTournois' . $numTournois], 0, strlen($_SESSION['classementTournois' . $numTournois])-1);     
+      }
+      echo '<p>Classement : ' . $_SESSION['classementTournois' . $numTournois] . '</p>';
       //remplir la bdd et echo le formulaire si tout c'est bien passé
-      ajouteClassementTournois($_SESSION['classementTournois'], $numTournois); 
+      ajouteClassementTournois($_SESSION['classementTournois' . $numTournois], $numTournois); 
+      echo '<form method="post" action="pageEvenement.php">';
+      echo '<input type="submit" value="Fin du tournois" name="finTournois">';
+      echo '</form>';
     }
   }
   else

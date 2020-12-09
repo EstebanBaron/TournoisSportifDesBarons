@@ -10,10 +10,12 @@ if (isset($_POST['numtournois'], $_POST['numtour'], $_POST['poules'])) {
     $poules = $_POST['poules'];
     $_SESSION['numtournois'] = $numTournois;
     $_SESSION['numtour'] = $numTour;
+    $_SESSION['poules'] = $poules;
 }
-else if (isset($_SESSION['numtournois'], $_SESSION['numtour'])) {
+else if (isset($_SESSION['numtournois'], $_SESSION['numtour'], $_SESSION['poules'])) {
     $numTournois = $_SESSION['numtournois'];
     $numTour = $_SESSION['numtour'];
+    $poules = $_SESSION['poules'];
 }
 
 function convertiTableauEnString($tableau) {
@@ -89,22 +91,23 @@ function initialisationTableauScore($arraymatch)
   }
   foreach($Tableauscore as $cle => $valeur)
   {
-    if (is_int($cle)) {
+    if (is_int($cle) || $cle === "") {
       unset($Tableauscore[$cle]);
     } 
   }
   return $Tableauscore;
 }
 
-$arrayPoules = toArray("eq1-eq2-eq3,eq4-eq5-eq6-eq7,eq8-eq9-eq10");
-//$arrayPoules = toArray($poules);
+// $arrayPoules = toArray("eq1-eq2-eq3,eq4-eq5-eq6-eq7,eq8-eq9-eq10");
+$arrayPoules = toArray($poules);
 $arrayMatchs = creeMatchsArray($arrayPoules);
 
 
 
-if(isset($_SESSION['TableauScore']))
+if(isset($_POST['score']))
 {
   $tableauscore = $_SESSION['TableauScore'];
+  
   $nameScore = explode('_',$_POST['score']);
   $tableauscore[$nameScore[0]] = $nameScore[1];
   $_SESSION['TableauScore'] = $tableauscore;
@@ -112,6 +115,7 @@ if(isset($_SESSION['TableauScore']))
 else
 {
   $_SESSION['TableauScore'] = initialisationTableauScore($arrayMatchs);
+  $tableauscore = $_SESSION['TableauScore'];
 }
 
 
@@ -130,7 +134,6 @@ else
   <body>
   <h1>Les Matchs du Tour <?php echo '"' . $numtour . '"';  ?> </h1>
   <?php
-
     for($numPoule=0; $numPoule<count($arrayMatchs); $numPoule++)
     {
       echo "<h3>Poule n°".($numPoule+1)." :</h3>";
@@ -150,7 +153,6 @@ else
       }
     }
 
-    print_r($tableauscore);
     //Rajouter modifier $_SESSION['classement'] et verif que tout les matchs sont fini
     ?>
     <br><br>

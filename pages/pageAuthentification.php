@@ -1,5 +1,6 @@
 <?php
 session_start();
+session_unset(); //déconnexion => remise à null de toutes les variables
 
 ?>
 <!DOCTYPE html>

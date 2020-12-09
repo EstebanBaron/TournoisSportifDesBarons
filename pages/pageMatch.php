@@ -48,7 +48,7 @@ session_start();
         <form id="formulaire" method="post" action="pageMatchsPoules.php">
             <input type="hidden" name="numtournois" value=<?php echo $numTournois;?>>
         </form>
-        <button type="button" name="boutonAjoutScore" onclick="ajoutScore();">fin du match</button>
+        <button type="button" name="boutonAjoutScore" onclick="ajoutScore();">enregistrer score</button>
         <?php
     }
     else {

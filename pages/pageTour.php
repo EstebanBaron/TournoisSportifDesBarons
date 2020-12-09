@@ -56,7 +56,7 @@ function nbJoueurParEquipe($numTournois) {
   }
 
 
-function getNiveauEquipe($listeEquipe, $numTournois)
+function getNiveauEquipe($listeEquipes, $numTournois)
 {
     $tableauEquipesNiveaux=array();
     try{
@@ -66,17 +66,15 @@ function getNiveauEquipe($listeEquipe, $numTournois)
         {
             foreach($joueurs as $row)
             {
-                if($row['numtournois'] == $numTournois)
+                if($row['numtournois'] == $numTournois && in_array($row['nomequipe'], $listeEquipes))
                 {
                     if(array_key_exists($row['nomequipe'],$tableauEquipesNiveaux))
                     {
                         $tableauEquipesNiveaux[$row['nomequipe']] += $row['niveau'];
                     }
                     else{
-                        array_push($tableauEquipesNiveaux, $row['nomequipe']);
                         $tableauEquipesNiveaux[$row['nomequipe']] = $row['niveau'];
                     }
-                    
                 }
             }
             $nbJoueurs = nbJoueurParEquipe($numTournois);
@@ -98,10 +96,10 @@ function getNiveauEquipe($listeEquipe, $numTournois)
             echo "Erreur, les données de la base n'ont pas pu être récupérées !"; 
             return array();
         }
-        } catch (PDOException $e)
-        {
-            print "Erreur ! : " . $e->getMessage() . "<br>";
-        }
+    } catch (PDOException $e)
+    {
+        print "Erreur ! : " . $e->getMessage() . "<br>";
+    }
         
 }
 
@@ -128,7 +126,7 @@ function creePouleRandom($tableauEquipesNiveaux, $numTournois)
 
     for($k=0; $k<$nbPoules; $k++)
     {
-        array_push($pouleRandom,array());
+        array_push($pouleRandom, array());
     }
 
     $copieTableau = $tableauEquipesNiveaux;
@@ -232,20 +230,16 @@ function affichePoules($poules) {
             <?php
             //Creer les poules
             //met les équipe dans une array
-            $listeEquipes = explode(',', $_SESSION["listeEquipes"]);
+            $listeEquipes = explode(',', $_SESSION["listeEquipes" . $numTournois]);
 
             //avoir la liste des niveaux moyens de chaque équipe
             $listeNiveauxDesEquipes=getNiveauEquipe($listeEquipes, $numTournois);
-            
+
             //converti le tableau des poules en string
             $poules = convertiPoulesEnString(creePouleRandom($listeNiveauxDesEquipes, $numTournois));
 
             if (isset($_POST['poules'])) {
                 $poules = $_POST['poules'];
-                $_SESSION['poules'] = $_POST['poules'];
-            } 
-            else if (isset($_SESSION['poules'])) {
-                $poules = $_SESSION['poules'];
             } 
             ?>
             <!-- affichage des poules -->
@@ -269,14 +263,6 @@ function affichePoules($poules) {
             <input type="submit" name="CommencerPoules" value="Commencer les Poules">
             </form>
             <?php 
-                
-                //met les équipe dans une array
-                $listeEquipe=explode(',',$_SESSION["classementTour"]);
-                //afficheArray($listeEquipe);
-                //avoir la liste des niveaux moyens de chaque équipe
-                $listeNiveauxDesEquipes=getNiveauEquipe($listeEquipe, $numTournois);
-                
-                afficheArray(creePouleRandom($listeNiveauxDesEquipes, $numTournois));
         }
         else
         {
