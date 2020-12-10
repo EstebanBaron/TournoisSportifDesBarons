@@ -133,9 +133,17 @@ else
     </script>
   </head>
   <body>
-    <div class="barreTitre">
-      <a class="titre">La Baronnerie</a>
-    </div>
+  <div class="barreTitre">
+      <a class="retour"></a>
+
+      <div class="divTitre">
+        <a class="titre">La Baronnerie</a>
+      </div>
+
+      <div class="divDeco">
+        <a class="boutonDeconnection"></a>
+      </div>
+  </div>
   <h1>Les Matchs du Tour <?php echo '"' . $numtour . '"';  ?> </h1>
   <?php
     for($numPoule=0; $numPoule<count($arrayMatchs); $numPoule++)

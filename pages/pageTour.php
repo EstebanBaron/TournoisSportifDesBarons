@@ -200,7 +200,15 @@ function affichePoules($poules) {
     </head>
     <body>
     <div class="barreTitre">
-      <a class="titre">La Baronnerie</a>
+      <a class="retour"></a>
+
+      <div class="divTitre">
+        <a class="titre">La Baronnerie</a>
+      </div>
+
+      <div class="divDeco">
+        <a class="boutonDeconnection"></a>
+      </div>
     </div>
         <?php 
         if($numTournois !== NULL && $numTour !== NULL)

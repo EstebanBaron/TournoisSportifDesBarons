@@ -25,7 +25,15 @@ else if (isset($_SESSION['numtournois'])){
   <body>
     <!-- <a href="pageEvenement.php" style="text-decoration: none;">retour</a> -->
     <div class="barreTitre">
-      <a class="titre">La Baronnerie</a>
+      <a class="retour"></a>
+
+      <div class="divTitre">
+        <a class="titre">La Baronnerie</a>
+      </div>
+
+      <div class="divDeco">
+        <a class="boutonDeconnection"></a>
+      </div>
     </div>
     <?php 
     if($numTournois !== NULL)

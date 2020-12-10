@@ -20,7 +20,15 @@ session_unset(); //déconnexion => remise à null de toutes les variables
   </head>
   <body>
     <div class="barreTitre">
-      <a class="titre">La Baronnerie</a>
+        <a class="retour"></a>
+
+      <div class="divTitre">
+        <a class="titre">La Baronnerie</a>
+      </div>
+
+      <div class="divDeco">
+        <a class="boutonDeconnection"></a>
+      </div>
     </div>
     <h1>Connexion : </h1>
     <form method="post">

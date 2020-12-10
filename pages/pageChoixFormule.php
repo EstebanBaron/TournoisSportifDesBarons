@@ -54,7 +54,15 @@ function creeFormules($nbEquipe)
   </head>
   <body>
     <div class="barreTitre">
-      <a class="titre">La Baronnerie</a>
+      <a class="retour"></a>
+
+      <div class="divTitre">
+        <a class="titre">La Baronnerie</a>
+      </div>
+
+      <div class="divDeco">
+        <a class="boutonDeconnection"></a>
+      </div>
     </div>
     <h1>Choisissez une formules pour les poules :</h1>
     <?php 

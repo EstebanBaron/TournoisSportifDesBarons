@@ -50,9 +50,17 @@ function formuleImpaire($formule) {
         </script>
     </head>
     <body>
-        <div class="barreTitre">
-            <a class="titre">La Baronnerie</a>
-        </div>
+    <div class="barreTitre">
+      <a class="retour"></a>
+
+      <div class="divTitre">
+        <a class="titre">La Baronnerie</a>
+      </div>
+
+      <div class="divDeco">
+        <a class="boutonDeconnection"></a>
+      </div>
+    </div>
         <?php
         if ($poules !== NULL && $numTournois !== NULL) {
         ?>

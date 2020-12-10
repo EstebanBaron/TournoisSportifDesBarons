@@ -114,10 +114,15 @@ function tousLesChampsSontRemplis() {
   <body>
     <div class="barreTitre">
       <a class="retour" href="pageConfigTournois.php" style="text-decoration: none;">retour</a>
-      <a class="titre">La Baronnerie</a>
-      <a class="boutonDeconnection" href="pageAuthentification.php">Déconnection</a>
+
+      <div class="divTitre">
+        <a class="titre">La Baronnerie</a>
+      </div>
+
+      <div class="divDeco">
+        <a class="boutonDeconnection" href="pageAuthentification.php">Déconnection</a>
+      </div>
     </div>
-    
   <?php
     if ($numTournois !== NULL) {
       ?>

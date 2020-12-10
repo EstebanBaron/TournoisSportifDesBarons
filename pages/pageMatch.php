@@ -15,8 +15,16 @@ session_start();
     </script>
   </head>
   <body>
-    <div class="barreTitre">
-      <a class="titre">La Baronnerie</a>
+  <div class="barreTitre">
+      <a class="retour"></a>
+
+      <div class="divTitre">
+        <a class="titre">La Baronnerie</a>
+      </div>
+
+      <div class="divDeco">
+        <a class="boutonDeconnection"></a>
+      </div>
     </div>
     <?php
     if (isset($_POST['numtournois'], $_POST['score'], $_POST['equipes'])) {

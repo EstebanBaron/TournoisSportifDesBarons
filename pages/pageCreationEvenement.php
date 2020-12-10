@@ -174,12 +174,17 @@ function tousLesSportsSontDiff() {
     </script>
   </head>
   <body>
-  <div class="barreTitre">
+    <div class="barreTitre">
       <a class="retour" href="pageAccueil.php" style="text-decoration: none;">Retour</a>
-      <a class="titre">La Baronnerie</a>
-      <a class="boutonDeconnection" href="pageAuthentification.php">Déconnection</a>
+
+      <div class="divTitre">
+        <a class="titre">La Baronnerie</a>
+      </div>
+
+      <div class="divDeco">
+        <a class="boutonDeconnection" href="pageAuthentification.php">Déconnection</a>
+      </div>
     </div>
-    
     <h1>Créer votre événement :</h1>
     <form method="post">
     <p>(Les champs prefixés par des * sont obligatoires)</p>
