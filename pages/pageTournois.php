@@ -18,12 +18,12 @@ function getListeEquipe($numTournois) {
     $equipes = $dbh->query('SELECT nom, numtournois FROM equipe');
         
     if ($equipes) {
-        foreach ($equipes as $row) {
-            if ($row['numtournois'] == $numTournois) {
-              $listeEquipes .= $row['nom'] . ",";
-            }
-        }
-        $listeEquipes = substr($listeEquipes, 0, -1);   //enlève la dernière virgule
+      foreach ($equipes as $row) {
+          if ($row['numtournois'] == $numTournois) {
+            $listeEquipes .= $row['nom'] . ",";
+          }
+      }
+      $listeEquipes = substr($listeEquipes, 0, -1);   //enlève la dernière virgule
     }
     else {
       echo "Erreur, la requête a échouée!<br>";
@@ -49,7 +49,6 @@ if (!isset($_SESSION['listeEquipes' . $numTournois], $_SESSION['classementTourno
   $_SESSION['listeEquipes' . $numTournois] = getListeEquipe($numTournois);
   $_SESSION['classementTournois' . $numTournois] = "";
 }
-
 
 
 function getNbEquipe($listeEquipes) {

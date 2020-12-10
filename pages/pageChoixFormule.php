@@ -73,7 +73,6 @@ function creeFormules($nbEquipe)
         echo '<input type="hidden" name="numtournois" value="' . $numTournois . '">';
         echo '<label for="choix">Choisissez une formule (nombre de poule x nombre d\'équipe) :</label> ';
         echo '<select name="choix">';
-        echo "oui";
         creeFormules($nbEquipe);
         echo '</select>';
         echo '<br>';

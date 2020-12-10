@@ -68,6 +68,11 @@ else if (isset($_SESSION['numtournois'])){
       echo '<input type="hidden" name="numtournois" value="' . htmlspecialchars($numTournois) . '" >';
       echo '<input type="submit" name="ajoutEquipe" value="Ajouter des équipes">';
       echo '</form>';
+
+      echo '<form id="ajoutEqAvecClassement" method="post" action="pageAjoutEquipeAvecClassement.php"><br>';
+      echo '<input type="hidden" name="numtournois" value="' . htmlspecialchars($numTournois) . '" >';
+      echo '<input type="submit" name="ajoutEquipeAvecClassement" value="Ajouter des équipes avec le classement d\'un autre tournois">';
+      echo '</form>';
       try{
         $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
         $tournois = $dbh->query('SELECT t.numtournois, count(*) AS nbequipe FROM tournois t, equipe e WHERE e.numtournois = t.numtournois GROUP BY t.numtournois');

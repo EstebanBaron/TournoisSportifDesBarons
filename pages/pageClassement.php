@@ -33,7 +33,7 @@ session_start();
             }
           }
           if ($classement === "") {
-            echo "Le classement n'est pas encore disponible, revenez quand le tournois est terminé.";
+            echo "Le classement n'est pas encore disponible, revenez quand le tournois sera terminé.";
           }
           else {
             //On affiche le classement

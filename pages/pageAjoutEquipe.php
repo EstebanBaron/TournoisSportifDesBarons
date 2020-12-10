@@ -134,8 +134,8 @@ function tousLesChampsSontRemplis() {
           <div id="equipe1">
           <h2>Equipe 1 :</h2>
           <!-- nom -->
-          <label for="nomEquipe1"> Nom d'équipe* :</label>
-          <input type="text" name="nomEquipe1" maxlength="30" required><br>
+          <label for="nomEquipe1"> Nom d'équipe* (espace non accepté) :</label>
+          <input type="text" name="nomEquipe1" maxlength="30" required onblur="this.value=removeSpaces(this.value);"><br>
           <!-- club -->
           <label for="clubEquipe1"> Club :</label>
           <input type="text" name="clubEquipe1" maxlength="30"><br>
