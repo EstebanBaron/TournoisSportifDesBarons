@@ -206,9 +206,13 @@ function affichePoules($poules) {
 <html>
     <head>
         <title>Page Tour</title>
+        <link rel="stylesheet" href="css/barreTitre.css" />
         <link rel="stylesheet" href="css/stylePoules.css" />
     </head>
     <body>
+    <div class="barreTitre">
+      <a class="titre">La Baronnerie</a>
+    </div>
         <?php 
         if($numTournois !== NULL && $numTour !== NULL)
         {

@@ -6,6 +6,7 @@ session_start();
 <html>
   <head>
     <title>Page de match</title>
+    <link rel="stylesheet" href="css/barreTitre.css" />
     <link rel="stylesheet" href="css/styleFeuilleMatch.css" />
     <script
         src="https://code.jquery.com/jquery-3.5.1.js"
@@ -14,6 +15,9 @@ session_start();
     </script>
   </head>
   <body>
+    <div class="barreTitre">
+      <a class="titre">La Baronnerie</a>
+    </div>
     <?php
     if (isset($_POST['numtournois'], $_POST['score'], $_POST['equipes'])) {
         $numTournois = $_POST['numtournois'];

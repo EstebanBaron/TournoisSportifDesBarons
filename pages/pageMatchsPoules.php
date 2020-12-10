@@ -125,6 +125,7 @@ else
 <html>
   <head>
     <title>Page Poules</title>
+    <link rel="stylesheet" href="css/barreTitre.css" />
     <script
         src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
@@ -132,6 +133,9 @@ else
     </script>
   </head>
   <body>
+    <div class="barreTitre">
+      <a class="titre">La Baronnerie</a>
+    </div>
   <h1>Les Matchs du Tour <?php echo '"' . $numtour . '"';  ?> </h1>
   <?php
     for($numPoule=0; $numPoule<count($arrayMatchs); $numPoule++)

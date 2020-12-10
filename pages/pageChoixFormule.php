@@ -19,13 +19,43 @@ function getNbEquipe($listeEquipes) {
     return $nbEquipe;
 }
 
+function creeFormules($nbEquipe)
+{
+    echo '<option value=" 1x' .$nbEquipe . '"> 1x'.$nbEquipe . ' </option>';
+    $nbEquipePoule = ($nbEquipe%2==0) ? $nbEquipe/2 : floor($nbEquipe/2);
+
+    while($nbEquipePoule != 0)
+    {
+        $nbPoules = $nbEquipe/$nbEquipePoule;
+        if(is_int($nbPoules))
+        {
+            echo '<option value="' . $nbPoules."x".$nbEquipePoule . '"> ' . $nbPoules."x".$nbEquipePoule . ' </option>';
+        }
+        else
+        {
+            $nbEqDejaUtilise = (floor($nbPoules)-1)*$nbEquipePoule;
+            $IndexNbEqPoule = $nbEquipe - $nbEqDejaUtilise;
+            if(($nbEquipePoule == $IndexNbEqPoule-1) || ($nbEquipePoule == $IndexNbEqPoule+1))
+            {
+                echo '<option value="' . (floor($nbPoules)-1)."x".$nbEquipePoule."+1x".$IndexNbEqPoule . '"> ' . (floor($nbPoules)-1)."x".$nbEquipePoule."+1x".$IndexNbEqPoule. ' </option>';
+            }
+        }
+        $nbEquipePoule--;
+    }
+}
+
+
 ?>
 <!DOCTYPE html>
 <html>
   <head>
     <title>Page choix formule</title>
+    <link rel="stylesheet" href="css/barreTitre.css" />
   </head>
   <body>
+    <div class="barreTitre">
+      <a class="titre">La Baronnerie</a>
+    </div>
     <h1>Choisissez une formules pour les poules :</h1>
     <?php 
     if ($numTournois !== NULL) {
@@ -35,31 +65,7 @@ function getNbEquipe($listeEquipes) {
         echo '<input type="hidden" name="numtournois" value="' . $numTournois . '">';
         echo '<label for="choix">Choisissez une formule (nombre de poule x nombre d\'équipe) :</label> ';
         echo '<select name="choix">';
-    
-        if ($nbEquipe != -1) {
-            //propose différentes formules
-            //1 - formule par défault
-            if ($nbEquipe % 2 == 0) { //CAS PAIR
-                echo '<option value="' . ($nbEquipe/2) . 'x2"> ' . ($nbEquipe/2) . 'x2 </option>';
-            }
-            else{   //CAS IMPAIR
-                $nbPoulesADeuxJoueur = floor($nbEquipe/2 - 1);
-                if ($nbPoulesADeuxJoueur != 0)
-                    echo '<option value="' . $nbPoulesADeuxJoueur . 'x2+1x3"> ' . $nbPoulesADeuxJoueur . 'x2+1x3 </option>';
-            } 
-
-            if ($nbEquipe % 3 == 0) {
-                echo '<option value="' . ($nbEquipe/3) . 'x3"> ' . ($nbEquipe/3) . 'x3 </option>';
-            }
-
-            if ($nbEquipe % 4 == 0) {
-                echo '<option value="' . ($nbEquipe/4) . 'x4"> ' . ($nbEquipe/4) . 'x4 </option>';
-            }
-
-            if ($nbEquipe % 5 == 0) {
-                echo '<option value="' . ($nbEquipe/5) . 'x5"> ' . ($nbEquipe/5) . 'x5 </option>';
-            }
-        }
+        creeFormules($nbEquipe);
         echo '</select>';
         echo '<br>';
         echo '<br>';
