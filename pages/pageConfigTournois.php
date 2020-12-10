@@ -22,8 +22,7 @@ else if (isset($_SESSION['numtournois'])){
     </script>
   </head>
   <body>
-    <!-- <a href="pageEvenement.php" style="text-decoration: none;">retour</a> -->
-    <?php 
+    <?php
     if($numTournois !== NULL)
     {
       try{
@@ -55,6 +54,11 @@ else if (isset($_SESSION['numtournois'])){
       echo '<form id="ajoutEq" method="post" action="pageAjoutEquipe.php"><br>';
       echo '<input type="hidden" name="numtournois" value="' . htmlspecialchars($numTournois) . '" >';
       echo '<input type="submit" name="ajoutEquipe" value="Ajouter des équipes">';
+      echo '</form>';
+
+      echo '<form id="ajoutEqAvecClassement" method="post" action="pageAjoutEquipeAvecClassement.php"><br>';
+      echo '<input type="hidden" name="numtournois" value="' . htmlspecialchars($numTournois) . '" >';
+      echo '<input type="submit" name="ajoutEquipeAvecClassement" value="Ajouter des équipes avec le classement d\'un autre tournois">';
       echo '</form>';
       try{
         $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");

@@ -4,6 +4,7 @@ function clotureEquipe()
     if(r)
     { 
         $("#ajoutEq").remove();
+        $("#ajoutEqAvecClassement").remove();
         $("#bouton").remove();
 
         let commencerTournois = '<input type="submit" name="boutonCloture" value="commencer tournois" >';

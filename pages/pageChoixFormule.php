@@ -51,9 +51,11 @@ function getNbEquipe($listeEquipes) {
             if ($nbEquipe % 3 == 0) {
                 echo '<option value="' . ($nbEquipe/3) . 'x3"> ' . ($nbEquipe/3) . 'x3 </option>';
             }
+
             if ($nbEquipe % 4 == 0) {
-                echo '<option value="' . ($nbEquipe/2) . 'x4"> ' . ($nbEquipe/2) . 'x4 </option>';
+                echo '<option value="' . ($nbEquipe/4) . 'x4"> ' . ($nbEquipe/4) . 'x4 </option>';
             }
+
             if ($nbEquipe % 5 == 0) {
                 echo '<option value="' . ($nbEquipe/5) . 'x5"> ' . ($nbEquipe/5) . 'x5 </option>';
             }

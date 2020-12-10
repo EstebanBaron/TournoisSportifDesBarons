@@ -58,6 +58,7 @@ function nbJoueurParEquipe($numTournois) {
 
 function getNiveauEquipe($listeEquipes, $numTournois)
 {
+    // print_r($listeEquipes);
     $tableauEquipesNiveaux=array();
     try{
         $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
@@ -86,6 +87,16 @@ function getNiveauEquipe($listeEquipes, $numTournois)
                 else
                 {
                     unset($tableauEquipesNiveaux[$cle]);
+                }
+            }
+
+            if (empty($tableauEquipesNiveaux)) { //cas où les equipes sont des equipes ajoutées d'un autre tournois
+                foreach($dbh->query('SELECT * from equipe') as $row)
+                {
+                    if($row['numtournois'] == $numTournois)
+                    {
+                        $tableauEquipesNiveaux[$row['nom']] = 1;
+                    }
                 }
             }
 

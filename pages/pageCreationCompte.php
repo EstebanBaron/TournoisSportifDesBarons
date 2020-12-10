@@ -59,8 +59,8 @@ session_start();
                                 <br>
                                 <h4>Redirection en cours...</h4>
                                 <script type="text/javascript">
-                                    //permet d'attentre 3000ms (3s) avant d'aller sur pageAccueil.php
-                                    setTimeout(function() {window.location.href = "pageAccueil.php";}, 3000);
+                                    //permet d'attentre 2500ms (2.5s) avant d'aller sur pageAccueil.php
+                                    setTimeout(function() {window.location.href = "pageAccueil.php";}, 2500);
                                 </script>
                                 <?php
                             }
