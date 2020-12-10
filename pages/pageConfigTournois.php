@@ -15,6 +15,7 @@ else if (isset($_SESSION['numtournois'])){
 <html>
   <head>
     <title>Page tournois</title>
+    <link rel="stylesheet" href="css/barreTitre.css" />
     <script
         src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
@@ -23,6 +24,9 @@ else if (isset($_SESSION['numtournois'])){
   </head>
   <body>
     <!-- <a href="pageEvenement.php" style="text-decoration: none;">retour</a> -->
+    <div class="barreTitre">
+      <a class="titre">La Baronnerie</a>
+    </div>
     <?php 
     if($numTournois !== NULL)
     {

@@ -41,6 +41,7 @@ function formuleImpaire($formule) {
 <html>
     <head>
         <title>Page modification poules</title>
+        <link rel="stylesheet" href="css/barreTitre.css" />
         <link rel="stylesheet" href="css/stylePoules.css" />
         <script
             src="https://code.jquery.com/jquery-3.5.1.js"
@@ -49,6 +50,9 @@ function formuleImpaire($formule) {
         </script>
     </head>
     <body>
+        <div class="barreTitre">
+            <a class="titre">La Baronnerie</a>
+        </div>
         <?php
         if ($poules !== NULL && $numTournois !== NULL) {
         ?>

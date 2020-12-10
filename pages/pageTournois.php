@@ -128,8 +128,12 @@ function ajouteClassementTournois($classement, $numTournois) {
 <html>
   <head>
     <title>Page Tournois</title>
+    <link rel="stylesheet" href="css/barreTitre.css" />
   </head>
   <body>
+    <div class="barreTitre">
+      <a class="titre">La Baronnerie</a>
+    </div>
   <?php
   if($numTournois !== NULL)
   {

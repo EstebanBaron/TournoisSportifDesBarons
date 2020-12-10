@@ -7,6 +7,7 @@ session_unset(); //déconnexion => remise à null de toutes les variables
 <html>
   <head>
     <title>Page d'authentification</title>
+    <link rel="stylesheet" href="css/barreTitre.css" />
     <script type="text/javascript"> 
         function preventBack() { 
             window.history.forward();  
@@ -18,6 +19,9 @@ session_unset(); //déconnexion => remise à null de toutes les variables
     </script>
   </head>
   <body>
+    <div class="barreTitre">
+      <a class="titre">La Baronnerie</a>
+    </div>
     <h1>Connexion : </h1>
     <form method="post">
         <!-- identifiant -->

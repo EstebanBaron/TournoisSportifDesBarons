@@ -20,9 +20,14 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
 <html>
   <head>
     <title>Page d'accueil</title>
+    <link rel="stylesheet" href="css/barreTitre.css" />
   </head>
   <body>
-    <a id="boutonDeconnection" href="pageAuthentification.php"><button type="button">déconnection</button></a>
+    <div class="barreTitre">
+      <a class="titre">La Baronnerie</a>
+      <a class="boutonDeconnection" href="pageAuthentification.php">Déconnection</a>
+    </div>
+    
     <h1>Accueil</h1>
     <h2>Mes événement en cours :</h2>
     <?php 
@@ -101,7 +106,6 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
         die();
     }
     ?>
-    <br>
     <!-- bouton pour aller sur la page de création d'événement -->
     <form action="pageCreationEvenement.php">
         <input type="submit" value="créer un événement">

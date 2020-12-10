@@ -5,8 +5,12 @@ session_start();
 <html>
   <head>
     <title>Page de creation compte</title>
+    <link rel="stylesheet" href="css/barreTitre.css" />
   </head>
   <body>
+    <div class="barreTitre">
+      <a class="titre">La Baronnerie</a>
+    </div>
     <form method="post">
         <!--identifiant-->
         <p>(Les champs prefixés par des * sont obligatoires)</p>

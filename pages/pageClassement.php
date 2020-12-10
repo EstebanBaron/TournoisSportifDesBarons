@@ -5,9 +5,15 @@ session_start();
 <html>
   <head>
     <title>Page classement</title>
+    <link rel="stylesheet" href="css/barreTitre.css" />
   </head>
   <body>
-    <a href="pageEvenement.php" style="text-decoration: none;">retour</a>
+  <div class="barreTitre">
+      <a class="retour" href="pageEvenement.php" style="text-decoration: none;">retour</a>
+      <a class="titre">La Baronnerie</a>
+      <a class="boutonDeconnection" href="pageAuthentification.php">Déconnection</a>
+    </div>
+    
     <h1>Classements : </h1> 
     <?php
     if (isset($_POST['numtournois'])) {

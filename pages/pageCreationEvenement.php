@@ -166,6 +166,7 @@ function tousLesSportsSontDiff() {
 <html>
   <head>
     <title>Page de creation d'événement</title>
+    <link rel="stylesheet" href="css/barreTitre.css" />
     <script
         src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
@@ -173,7 +174,12 @@ function tousLesSportsSontDiff() {
     </script>
   </head>
   <body>
-    <a href="pageAccueil.php" style="text-decoration: none;">retour</a>
+  <div class="barreTitre">
+      <a class="retour" href="pageAccueil.php" style="text-decoration: none;">Retour</a>
+      <a class="titre">La Baronnerie</a>
+      <a class="boutonDeconnection" href="pageAuthentification.php">Déconnection</a>
+    </div>
+    
     <h1>Créer votre événement :</h1>
     <form method="post">
     <p>(Les champs prefixés par des * sont obligatoires)</p>

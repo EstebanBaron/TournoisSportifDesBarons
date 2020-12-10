@@ -1,0 +1,46 @@
+.barreTitre {
+    position: sticky;
+    top: 0;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    display : flex;
+    justify-content: center;
+}
+
+a {
+    float: left;
+    
+}
+
+.boutonDeconnection {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.retour {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+.titre {
+    display: block;
+    position : relative;
+    color: white;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 14px 16px;
+    text-decoration: none;
+    margin : 0 auto;
+}
+
+/* a:hover {
+    background-color: #111;
+} */
