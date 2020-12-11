@@ -1,54 +1,3 @@
-/*.barreTitre {
-    position: sticky;
-    top: 0;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
-    display : flex;
-    justify-content: center; */
-    /* overflow: auto;
-    padding: 60px;
-  background: #1abc9c;
-  color: white;
-  font-size: 30px;
-}
-
-a {
-    margin-inline: 33%;
-}
-
-.boutonDeconnection {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    border-style: solid ;
-}
-
-.retour {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-.titre {
-    border-style: solid ;
-    display: block;
-    color: white;
-    text-align: center;
-    text-transform: uppercase;
-    padding: 14px 16px;
-    text-decoration: none;
-}  */
-
-/* a:hover {
-    background-color: #111;
-} */
 
 body {
     margin: 0;
@@ -74,10 +23,6 @@ body {
     padding: 20px 16px;
 }
 
-.divDeco a:hover {
-    background-color: #ddd;
-    color: black;
-}
 
 .retour:hover {
     background-color: #ddd;
