@@ -21,11 +21,11 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
   <head>
     <title>Page d'accueil</title>
     <link rel="stylesheet" href="css/barreTitre.css" />
+    <link rel="stylesheet" href="css/styleAccueil.css" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   </head>
   <body>
     <div class="barreTitre">
-      <a class="retour"></a>
-
       <div class="divTitre">
         <a class="titre">La Baronnerie</a>
       </div>
@@ -36,6 +36,8 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
     </div>
     
     <h1>Accueil</h1>
+
+    <div class="evenement">
     <h2>Mes événement en cours :</h2>
     <?php 
       //ici on va afficher les événements en cours de l'organisateur identifié 
@@ -60,7 +62,7 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
               if (!$tousLesTournoisSontFinis) { //cas où ils ne sont pas terminé 
                 echo '<form method="post" action="pageEvenement.php">';
                 echo '<input type="hidden" name="numevenement" value="' . $row["numevenement"] . '" />';
-                echo '<input type="submit" value="' . $row["nom"] . ' - ' . $row["lieu"] . ' - ' . $row["dateevenement"] . '" /><br>';
+                echo '<input class="button" type="submit" value="' . $row["nom"] . ' - ' . $row["lieu"] . ' - ' . $row["dateevenement"] . '" /><br>';
                 echo '</form>';
               }
             }
@@ -75,6 +77,8 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
         die();
     }
     ?>
+    </div>
+    <div class="evenement">
     <h2>Mes événement terminés :</h2>
     <?php 
       //idem qu'au dessus mais pour les événements terminé
@@ -98,7 +102,7 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
               if ($tousLesTournoisSontFinis) { //cas où ils sont terminé 
                 echo '<form method="post" action="pageEvenement.php">';
                 echo '<input type="hidden" name="numevenement" value="' . $row["numevenement"] . '" />';
-                echo '<input type="submit" value="' . $row["nom"] . ' - ' . $row["lieu"] . ' - ' . $row["dateevenement"] . '" /><br>';
+                echo '<input class="button" type="submit" value="' . $row["nom"] . ' - ' . $row["lieu"] . ' - ' . $row["dateevenement"] . '" /><br>';
                 echo '</form>';
               }
             }
@@ -113,9 +117,13 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
         die();
     }
     ?>
+    </div>
+
     <!-- bouton pour aller sur la page de création d'événement -->
-    <form action="pageCreationEvenement.php">
-        <input type="submit" value="créer un événement">
-    </form>
+    <div id="formulaire">
+      <form action="pageCreationEvenement.php">
+          <input class="button" type="submit" value="créer un événement">
+      </form>
+    </div>
   </body>
 </html>

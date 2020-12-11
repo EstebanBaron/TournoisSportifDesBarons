@@ -34,10 +34,11 @@ function estTermine($numTournois) {
     <head>
         <title>Page Evenement</title>
         <link rel="stylesheet" href="css/barreTitre.css" />
+        <link rel="stylesheet" href="css/styleEvenement.css" />
     </head>
     <body>
     <div class="barreTitre">
-        <a class="retour" href="pageAccueil.php" style="text-decoration: none;">retour</a>
+        <a class="retour" href="pageAccueil.php" style="text-decoration: none;">Retour</a>
 
       <div class="divTitre">
         <a class="titre">La Baronnerie</a>
@@ -74,7 +75,11 @@ function estTermine($numTournois) {
         }
     
         ?>
-        <h1>Evenement : <?php echo '"' . $nomEvenement . '"';  ?></h1>
+        <div id="divNomEvenement">
+            <p id="evenement">Evenement : <?php echo '<p id="nomEvent">' . $nomEvenement . '</p>';  ?></p>
+        </div>
+
+        <div id="tournois">
         <h2>Les Tournois : </h2>
         <?php 
         try{
@@ -87,20 +92,22 @@ function estTermine($numTournois) {
                     if($row['numevenement'] == $numEvenement)
                     {
                         $estTermine = estTermine($row["numtournois"]);
+                        echo '<div class="formulaires">';
                         if (!$estTermine) {
-                            echo '<form method="post" action="pageConfigTournois.php">';
+                            echo '<form class="form" method="post" action="pageConfigTournois.php">';
                             echo '<input type="hidden" name="numtournois" value="' . $row["numtournois"] . '" />';
-                            echo '<input type="submit" value="Tournois ' . $row['nom'] . '" />'; 
+                            echo '<input class="button" type="submit" value="Tournois ' . $row['nom'] . '" />'; 
                             echo '</form>';
                         }
                         else {
-                            echo $row['nom'];
+                            echo '<p class="form">' . $row['nom'] . '</p>';
                         }
 
-                        echo '<form method="post" action="pageClassement.php">';
+                        echo '<form class="form" method="post" action="pageClassement.php">';
                         echo '<input type="hidden" name="numtournois" value="' . $row["numtournois"] . '" />';
-                        echo '<input type="submit" value="classement '. $row['nom'] . '" /><br>'; 
+                        echo '<input class="button" type="submit" value="classement '. $row['nom'] . '" /><br>'; 
                         echo '</form>';
+                        echo '</div>';
                     }
                 }
             }
@@ -119,5 +126,6 @@ function estTermine($numTournois) {
         echo 'Erreur pas d\'événement trouvé ou l\'envoi d\'une donnée a échouée!';
     }
     ?>
+    </div>
     </body>
 </html>

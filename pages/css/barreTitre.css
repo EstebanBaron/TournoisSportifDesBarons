@@ -53,21 +53,25 @@ a {
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-  }
-  
+}
+
+
 .barreTitre {
     position: relative;
     overflow: hidden;
-    background-color: #333;
+    background-color: #39369A;
+    height: 60px;
 }
   
+
 .barreTitre a {
     float: left;
     color: #f2f2f2;
     text-align: center;
-    padding: 14px 16px;
     text-decoration: none;
     font-size: 17px;
+    height: 60px;
+    padding: 20px 16px;
 }
 
 .divDeco a:hover {
@@ -75,13 +79,17 @@ body {
     color: black;
 }
 
+.retour:hover {
+    background-color: #ddd;
+    color: black;
+}
 
-.divTitre a {
+
+.divTitre {
     float: none;
     position: absolute;
-    top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%);
     text-transform: uppercase;
 }
 
