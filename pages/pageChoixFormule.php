@@ -24,7 +24,7 @@ function creeFormules($nbEquipe)
     echo '<option value=" 1x' .$nbEquipe . '"> 1x'.$nbEquipe . ' </option>';
     $nbEquipePoule = ($nbEquipe%2==0) ? $nbEquipe/2 : floor($nbEquipe/2);
 
-    while($nbEquipePoule != 0)
+    while($nbEquipePoule != 1)
     {
         $nbPoules = $nbEquipe/$nbEquipePoule;
         if(is_int($nbPoules))

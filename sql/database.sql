@@ -51,3 +51,12 @@ CREATE TABLE joueur (
     nomEquipe VARCHAR(30) NOT NULL,
     CONSTRAINT joueur_FK FOREIGN KEY (nomEquipe) REFERENCES equipe(nom) ON DELETE CASCADE
 );
+
+
+
+-- CREATE PROCEDURE AjoutTerrain()
+
+
+-- CREATE TRIGGER secure_terrain BEFORE INSERT ON emp
+--     EXECUTE FUNCTION AjoutTerrain();
+   

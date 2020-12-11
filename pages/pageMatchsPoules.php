@@ -124,7 +124,7 @@ else
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Page Poules</title>
+    <title>Page matchs Poules</title>
     <link rel="stylesheet" href="css/barreTitre.css" />
     <script
         src="https://code.jquery.com/jquery-3.5.1.js"
