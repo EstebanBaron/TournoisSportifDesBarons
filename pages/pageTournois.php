@@ -38,19 +38,24 @@ function getListeEquipe($numTournois) {
 //on recupere le tour actuel, la liste des equipes du tour et on met à jour le classement du tournois
 if (!isset($_SESSION["TourActuel" . $numTournois])) { //premiere fois qu'on arrive sur la page
   $_SESSION["TourActuel" . $numTournois] = 1;
+  $TourActuel = $_SESSION["TourActuel" . $numTournois];
 }
 else if (isset($_POST['listeEquipes'], $_POST['classementTour']) && $_SESSION['listeEquipes' . $numTournois] != $_POST['listeEquipes']) { //si on arrive de la page match tour et qu'un tour est terminé
+  
   $_SESSION["TourActuel" . $numTournois] = $_SESSION["TourActuel" . $numTournois] + 1;
+  $TourActuel = $_SESSION["TourActuel" . $numTournois];
   $_SESSION['classementTournois' . $numTournois] = $_POST["classementTour"] . "," . $_SESSION['classementTournois' . $numTournois];
   $_SESSION['listeEquipes' . $numTournois] = $_POST['listeEquipes'];
 }
 //aucun tour n'a encore été commencé
 if (!isset($_SESSION['listeEquipes' . $numTournois], $_SESSION['classementTournois' . $numTournois])) {
+  $TourActuel = $_SESSION["TourActuel" . $numTournois];
   $_SESSION['listeEquipes' . $numTournois] = getListeEquipe($numTournois);
   $_SESSION['classementTournois' . $numTournois] = "";
 }
-
-
+else{
+  $TourActuel = $_SESSION["TourActuel" . $numTournois];
+}
 function getNbEquipe($listeEquipes) {
   $nbEquipe = 0;
   
@@ -66,6 +71,11 @@ function getNbEquipe($listeEquipes) {
 
 //nb Equipes
 $nbEquipe = getNbEquipe($_SESSION['listeEquipes' . $numTournois]);
+
+if($nbEquipe == 1)
+{
+  $TourActuel = $_SESSION["TourActuel" . $numTournois] - 1;
+}
 
 //Mise par default de la formule
 if (isset($_POST['choix'])) { 
@@ -170,25 +180,30 @@ function ajouteClassementTournois($classement, $numTournois) {
   <h1>Tournois : <?php echo '"' . $nomTournois . '"';  ?> </h1>
 
   <?php
-    echo "tour : " . $_SESSION["TourActuel" . $numTournois] . "<br>";
 
     $numtour = 1;
+    $tournoisTermine = false;
     //boucle qui affiche tous les tours d'un tournois avec leurs états
     //getNbTotalTour
-    while($numtour <= $_SESSION["TourActuel" . $numTournois])
+    while($numtour <= $TourActuel && !$tournoisTermine)
     {
+      if($numtour+1 > $TourActuel && $nbEquipe == 1)
+      {
+        $tournoisTermine = true;
+      }
       //affiche les tours terminés d'abord tel que : Tour 1 : Terminé (remplacé terminé par le résultat du tour)
       ?>
+
       <div id="tour<?php echo $numtour;?>">
       <h3>Tour <?php echo $numtour; ?> : </h3>
       <!-- choisir la formule -->
       <?php
-      if($numtour < $_SESSION["TourActuel" . $numTournois])
+      if($numtour < $TourActuel)
       {
         echo ' Terminé';//changer pour afficher Résultat du tour
       }
       //affiche le tour en cours tel que : Tour 2 : Poules (Poules étant le bouton permettant d'aller a la page pageTour correspondant)
-      else if($numtour == $_SESSION["TourActuel" . $numTournois] && $nbEquipe !== 1)
+      else if($numtour == $TourActuel && $nbEquipe !== 1)
       { 
         ?>
         <p>Formule actuelle : <?php echo $_SESSION["formule" . $numTournois]; ?></p>
@@ -204,15 +219,15 @@ function ajouteClassementTournois($classement, $numTournois) {
         </form>
         <?php
       }
-      else {
-        ?>
-        <h3>Tournois terminé</h3>
-        <?php
-      }
       $numtour++;
       ?>
       </div>
       <?php
+    }
+    if($tournoisTermine)
+    {
+      echo ' Terminé';
+      echo "<h3>Tournois terminé</h3>";
     }
     //ex : $_SESSION['classementTournois'] = "eq3,eq4,eq1,eq2.."
     //bouton fin du tournois, on y aura acces quand le dernier strlen($_POST['listeEquipes']) = 1

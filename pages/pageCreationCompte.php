@@ -60,7 +60,7 @@ session_start();
                         }
                     }
                     if(!$dejaUtilise) { //on insert dans la base le nouveau organisateur
-                        $sql = "INSERT INTO organisateur (identifiant, motdepasse, nom, prenom) VALUES (?, ?)";
+                        $sql = "INSERT INTO organisateur (identifiant, motdepasse) VALUES (?, ?)";
                         $stmt = $dbh->prepare($sql);
                         //ajout utilisateur
                         if(strlen($identifiant) <= 20 && strlen(md5($mdp)) <= 50) {
