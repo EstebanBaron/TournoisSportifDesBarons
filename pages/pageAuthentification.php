@@ -8,38 +8,27 @@ session_unset(); //déconnexion => remise à null de toutes les variables
   <head>
     <title>Page d'authentification</title>
     <link rel="stylesheet" href="css/barreTitre.css" />
-    <script type="text/javascript"> 
-        function preventBack() { 
-            window.history.forward();  
-        } 
-          
-        setTimeout("preventBack()", 0); 
-          
-        window.onunload = function () { null }; 
-    </script>
+    <link rel="stylesheet" href="css/styleAuthentification.css" />
   </head>
   <body>
     <div class="barreTitre">
-        <a class="retour"></a>
-
       <div class="divTitre">
         <a class="titre">La Baronnerie</a>
       </div>
-
-      <div class="divDeco">
-        <a class="boutonDeconnection"></a>
-      </div>
     </div>
-    <h1>Connexion : </h1>
-    <form method="post">
+
+    <div id="formulaires">
+    <h1>Connexion</h1>
+
+    <form id="identification" method="post">
         <!-- identifiant -->
-        <label for="id"> Identifiant :</label>
+        <label for="id"> Identifiant </label>
         <input type="text" name="id" maxlength="20" required><br>
         <!-- mdp -->
-        <label for="mdp"> Mot de passe :</label>
+        <label for="mdp"> Mot de passe </label>
         <input type="password" name="mdp" maxlength="20" required><br>
         <!-- bouton authentification -->
-        <input type="submit" value="s'identifier" name="authentification">
+        <input class="button" type="submit" value="s'identifier" name="authentification">
     </form>
     <?php
     if (isset($_POST['id']) && isset($_POST['mdp']) && isset($_POST['authentification'])) {
@@ -84,7 +73,8 @@ session_unset(); //déconnexion => remise à null de toutes les variables
 
     <!-- permet d'aller à pageCreationCompte.php -->
     <form action="pageCreationCompte.php">
-        <input class="boutonAuthentification" type="submit" value="créer un compte">
+        <input class="button" type="submit" value="créer un compte">
     </form>
+    </div>
   </body>
 </html>

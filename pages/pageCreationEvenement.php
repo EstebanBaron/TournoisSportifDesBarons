@@ -167,6 +167,7 @@ function tousLesSportsSontDiff() {
   <head>
     <title>Page de creation d'événement</title>
     <link rel="stylesheet" href="css/barreTitre.css" />
+    <link rel="stylesheet" href="css/styleCreerEvenement.css" />
     <script
         src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
@@ -185,60 +186,69 @@ function tousLesSportsSontDiff() {
         <a class="boutonDeconnection" href="pageAuthentification.php">Déconnection</a>
       </div>
     </div>
-    <h1>Créer votre événement :</h1>
-    <form method="post">
-    <p>(Les champs prefixés par des * sont obligatoires)</p>
-    <!-- nom -->
-    <label for="nom"> Nom* :</label>
-    <input type="text" name="nom" maxlength="40" required><br>
+    <div id="tout">
+    <h1>Créez votre événement</h1>
+    <div id="champsEvent">
+      <form method="post">
+      <p>(Les champs prefixés par des * sont obligatoires)</p>
+      <!-- nom -->
+      <label for="nom"> Nom* :</label>
+      <input type="text" name="nom" maxlength="40" required><br>
 
-    <!-- lieu -->
-    <label for="lieu"> Lieu* :</label>
-    <input type="text" name="lieu" maxlength="50" required><br>
+      <!-- lieu -->
+      <label for="lieu"> Lieu* :</label>
+      <input type="text" name="lieu" maxlength="50" required><br>
 
-    <!-- date evenement -->
-    <label for="dateevenement"> Date de l'événement* :</label>
-    <input type="date" name="dateevenement" required><br>
-
-    <h3>Tournois : </h3>
-    <div id="tournois">
-      <div id="divNumTournois0">
-      <label for="nomTournois0"> Nom du tournois* :</label>
-      <input type="text" name="nomTournois0" maxlength="40" required>&nbsp;&nbsp; 
-      <label for="typeTournois0"> Type du tournois* :</label>
-      <select name="typeTournois0">
-        <option value="1vs1">1vs1</option>
-        <option value="2vs2">2vs2</option>
-        <option value="3vs3">3vs3</option>
-        <option value="5vs5">5vs5</option>
-        <option value="6vs6">6vs6</option>
-        <option value="7vs7">7vs7</option>
-        <option value="11vs11">11vs11</option>
-        <option value="15vs15">15vs15</option>
-      </select>
-      <br>
-      </div>
+      <!-- date evenement -->
+      <label for="dateevenement"> Date de l'événement* :</label>
+      <input type="date" name="dateevenement" required><br>
     </div>
-    <button type="button" id="boutonTournois">autre tournois</button> <button type="button" id="boutonSupprimerTournois">supprimer</button><br>
 
-    <h3>Terrains : </h3>
-    <div id="terrain">
-      <div id="divNumTerrain0">
-      <select name="sport0">
-        <option value="Football">Football</option>
-        <option value="Basketball">Basketball</option>
-        <option value="Tennis">Tennis</option>
-        <option value="Rugby">Rugby</option>
-        <option value="Petanque">Pétanque</option>
-        <option value="Volley">Volley</option>
-      </select>
-      <input type="number" name="nbTerrain0" min="1" max="100" value="1"><br>
+    <div class="contenantDiv">
+      <div id="tournois">
+      <h3>Tournois : </h3>
+        <div id="divNumTournois0">
+        <label for="nomTournois0"> Nom du tournois* :</label>
+        <input type="text" name="nomTournois0" maxlength="40" required>&nbsp;&nbsp; 
+        <label for="typeTournois0"> Type du tournois* :</label>
+        <select name="typeTournois0">
+          <option value="1vs1">1vs1</option>
+          <option value="2vs2">2vs2</option>
+          <option value="3vs3">3vs3</option>
+          <option value="5vs5">5vs5</option>
+          <option value="6vs6">6vs6</option>
+          <option value="7vs7">7vs7</option>
+          <option value="11vs11">11vs11</option>
+          <option value="15vs15">15vs15</option>
+        </select>
+        <br>
+        </div>
       </div>
+      <button class="button" type="button" id="boutonTournois">autre tournois</button> <button class="button" type="button" id="boutonSupprimerTournois">supprimer</button><br>
     </div>
-    <button type="button" id="boutonTerrain">autre terrain</button> <button type="button" id="boutonSupprimerTerrain">supprimer</button><br>
-    
+
+    <div class="contenantDiv">
+      <div id="terrain">
+      <h3>Terrains : </h3>
+        <div id="divNumTerrain0">
+        <select name="sport0">
+          <option value="Football">Football</option>
+          <option value="Basketball">Basketball</option>
+          <option value="Tennis">Tennis</option>
+          <option value="Rugby">Rugby</option>
+          <option value="Petanque">Pétanque</option>
+          <option value="Volley">Volley</option>
+        </select>
+        <input type="number" name="nbTerrain0" min="1" max="100" value="1"><br>
+        </div>
+      </div>
+      <button class="button" type="button" id="boutonTerrain">autre terrain</button> <button class="button" type="button" id="boutonSupprimerTerrain">supprimer</button><br>
+    </div>
+
     <br><br>
-    <input type="submit" value="Creer l'événement" name="creationevenement">
+    <div id="boutonCreer">
+      <input class="button" type="submit" value="Creer l'événement" name="creationevenement">
+    </div>
     </form>
 
     
@@ -377,6 +387,7 @@ function tousLesSportsSontDiff() {
       }
     }
     ?>
+    </div>
     <script src="js/autreElement.js"></script>
   </body>
 </html>
