@@ -79,6 +79,7 @@ function envoiDesEquipesDansLaBase($equipesString, $numTournois) {
   <head>
     <title>Page ajout équipe avec classement</title>
     <link rel="stylesheet" href="css/barreTitre.css" />
+    <link rel="stylesheet" href="css/styleAjoutEquipeAvecClassement.css" />
     <script
         src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
@@ -101,10 +102,11 @@ function envoiDesEquipesDansLaBase($equipesString, $numTournois) {
     if ($numTournois !== NULL) {
         $tabTournoisFini = getTournoisFini($numTournois);
         if (!empty($tabTournoisFini)) {
-            echo '<h1>Remplissez les équipes de votre tournois avec le classement d\'un tournois passé :</h1>';
+            echo '<h1>Remplissez les équipes de votre tournois avec le classement d\'un tournois passé</h1>';
+            echo '<div id="tout">';
             echo '<p>Cliquez sur un tournois pour afficher son classement :<p>';
             foreach ($tabTournoisFini as $nomTournois => $classement) {
-                echo '<button type="button" onclick="afficheClassement(\'' . $classement . '\');">' . $nomTournois . '</button>';
+                echo '<button class="button" type="button" onclick="afficheClassement(\'' . $classement . '\');">' . $nomTournois . '</button>';
             }
             ?>
             <div id="divClassement"></div>
@@ -119,6 +121,7 @@ function envoiDesEquipesDansLaBase($equipesString, $numTournois) {
             if (isset($_POST['boutonEnvoi'], $_POST['equipesSelectionnees'])) {
                 envoiDesEquipesDansLaBase($_POST['equipesSelectionnees'], $numTournois);
             }
+            echo '</div>';
         }
         else {
             echo "<h3>Aucun tournois n'est fini pour le moment !</h3><br>";

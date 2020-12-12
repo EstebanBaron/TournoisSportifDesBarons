@@ -8,7 +8,7 @@ function afficheClassement(classement) {
 
     let index = 0;
     while (index < tabClassement.length) {
-        ligneAppend += '<button type="button" onclick="classementAPartirDe(\'' + tabClassement[index] + '\', \'' + classement + '\');">' +  tabClassement[index] + '</button>';
+        ligneAppend += '<button class="button" type="button" onclick="classementAPartirDe(\'' + tabClassement[index] + '\', \'' + classement + '\');">' +  tabClassement[index] + '</button>';
         index ++;
     }
     ligneAppend += '</div><br><br>';
@@ -37,7 +37,7 @@ function classementAPartirDe(equipe, classement) {
     }
     equipes = equipes.substring(0, equipes.length - 2); //enlever ', ' de la fin
 
-    let boutonEnvoiDonneesBase = '<br><button type="button" onclick="envoiDesDonnees();">valider les équipes sélectionnées</button>';
+    let boutonEnvoiDonneesBase = '<br><button class="button" type="button" onclick="envoiDesDonnees();">valider les équipes sélectionnées</button>';
 
     $("#divEquipesSelectionnees").append(ligneAppend);
     $("#divEquipesSelectionnees").append(equipes);

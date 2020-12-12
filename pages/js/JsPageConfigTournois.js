@@ -5,9 +5,9 @@ function clotureEquipe()
     { 
         $("#ajoutEq").remove();
         $("#ajoutEqAvecClassement").remove();
-        $("#bouton").remove();
+        $("#buttonCloturer").remove();
 
-        let commencerTournois = '<input type="submit" name="boutonCloture" value="commencer tournois" >';
-        $("#tournois").append(commencerTournois);
+        let commencerTournois = '<input class="button" type="submit" name="boutonCloture" value="commencer le tournois" >';
+        $("#Formtournois").append(commencerTournois);
     }  
 }
