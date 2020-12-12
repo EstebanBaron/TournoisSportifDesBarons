@@ -2,7 +2,6 @@ DROP TABLE IF EXISTS organisateur CASCADE;
 DROP TABLE IF EXISTS evenement CASCADE; 
 DROP TABLE IF EXISTS tournois CASCADE; 
 DROP TABLE IF EXISTS terrain CASCADE; 
-DROP TABLE IF EXISTS dispose CASCADE;
 DROP TABLE IF EXISTS equipe CASCADE;
 DROP TABLE IF EXISTS joueur CASCADE; 
 
@@ -23,7 +22,7 @@ CREATE TABLE evenement (
 CREATE TABLE tournois (
     numTournois integer CONSTRAINT tournois_PK PRIMARY KEY,
     nom VARCHAR(40) NOT NULL,
-    classement VARCHAR(495),
+    classement VARCHAR,
     typeJeu integer CHECK(typeJeu BETWEEN 1 AND 15),
     numEvenement integer NOT NULL,
     CONSTRAINT tournois_FK FOREIGN KEY (numEvenement) REFERENCES evenement(numEvenement) ON DELETE CASCADE
@@ -53,10 +52,36 @@ CREATE TABLE joueur (
 );
 
 
+--verifie si la taille de classement ne dépasse pas 495 caractères
+CREATE OR REPLACE FUNCTION verifieTailleClassement() RETURNS TRIGGER AS $verifieTailleClassement$
+BEGIN
+    IF LENGTH(NEW.classement) > 495 THEN
+        NEW.classement := NULL;
+        RAISE NOTICE 'Taille du classement depassee, la taille max est de 495 caracteres (nombre equipe max(16) * nombre caracteres max pour le nom d une equipe(30)). Mise a NULL du classement';
+    END IF;
+    RETURN NEW;
+END;
 
--- CREATE PROCEDURE AjoutTerrain()
+$verifieTailleClassement$ LANGUAGE plpgsql;
+
+CREATE TRIGGER secure_Tailleclassement BEFORE UPDATE OR INSERT ON tournois
+    FOR EACH ROW EXECUTE PROCEDURE verifieTailleClassement();
 
 
--- CREATE TRIGGER secure_terrain BEFORE INSERT ON emp
---     EXECUTE FUNCTION AjoutTerrain();
-   
+
+--enleve les espaces présents dans le nom d'équipe
+CREATE OR REPLACE FUNCTION enleveEspaceNomEquipe() RETURNS TRIGGER AS $enleveEspaceNomEquipe$
+DECLARE 
+nomEquipe VARCHAR(30); 
+BEGIN
+    WHILE NEW.nom LIKE '% %' LOOP
+        SELECT regexp_replace(NEW.nom, ' ', '') INTO nomEquipe;
+        NEW.nom := nomEquipe;
+    END LOOP;
+    RETURN NEW;
+END;
+
+$enleveEspaceNomEquipe$ LANGUAGE plpgsql;
+
+CREATE TRIGGER secure_NomEquipe BEFORE INSERT ON equipe
+    FOR EACH ROW EXECUTE PROCEDURE enleveEspaceNomEquipe();
