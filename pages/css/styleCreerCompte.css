@@ -1,0 +1,37 @@
+#tout {
+    text-align: center;
+    border: 2px solid #4E545A;
+    box-shadow: 3px 3px 4px black;
+    width: 50%;
+    padding: 10px;
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+#tout form {
+    padding: 10px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+#tout p {
+    font-size: 13px;
+}
+
+#tout input {
+    margin: 7px;
+}
+
+.button {
+    border: none;
+    background-color: #D11D20;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    box-shadow: 1px 1px 1px black;
+    border-radius: 2px;
+}

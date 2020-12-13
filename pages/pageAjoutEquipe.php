@@ -105,6 +105,7 @@ function tousLesChampsSontRemplis() {
   <head>
     <title>Page ajout des équipes</title>
     <link rel="stylesheet" href="css/barreTitre.css" />
+    <link rel="stylesheet" href="css/styleAjoutEquipe.css" />
     <script
         src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
@@ -118,28 +119,25 @@ function tousLesChampsSontRemplis() {
       <div class="divTitre">
         <a class="titre">La Baronnerie</a>
       </div>
-
-      <div class="divDeco">
-        <a class="boutonDeconnection" href="pageAuthentification.php">Déconnection</a>
-      </div>
     </div>
+  <div id="tout">
   <?php
     if ($numTournois !== NULL) {
       ?>
-        <h1>Création des équipes :  </h1>
-        <p>(Les champs prefixés par des * sont obligatoires)</p>
+        <h1>Création des équipes</h1>
+        <p id="champsObligatoires">(Les champs prefixés par des * sont obligatoires)</p>
 
         <form method="post"> <!-- action="pageConfigTournois.php"> -->
         <div id="equipes">
           <div id="equipe1">
-          <h2>Equipe 1 :</h2>
+          <h2>Equipe 1</h2>
           <!-- nom -->
           <label for="nomEquipe1"> Nom d'équipe* (espace non accepté) :</label>
           <input type="text" name="nomEquipe1" maxlength="30" required onblur="this.value=removeSpaces(this.value);"><br>
           <!-- club -->
           <label for="clubEquipe1"> Club :</label>
           <input type="text" name="clubEquipe1" maxlength="30"><br>
-          <h3>Joueurs :</h3>
+          <h3>Joueurs</h3>
           <ul>
           <?php
             //ajout dynamique des joueurs en fonction du nombre de joueur par équipe (typejeu du tournois)
@@ -167,9 +165,9 @@ function tousLesChampsSontRemplis() {
           </div>
         </div>
         <!-- boutons pour ajouter ou supprimer des équipes au code html -->
-        <button type="button" id="boutonAjoutEquipe" onclick="ajoutEquipe(<?php echo $nbJoueurParEquipe;?>)">autre équipe</button> <button type="button" id="boutonSupprimerEquipe">supprimer</button><br>
+        <button class="button" type="button" id="boutonAjoutEquipe" onclick="ajoutEquipe(<?php echo $nbJoueurParEquipe;?>)">autre équipe</button> <button class="button" type="button" id="boutonSupprimerEquipe">supprimer</button><br>
         
-        <input type="submit" value="Valider" name="valider">
+        <input class="buttonValider" type="submit" value="Valider" name="valider">
         </form>
       <?php
 
@@ -259,6 +257,7 @@ function tousLesChampsSontRemplis() {
       echo "Erreur, la page n'a pas pu être chargé !<br>";
     }
   ?>
+  </div>
   <script src="js/autreElement.js"></script>
   </body>
 </html>

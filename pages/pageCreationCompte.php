@@ -6,36 +6,34 @@ session_start();
   <head>
     <title>Page de creation compte</title>
     <link rel="stylesheet" href="css/barreTitre.css" />
+    <link rel="stylesheet" href="css/styleCreerCompte.css" />
   </head>
   <body>
   <div class="barreTitre">
-      <a class="retour"></a>
-
-      <div class="divTitre">
+    <a class="retour" href="pageAuthentification.php" style="text-decoration: none;">retour</a>
+    <div class="divTitre">
         <a class="titre">La Baronnerie</a>
-      </div>
-
-      <div class="divDeco">
-        <a class="boutonDeconnection"></a>
-      </div>
     </div>
-    <form method="post">
-        <!--identifiant-->
-        <p>(Les champs prefixés par des * sont obligatoires)</p>
-        <label for="identifiant"> Identifiant* :</label>
-        <input type="text" name="identifiant" maxlength="20" required><br>
+  </div>
+    <div id="tout">
+        <form method="post">
+            <!--identifiant-->
+            <p>(Les champs prefixés par des * sont obligatoires)</p>
+            <label for="identifiant"> Identifiant* :</label>
+            <input type="text" name="identifiant" maxlength="20" required><br>
 
-        <!--mot de passe-->
-        <label for="motdepasse"> Mot de passe* :</label>
-        <input type="password" name="motdepasse" maxlength="20" required><br>
+            <!--mot de passe-->
+            <label for="motdepasse"> Mot de passe* :</label>
+            <input type="password" name="motdepasse" maxlength="20" required><br>
 
-        <!--confirmation mdp-->
-        <label for="confirmationMDP"> Confirmer votre mot de passe* :</label>
-        <input type="password" name="confirmationMDP" maxlength="20" required><br>
+            <!--confirmation mdp-->
+            <label for="confirmationMDP"> Confirmer votre mot de passe* :</label>
+            <input type="password" name="confirmationMDP" maxlength="20" required><br>
 
-        <!--bouton-->
-        <input type="submit" value="s'enregistrer" name="enregistrement">
-    </form>
+            <!--bouton-->
+            <input class="button" type="submit" value="s'enregistrer" name="enregistrement">
+        </form>
+    </div>
     <?php
     if (isset($_POST['identifiant']) && isset($_POST['motdepasse']) && isset($_POST['confirmationMDP']) && isset($_POST['enregistrement'])) {
         $identifiant = $_POST['identifiant'];

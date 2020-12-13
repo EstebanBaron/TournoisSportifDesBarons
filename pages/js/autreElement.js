@@ -91,12 +91,12 @@ function ajoutEquipe(nbJoueur) {
         numEquipe++;
         let html = "";
         html += '<div id="equipe' + numEquipe + '">';
-        html += '<h2>Equipe ' + numEquipe + ':</h2>';
+        html += '<h2>Equipe ' + numEquipe + '</h2>';
         html += '<label for="nomEquipe' + numEquipe + '"> Nom d\'équipe* (espace non accepté) :</label> ';
         html += '<input type="text" name="nomEquipe' + numEquipe + '" maxlength="30" required onblur="this.value=removeSpaces(this.value);"><br>';
         html += '<label for="clubEquipe' + numEquipe + '">Club :</label> ';
         html += '<input type="text" name="clubEquipe' + numEquipe + '" maxlength="30"><br>';
-        html += '<h3>Joueurs :</h3>';
+        html += '<h3>Joueurs</h3>';
         html += '<ul>';
         let index = 0;
         while (index < nbJoueur) {

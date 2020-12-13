@@ -138,117 +138,115 @@ function ajouteClassementTournois($classement, $numTournois) {
   <head>
     <title>Page Tournois</title>
     <link rel="stylesheet" href="css/barreTitre.css" />
+    <link rel="stylesheet" href="css/styleTournois.css" />
   </head>
   <body>
   <div class="barreTitre">
-      <a class="retour"></a>
-
       <div class="divTitre">
         <a class="titre">La Baronnerie</a>
       </div>
-
-      <div class="divDeco">
-        <a class="boutonDeconnection"></a>
-      </div>
-    </div>
-  <?php
-  if($numTournois !== NULL)
-  {
-    try{
-      $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
-      $tournois = $dbh->query('SELECT * FROM tournois');
-      $nomTournois = NULL; // la table de tournois selectionné
-      if($tournois)
-      {
-          foreach($tournois as $row)
-          {
-              if($row['numtournois'] == $numTournois)
-              {
-                  $nomTournois = $row['nom'];
-              }
-          }
-      }
-      else 
-      {
-          echo "Erreur, les données de la base n'ont pas pu être récupérées !"; 
-      }
-    } catch (PDOException $e)
+  </div>
+  <div id="tout">
+    <?php
+    if($numTournois !== NULL)
     {
-        print "Erreur ! : " . $e->getMessage() . "<br>";
-    }
-  ?>
-  <h1>Tournois : <?php echo '"' . $nomTournois . '"';  ?> </h1>
-
-  <?php
-
-    $numtour = 1;
-    $tournoisTermine = false;
-    //boucle qui affiche tous les tours d'un tournois avec leurs états
-    //getNbTotalTour
-    while($numtour <= $TourActuel && !$tournoisTermine)
-    {
-      if($numtour+1 > $TourActuel && $nbEquipe == 1)
+      try{
+        $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
+        $tournois = $dbh->query('SELECT * FROM tournois');
+        $nomTournois = NULL; // la table de tournois selectionné
+        if($tournois)
+        {
+            foreach($tournois as $row)
+            {
+                if($row['numtournois'] == $numTournois)
+                {
+                    $nomTournois = $row['nom'];
+                }
+            }
+        }
+        else 
+        {
+            echo "Erreur, les données de la base n'ont pas pu être récupérées !"; 
+        }
+      } catch (PDOException $e)
       {
-        $tournoisTermine = true;
+          print "Erreur ! : " . $e->getMessage() . "<br>";
       }
-      //affiche les tours terminés d'abord tel que : Tour 1 : Terminé (remplacé terminé par le résultat du tour)
-      ?>
+    ?>
+    <div id="divNomTournois">
+      <p id="tournois">Tournois : <?php echo '<p id="nomTournois">' . $nomTournois . '</p>';  ?> </p>
+    </div>  
+    <?php
 
-      <div id="tour<?php echo $numtour;?>">
-      <h3>Tour <?php echo $numtour; ?> : </h3>
-      <!-- choisir la formule -->
-      <?php
-      if($numtour < $TourActuel)
+      $numtour = 1;
+      $tournoisTermine = false;
+      //boucle qui affiche tous les tours d'un tournois avec leurs états
+      //getNbTotalTour
+      while($numtour <= $TourActuel && !$tournoisTermine)
       {
-        echo ' Terminé';//changer pour afficher Résultat du tour
-      }
-      //affiche le tour en cours tel que : Tour 2 : Poules (Poules étant le bouton permettant d'aller a la page pageTour correspondant)
-      else if($numtour == $TourActuel && $nbEquipe !== 1)
-      { 
+        if($numtour+1 > $TourActuel && $nbEquipe == 1)
+        {
+          $tournoisTermine = true;
+        }
+        //affiche les tours terminés d'abord tel que : Tour 1 : Terminé (remplacé terminé par le résultat du tour)
         ?>
-        <p>Formule actuelle : <?php echo $_SESSION["formule" . $numTournois]; ?></p>
-        <form id="choixFormule" method="post" action="pageChoixFormule.php">
-          <input type="hidden" name="numtournois" value =<?php echo $numTournois;?>>
-          <input type="submit" value = "changer la formule">
-        </form>
 
-        <form method="post" action="pageTour.php" >
-        <input type="hidden" name="numtournois" value=<?php echo $numTournois; ?>>
-        <input type="hidden" name="numtour" value=<?php echo $numtour; ?>>
-        <input type="submit" name="boutonpoule" value="accès aux poules">
-        </form>
+        <!-- <div id="tour<?php// echo $numtour;?>"> -->
+        <div class="tours">
+        <h3>Tour <?php echo $numtour; ?></h3>
+        <!-- choisir la formule -->
+        <?php
+        if($numtour < $TourActuel || $nbEquipe === 1)
+        {
+          echo ' Terminé';//changer pour afficher Résultat du tour
+        }
+        //affiche le tour en cours tel que : Tour 2 : Poules (Poules étant le bouton permettant d'aller a la page pageTour correspondant)
+        else if($numtour == $TourActuel && $nbEquipe !== 1)
+        { 
+          ?>
+          <p>Formule actuelle : <?php echo $_SESSION["formule" . $numTournois]; ?></p>
+          <form id="choixFormule" method="post" action="pageChoixFormule.php">
+            <input type="hidden" name="numtournois" value =<?php echo $numTournois;?>>
+            <input class="button" type="submit" value = "changer la formule">
+          </form>
+
+          <form method="post" action="pageTour.php" >
+          <input type="hidden" name="numtournois" value=<?php echo $numTournois; ?>>
+          <input type="hidden" name="numtour" value=<?php echo $numtour; ?>>
+          <input class="button" type="submit" name="boutonpoule" value="accès aux poules">
+          </form>
+          <?php
+        }
+        $numtour++;
+        ?>
+        </div>
         <?php
       }
-      $numtour++;
-      ?>
-      </div>
-      <?php
-    }
-    if($tournoisTermine)
-    {
-      echo ' Terminé';
-      echo "<h3>Tournois terminé</h3>";
-    }
-    //ex : $_SESSION['classementTournois'] = "eq3,eq4,eq1,eq2.."
-    //bouton fin du tournois, on y aura acces quand le dernier strlen($_POST['listeEquipes']) = 1
-    if (isset($_POST['listeEquipes'], $_POST['classementTour']) && $nbEquipe === 1) {
-      $tabClassement = explode(',', $_SESSION['classementTournois' . $numTournois]);
-      if ($tabClassement[0] != $_SESSION['listeEquipes' . $numTournois]) {
-        $_SESSION['classementTournois' . $numTournois] = $_SESSION["listeEquipes" . $numTournois] . "," . $_SESSION['classementTournois' . $numTournois];  
-        $_SESSION['classementTournois' . $numTournois] = substr($_SESSION['classementTournois' . $numTournois], 0, strlen($_SESSION['classementTournois' . $numTournois])-1);     
+      if($tournoisTermine)
+      {
+        echo "<h3>Tournois terminé</h3>";
       }
-      echo '<p>Classement : ' . $_SESSION['classementTournois' . $numTournois] . '</p>';
-      //remplir la bdd et echo le formulaire si tout c'est bien passé
-      ajouteClassementTournois($_SESSION['classementTournois' . $numTournois], $numTournois); 
-      echo '<form method="post" action="pageEvenement.php">';
-      echo '<input type="submit" value="Fin du tournois" name="finTournois">';
-      echo '</form>';
+      //ex : $_SESSION['classementTournois'] = "eq3,eq4,eq1,eq2.."
+      //bouton fin du tournois, on y aura acces quand le dernier strlen($_POST['listeEquipes']) = 1
+      if (isset($_POST['listeEquipes'], $_POST['classementTour']) && $nbEquipe === 1) {
+        $tabClassement = explode(',', $_SESSION['classementTournois' . $numTournois]);
+        if ($tabClassement[0] != $_SESSION['listeEquipes' . $numTournois]) {
+          $_SESSION['classementTournois' . $numTournois] = $_SESSION["listeEquipes" . $numTournois] . "," . $_SESSION['classementTournois' . $numTournois];  
+          $_SESSION['classementTournois' . $numTournois] = substr($_SESSION['classementTournois' . $numTournois], 0, strlen($_SESSION['classementTournois' . $numTournois])-1);     
+        }
+        echo '<p id="classementTermine">Classement : ' . $_SESSION['classementTournois' . $numTournois] . '</p>';
+        //remplir la bdd et echo le formulaire si tout c'est bien passé
+        ajouteClassementTournois($_SESSION['classementTournois' . $numTournois], $numTournois); 
+        echo '<form method="post" action="pageEvenement.php">';
+        echo '<input id="buttonCloturer" type="submit" value="Fin du tournois" name="finTournois">';
+        echo '</form>';
+      }
     }
-  }
-  else
-  {
-      echo 'Erreur pas de Tournois trouvé';
-  }
-  ?>  
+    else
+    {
+        echo 'Erreur pas de Tournois trouvé';
+    }
+    ?>  
+  </div>
   </body>
 </html>

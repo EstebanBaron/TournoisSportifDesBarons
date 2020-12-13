@@ -93,7 +93,7 @@ function getNiveauEquipe($listeEquipes, $numTournois)
             if (empty($tableauEquipesNiveaux)) { //cas où les equipes sont des equipes ajoutées d'un autre tournois
                 foreach($dbh->query('SELECT * from equipe') as $row)
                 {
-                    if($row['numtournois'] == $numTournois)
+                    if($row['numtournois'] == $numTournois && in_array($row['nom'], $listeEquipes))
                     {
                         $tableauEquipesNiveaux[$row['nom']] = 1;
                     }
@@ -191,7 +191,7 @@ function affichePoules($poules) {
         // echo '<h3>Poule ' . ($indexToNbPoules+1) . '</h3>';
         $indexToNbEquipe = 0;
         while ($equipes[$indexToNbEquipe]) { //pour chaque équipe de la poule
-            echo '<div style="border : 1px solid black;" id="equipe' . ($indexToNbEquipe+1) . 'Poule' . ($indexToNbPoules+1) . '">'; //ex : equipe1Poule1
+            echo '<div id="equipe' . ($indexToNbEquipe+1) . 'Poule' . ($indexToNbPoules+1) . '">'; //ex : equipe1Poule1
             echo $equipes[$indexToNbEquipe];
             echo '</div>';
             $indexToNbEquipe++;
@@ -207,18 +207,12 @@ function affichePoules($poules) {
     <head>
         <title>Page Tour</title>
         <link rel="stylesheet" href="css/barreTitre.css" />
-        <link rel="stylesheet" href="css/stylePoules.css" />
+        <link rel="stylesheet" href="css/styleTour.css" />
     </head>
     <body>
     <div class="barreTitre">
-      <a class="retour"></a>
-
       <div class="divTitre">
         <a class="titre">La Baronnerie</a>
-      </div>
-
-      <div class="divDeco">
-        <a class="boutonDeconnection"></a>
       </div>
     </div>
         <?php 
@@ -248,43 +242,49 @@ function affichePoules($poules) {
                 print "Erreur ! : " . $e->getMessage() . "<br>";
             }
             ?>
-            <h1>Tournois : <?php echo $nomTournois;  ?> <br> Tour n°: <?php echo  $numTour;?></h1>
-            
-            <?php
-            //Creer les poules
-            //met les équipe dans une array
-            $listeEquipes = explode(',', $_SESSION["listeEquipes" . $numTournois]);
-
-            //avoir la liste des niveaux moyens de chaque équipe
-            $listeNiveauxDesEquipes=getNiveauEquipe($listeEquipes, $numTournois);
-
-            //converti le tableau des poules en string
-            $poules = convertiPoulesEnString(creePouleRandom($listeNiveauxDesEquipes, $numTournois));
-
-            if (isset($_POST['poules'])) {
-                $poules = $_POST['poules'];
-            } 
-            ?>
-            <!-- affichage des poules -->
-            <div id="ContentantDesPoules">
-            <?php
-            affichePoules($poules);
-            ?>
+            <div id="divNomTournois">
+                <p id="tournois">Tournois : <?php echo '<p id="nomTournois">' . $nomTournois . '</p>';  ?></p>
             </div>
-            <br><br>
-                <!-- bouton qui mène a la page modifPoule -->
-            <form method="post" action="pageModifierPoules.php">
+            <div id="divNumeroTour">
+                <p>Tour n°<?php echo '<p id="numeroTour">' . $numTour . '</p>';?></p>
+            </div>
+            <div id="tout">
+                <?php
+                //Creer les poules
+                //met les équipe dans une array
+                $listeEquipes = explode(',', $_SESSION["listeEquipes" . $numTournois]);
+
+                //avoir la liste des niveaux moyens de chaque équipe
+                $listeNiveauxDesEquipes=getNiveauEquipe($listeEquipes, $numTournois);
+
+                //converti le tableau des poules en string
+                $poules = convertiPoulesEnString(creePouleRandom($listeNiveauxDesEquipes, $numTournois));
+
+                if (isset($_POST['poules'])) {
+                    $poules = $_POST['poules'];
+                } 
+                ?>
+                <!-- affichage des poules -->
+                <div id="ContentantDesPoules">
+                <?php
+                affichePoules($poules);
+                ?>
+                </div>
+                <br><br>
+                    <!-- bouton qui mène a la page modifPoule -->
+                <form method="post" action="pageModifierPoules.php">
+                    <input type="hidden" name="numtournois" value=<?php echo $numTournois; ?>>
+                    <input type="hidden" name="poules" value=<?php echo $poules;?>>
+                    <input class="button" type="submit" name="modifPoules" value="modifier les Poules">
+                </form>
+                    <!-- bouton qui mène a la page Poules -->
+                <form method ="post" action="pageMatchsPoules.php">
                 <input type="hidden" name="numtournois" value=<?php echo $numTournois; ?>>
-                <input type="hidden" name="poules" value=<?php echo $poules;?>>
-                <input type="submit" name="modifPoules" value="modifier les Poules">
-            </form>
-                <!-- bouton qui mène a la page Poules -->
-            <form method ="post" action="pageMatchsPoules.php">
-            <input type="hidden" name="numtournois" value=<?php echo $numTournois; ?>>
-            <input type="hidden" name="numtour" value=<?php echo $numTour ?>>
-            <input type="hidden" name="poules" value=<?php echo $poules; ?>>
-            <input type="submit" name="CommencerPoules" value="Commencer les Poules">
-            </form>
+                <input type="hidden" name="numtour" value=<?php echo $numTour ?>>
+                <input type="hidden" name="poules" value=<?php echo $poules; ?>>
+                <input class="button" type="submit" name="CommencerPoules" value="Commencer les Poules">
+                </form>
+            </div>
             <?php 
         }
         else
