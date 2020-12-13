@@ -28,7 +28,7 @@ function classementAPartirDe(equipe, classement) {
         tabClassement.splice(0, 1);
     }
 
-    let ligneAppend = '<h4>Equipes selectionnées : </h4>';
+    let ligneAppend = '<h4>Equipes sélectionnées : </h4>';
     let index = 0;
     let equipes = "";
     while (index < tabClassement.length) {

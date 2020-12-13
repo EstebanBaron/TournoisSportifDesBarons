@@ -240,6 +240,9 @@ function tousLesChampsSontRemplis() {
           if ($bienPasse) {
             ?>
             <br>
+            <script type="text/javascript">
+              document.getElementById("tout").innerHTML = "";
+            </script>
             <h3>Ajout des équipes réussi !</h3>
             <h4>Redirection en cours...</h4>
             <script type="text/javascript">

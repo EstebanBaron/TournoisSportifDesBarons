@@ -38,7 +38,7 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
     <h1>Accueil</h1>
 
     <div class="evenement">
-    <h2>Mes événement en cours :</h2>
+    <h2>Mes événements en cours :</h2>
     <?php 
       //ici on va afficher les événements en cours de l'organisateur identifié 
       try {
@@ -79,7 +79,7 @@ function tousLesTournoisSontFinis($resultatRequete, $numEvenement) {
     ?>
     </div>
     <div class="evenement">
-    <h2>Mes événement terminés :</h2>
+    <h2>Mes événements terminés :</h2>
     <?php 
       //idem qu'au dessus mais pour les événements terminé
       try {

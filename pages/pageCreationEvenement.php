@@ -188,8 +188,8 @@ function tousLesSportsSontDiff() {
     </div>
     <div id="tout">
     <h1>Créez votre événement</h1>
+    <form method="post">
     <div id="champsEvent">
-      <form method="post">
       <p>(Les champs prefixés par des * sont obligatoires)</p>
       <!-- nom -->
       <label for="nom"> Nom* :</label>
@@ -247,7 +247,7 @@ function tousLesSportsSontDiff() {
 
     <br><br>
     <div id="boutonCreer">
-      <input class="button" type="submit" value="Creer l'événement" name="creationevenement">
+      <input class="button" type="submit" value="Créer l'événement" name="creationevenement">
     </div>
     </form>
 
@@ -355,6 +355,9 @@ function tousLesSportsSontDiff() {
                       $_SESSION['numevenement'] = $numevenement;
                       ?>
                       <br>
+                      <script type="text/javascript">
+                        document.getElementById("tout").innerHTML = "";
+                      </script>
                       <h3>Creation de l'événement réussi !</h3>
                       <h4>Redirection en cours...</h4>
                       <script type="text/javascript">
