@@ -51,38 +51,35 @@ function creeFormules($nbEquipe)
   <head>
     <title>Page choix formule</title>
     <link rel="stylesheet" href="css/barreTitre.css" />
+    <link rel="stylesheet" href="css/styleChoixFormule.css" />
   </head>
   <body>
     <div class="barreTitre">
-      <a class="retour"></a>
-
       <div class="divTitre">
         <a class="titre">La Baronnerie</a>
       </div>
-
-      <div class="divDeco">
-        <a class="boutonDeconnection"></a>
-      </div>
     </div>
-    <h1>Choisissez une formules pour les poules :</h1>
-    <?php 
-    if ($numTournois !== NULL) {
-        $nbEquipe = getNbEquipe($_SESSION["listeEquipes" . $numTournois]);
-        echo 'Le tournois est composé de ' . $nbEquipe . ' équipes.<br>';
-        echo '<form method="post" action="pageTournois.php">';
-        echo '<input type="hidden" name="numtournois" value="' . $numTournois . '">';
-        echo '<label for="choix">Choisissez une formule (nombre de poule x nombre d\'équipe) :</label> ';
-        echo '<select name="choix">';
-        creeFormules($nbEquipe);
-        echo '</select>';
-        echo '<br>';
-        echo '<br>';
-        echo '<input type="submit" value="Valider">';
-        echo '</form>';
-    }
-    else {
-        echo "Erreur, les données de la page n'ont pas pu être récupérées !<br>";
-    }
-    ?>
+    <h1>Choisissez une formules pour les poules</h1>
+    <div id="tout">
+      <?php 
+      if ($numTournois !== NULL) {
+          $nbEquipe = getNbEquipe($_SESSION["listeEquipes" . $numTournois]);
+          echo 'Le tournois est composé de ' . $nbEquipe . ' équipes.<br>';
+          echo '<form method="post" action="pageTournois.php">';
+          echo '<input type="hidden" name="numtournois" value="' . $numTournois . '">';
+          echo '<label for="choix">Choisissez une formule (nombre de poule x nombre d\'équipe) :</label> ';
+          echo '<select name="choix">';
+          creeFormules($nbEquipe);
+          echo '</select>';
+          echo '<br>';
+          echo '<br>';
+          echo '<input class="button" type="submit" value="Valider">';
+          echo '</form>';
+      }
+      else {
+          echo "Erreur, les données de la page n'ont pas pu être récupérées !<br>";
+      }
+      ?>
+    </div>
   </body>
 </html>

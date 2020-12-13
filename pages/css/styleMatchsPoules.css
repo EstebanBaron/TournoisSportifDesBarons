@@ -1,19 +1,8 @@
-#tout {
+#matchsTour h1{
     text-align: center;
-    border: 2px solid #4E545A;
-    box-shadow: 3px 3px 4px black;
-    width: 70%;
-    padding: 10px;
-    margin: 0 auto;
-    margin-top: 30px;
-    margin-bottom: 30px;
 }
 
-#champsObligatoires {
-    font-size: 12px;
-}
-
-#equipes div {
+#tout {
     text-align: left;
     border: 2px solid #4E545A;
     box-shadow: 3px 3px 4px black;
@@ -24,49 +13,40 @@
     margin-bottom: 30px;
 }
 
-#equipes div h2, #equipes div h3 {
-    color: #D11D20;
+#blockPoule {
+    margin-bottom: 60px;
 }
-
-#equipes div h3 {
-    margin-top: 50px;
+#blockPoule h3 {
+    font-size: 1.2em;
 }
-
-#equipes div input, #equipes div select {
-    margin-top: 3px;
+#blockPoule form {
+    margin-bottom: 10px;
 }
-
-#equipes div ul li {
-    margin-top: 30px;
-}
-
 
 .button {
     border: none;
     background-color: #D11D20;
     color: white;
-    padding: 7px 10px;
+    padding: 3px 8px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 15px;
     box-shadow: 1px 1px 1px black;
     border-radius: 2px;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    margin-right: 20px;
 }
 
-.buttonValider {
+.boutonValiderTour {
     border: none;
     background-color: #D11D20;
     color: white;
-    padding: 10px 13px;
+    padding: 8px 13px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 15px;
     box-shadow: 1px 1px 1px black;
     border-radius: 2px;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    margin-left: 10px;
 }

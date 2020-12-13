@@ -126,6 +126,7 @@ else
   <head>
     <title>Page matchs Poules</title>
     <link rel="stylesheet" href="css/barreTitre.css" />
+    <link rel="stylesheet" href="css/styleMatchsPoules.css" />
     <script
         src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
@@ -134,45 +135,42 @@ else
   </head>
   <body>
   <div class="barreTitre">
-      <a class="retour"></a>
-
       <div class="divTitre">
         <a class="titre">La Baronnerie</a>
       </div>
-
-      <div class="divDeco">
-        <a class="boutonDeconnection"></a>
-      </div>
   </div>
-  <h1>Les Matchs du Tour <?php echo '"' . $numtour . '"';  ?> </h1>
-  <?php
-    for($numPoule=0; $numPoule<count($arrayMatchs); $numPoule++)
-    {
-      echo "<h3>Poule n°".($numPoule+1)." :</h3>";
-      for($matchs=0; $matchs<count($arrayMatchs[$numPoule]); $matchs++)
+  <div id="matchsTour">
+    <h1>Matchs du Tour n°<?php echo $numTour;?></h1>
+  </div>
+  <div id="tout">
+    <?php
+      for($numPoule=0; $numPoule<count($arrayMatchs); $numPoule++)
       {
-        echo '<form method="post" action="pageMatch.php">';
-        echo '<input type="hidden" name="numtournois" value='.$numTournois.'>';
-        echo '<input type="hidden" name="score" value=' . ($tableauscore[$arrayMatchs[$numPoule][$matchs]]===NULL ? "0-0" : $tableauscore[$arrayMatchs[$numPoule][$matchs]]).'>';//score = "4-6"
-        echo '<input type="hidden" name="equipes" value=' . $arrayMatchs[$numPoule][$matchs] . '>';
-        echo '<input type="submit" name="match" value=' .  $arrayMatchs[$numPoule][$matchs] .'>';
-        if($tableauscore[$arrayMatchs[$numPoule][$matchs]]!=NULL)
-          echo $tableauscore[$arrayMatchs[$numPoule][$matchs]];
-        else
-          echo 'pas joué';
-        echo '</form>';
-
+        echo '<div id="blockPoule">';
+          echo "<h3>Poule n°".($numPoule+1)." :</h3>";
+          for($matchs=0; $matchs<count($arrayMatchs[$numPoule]); $matchs++)
+          {
+            echo '<form method="post" action="pageMatch.php">';
+            echo '<input type="hidden" name="numtournois" value='.$numTournois.'>';
+            echo '<input type="hidden" name="score" value=' . ($tableauscore[$arrayMatchs[$numPoule][$matchs]]===NULL ? "0-0" : $tableauscore[$arrayMatchs[$numPoule][$matchs]]).'>';//score = "4-6"
+            echo '<input type="hidden" name="equipes" value=' . $arrayMatchs[$numPoule][$matchs] . '>';
+            echo '<input class="button" type="submit" name="match" value=' .  $arrayMatchs[$numPoule][$matchs] .'>';
+            if($tableauscore[$arrayMatchs[$numPoule][$matchs]]!=NULL)
+              echo $tableauscore[$arrayMatchs[$numPoule][$matchs]];
+            else
+              echo 'pas joué';
+            echo '</form>';
+        }
+        echo '</div>';
       }
-    }
-
-    //Rajouter modifier $_SESSION['classement'] et verif que tout les matchs sont fini
     ?>
-    <br><br>
-    <form id="validerTour" method ="post" action="pageTournois.php">
-    <input type="hidden" name="numtournois" value=<?php echo $numTournois; ?>>
-    <input type="hidden" name="numtour" value=<?php echo $numTour ?>>
-    </form>
-    <button type="button" onclick=<?php echo 'validerTour("' . convertiTableauEnString($tableauscore) . '",' . '"' . $poules . '");'?> >Valider Tour</button>
-    <script src="js/scriptPageMatchsPoules.js"></script>
+      <br><br>
+      <form id="validerTour" method ="post" action="pageTournois.php">
+        <input type="hidden" name="numtournois" value=<?php echo $numTournois; ?>>
+        <input type="hidden" name="numtour" value=<?php echo $numTour ?>>
+      </form>
+      <button class="boutonValiderTour" type="button" onclick=<?php echo 'validerTour("' . convertiTableauEnString($tableauscore) . '",' . '"' . $poules . '");'?> >Valider Tour</button>
+  </div>
+  <script src="js/scriptPageMatchsPoules.js"></script>
   </body>
-</html>
+</html> 

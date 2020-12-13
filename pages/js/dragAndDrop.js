@@ -8,7 +8,7 @@ function onDragStart(event) {
     event
         .currentTarget
         .style
-        .backgroundColor = 'yellow';
+        .backgroundColor = '#D11D20';
 }
 
 //la div devient une zone de drop potentiel
@@ -84,11 +84,11 @@ function verifieChangement(nbEquipeParPoule, formuleImpaire) {
     if (bienModifie) {
         $("#verifie").remove();
 
-        let message = "<h3>Tous les changements effectué sont valides</h3>"
+        let message = "<h3>Tous les changements effectués sont valides</h3>"
         $("#message").append(message);
 
         let poulesModifiees = '<input type="hidden" name="poules" value=' + poulesString + '>';
-        let bouton = '<input type="submit" value="confirmer les changements">';
+        let bouton = '<input class="button" type="submit" value="confirmer les changements">';
         $("#formulaire").append(poulesModifiees);
         $("#formulaire").append(bouton);
     }

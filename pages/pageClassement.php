@@ -21,7 +21,7 @@ session_start();
       </div>
     </div>
     <div id="tout">
-      <h1>Classements</h1> 
+      <h1>Classement</h1> 
       <?php
       if (isset($_POST['numtournois'])) {
         try {

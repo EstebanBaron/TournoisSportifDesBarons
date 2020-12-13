@@ -9,64 +9,67 @@
     margin-bottom: 30px;
 }
 
-#champsObligatoires {
-    font-size: 12px;
+#divNomTournois p {
+    display: inline-block;
+    padding-right: 10px;
 }
 
-#equipes div {
-    text-align: left;
+#tournois {
+    font-weight: bold;
+    font-size: 1.7em;
+}
+
+#nomTournois {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #D11D20;
+    font-size: 1.9em;
+}
+
+.tours {
+    text-align: center;
     border: 2px solid #4E545A;
     box-shadow: 3px 3px 4px black;
-    width: 60%;
+    width: 50%;
     padding: 10px;
     margin: 0 auto;
     margin-top: 30px;
     margin-bottom: 30px;
 }
 
-#equipes div h2, #equipes div h3 {
+.tours h3 {
     color: #D11D20;
 }
 
-#equipes div h3 {
-    margin-top: 50px;
+#classementTermine {
+    margin: 20px;
+    font-size: 17px;
 }
-
-#equipes div input, #equipes div select {
-    margin-top: 3px;
-}
-
-#equipes div ul li {
-    margin-top: 30px;
-}
-
 
 .button {
     border: none;
     background-color: #D11D20;
     color: white;
-    padding: 7px 10px;
+    padding: 7px 12px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 15px;
     box-shadow: 1px 1px 1px black;
     border-radius: 2px;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    margin: 5px;
 }
 
-.buttonValider {
+#buttonCloturer {
     border: none;
     background-color: #D11D20;
     color: white;
-    padding: 10px 13px;
+    padding: 13px 18px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 15px;
     box-shadow: 1px 1px 1px black;
     border-radius: 2px;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    margin-top: 100px;
+    margin-bottom: 50px;
 }

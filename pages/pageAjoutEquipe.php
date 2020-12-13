@@ -119,10 +119,6 @@ function tousLesChampsSontRemplis() {
       <div class="divTitre">
         <a class="titre">La Baronnerie</a>
       </div>
-
-      <div class="divDeco">
-        <a class="boutonDeconnection" href="pageAuthentification.php">Déconnection</a>
-      </div>
     </div>
   <div id="tout">
   <?php
@@ -133,7 +129,7 @@ function tousLesChampsSontRemplis() {
 
         <form method="post"> <!-- action="pageConfigTournois.php"> -->
         <div id="equipes">
-          <div class="equipe">
+          <div id="equipe1">
           <h2>Equipe 1</h2>
           <!-- nom -->
           <label for="nomEquipe1"> Nom d'équipe* (espace non accepté) :</label>
