@@ -47,7 +47,7 @@ INSERT INTO terrain VALUES(05, 'Basketball',04);
 
 --Insertion dans equipe
 
-INSERT INTO equipe VALUES('Lespapis', 'PPP', 01);
+INSERT INTO equipe VALUES('Equipe1', 'PPP', 01);
 INSERT INTO equipe VALUES('NomEq1', 'nomClub1', 01);
 INSERT INTO equipe VALUES('NomEq2', 'nomClub2', 01);
 INSERT INTO equipe VALUES('NomEq10', 'nomClub10', 01);
@@ -60,10 +60,10 @@ INSERT INTO equipe VALUES('equipeMTP', 'MTP' , 04);
 INSERT INTO equipe VALUES('equipePSG', 'PSG', 04);
 
 --Insertion dans joueur
-INSERT INTO joueur VALUES(01, NULL, NULL, 7,'Lespapis');
-INSERT INTO joueur VALUES(02, NULL, NULL, 6, 'Lespapis');
-INSERT INTO joueur VALUES(03, NULL, NULL, 6, 'Lespapis');
-INSERT INTO joueur VALUES(34, NULL, NULL, 1, 'Lespapis');
+INSERT INTO joueur VALUES(01, NULL, NULL, 7,'Equipe1');
+INSERT INTO joueur VALUES(02, NULL, NULL, 6, 'Equipe1');
+INSERT INTO joueur VALUES(03, NULL, NULL, 6, 'Equipe1');
+INSERT INTO joueur VALUES(34, NULL, NULL, 1, 'Equipe1');
 INSERT INTO joueur VALUES(04, NULL, NULL, 7, 'NomEq1');
 INSERT INTO joueur VALUES(05, NULL, NULL, 7, 'NomEq1');
 INSERT INTO joueur VALUES(06, NULL, NULL, 7, 'NomEq1');
