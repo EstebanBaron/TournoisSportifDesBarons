@@ -183,7 +183,7 @@ function tousLesSportsSontDiff() {
       </div>
 
       <div class="divDeco">
-        <a class="boutonDeconnection" href="pageAuthentification.php">Déconnection</a>
+        <a class="boutonDeconnexion" href="pageAuthentification.php">Déconnexion</a>
       </div>
     </div>
     <div id="tout">
