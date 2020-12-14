@@ -98,7 +98,6 @@ function initialisationTableauScore($arraymatch)
   return $Tableauscore;
 }
 
-// $arrayPoules = toArray("eq1-eq2-eq3,eq4-eq5-eq6-eq7,eq8-eq9-eq10");
 $arrayPoules = toArray($poules);
 $arrayMatchs = creeMatchsArray($arrayPoules);
 
