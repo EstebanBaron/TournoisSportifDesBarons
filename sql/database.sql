@@ -69,19 +69,29 @@ CREATE TRIGGER secure_Tailleclassement BEFORE UPDATE OR INSERT ON tournois
 
 
 
---enleve les espaces présents dans le nom d'équipe
-CREATE OR REPLACE FUNCTION enleveEspaceNomEquipe() RETURNS TRIGGER AS $enleveEspaceNomEquipe$
+--enleve les caractères interdit (' ','_','-') présents dans le nom d'équipe
+CREATE OR REPLACE FUNCTION enleveCaracteresInterditsNomEquipe() RETURNS TRIGGER AS $enleveCaracteresInterditsNomEquipe$
 DECLARE 
 nomEquipe VARCHAR(30); 
 BEGIN
-    WHILE NEW.nom LIKE '% %' LOOP
-        SELECT regexp_replace(NEW.nom, ' ', '') INTO nomEquipe;
-        NEW.nom := nomEquipe;
+    WHILE NEW.nom LIKE '% %' OR NEW.nom LIKE '%\_%' OR NEW.nom LIKE '%-%' LOOP
+        IF NEW.nom LIKE '% %' THEN
+            SELECT regexp_replace(NEW.nom, ' ', '') INTO nomEquipe;
+            NEW.nom := nomEquipe;
+        END IF;
+        IF NEW.nom LIKE '%\_%' THEN
+            SELECT regexp_replace(NEW.nom, '_', '') INTO nomEquipe;
+            NEW.nom := nomEquipe;
+        END IF;
+        IF NEW.nom LIKE '%-%' THEN
+            SELECT regexp_replace(NEW.nom, '-', '') INTO nomEquipe;
+            NEW.nom := nomEquipe;
+        END IF;
     END LOOP;
     RETURN NEW;
 END;
 
-$enleveEspaceNomEquipe$ LANGUAGE plpgsql;
+$enleveCaracteresInterditsNomEquipe$ LANGUAGE plpgsql;
 
 CREATE TRIGGER secure_NomEquipe BEFORE INSERT ON equipe
-    FOR EACH ROW EXECUTE PROCEDURE enleveEspaceNomEquipe();
+    FOR EACH ROW EXECUTE PROCEDURE enleveCaracteresInterditsNomEquipe();
