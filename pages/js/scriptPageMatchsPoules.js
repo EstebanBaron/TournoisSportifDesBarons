@@ -199,9 +199,6 @@ function rempliTabPointParEquipe(tableauScore, tableauMatchs) {
     return tabMatchsPointParEquipe;
 }
 
-// function pointGagneSurPointPerdu(equipe) {
-
-// }
 
 function afficheTab(tabMatchsPointParEquipe) {
     let keys = Object.keys(tabMatchsPointParEquipe);
@@ -217,7 +214,6 @@ function afficheTab(tabMatchsPointParEquipe) {
 
 function getClassement(strMatchsScore, tabMatchsPointParEquipe, poules) {
     let copyTabPoints = tabMatchsPointParEquipe;
-    // afficheTab(copyTabPoints);
 
     let indexClassement = 0;
     let classement = [];
@@ -238,7 +234,6 @@ function getClassement(strMatchsScore, tabMatchsPointParEquipe, poules) {
             let victoireEgale = copyTabPoints[tabEquipes[index]][0] === copyTabPoints[equipePlusPoint][0];
             let victoireEgaleMaisQuotientVictoireNbJoueurDansLaPouleSup = victoireEgale && (copyTabPoints[tabEquipes[index]][0]/getNbEquipeDeSaPoule(tabEquipes[index], poules)) > (copyTabPoints[equipePlusPoint][0]/getNbEquipeDeSaPoule(equipePlusPoint, poules));
             let QuotientVictoireNbJoueurDansLaPouleEgale = (copyTabPoints[tabEquipes[index]][0]/getNbEquipeDeSaPoule(tabEquipes[index], poules)) === (copyTabPoints[equipePlusPoint][0]/getNbEquipeDeSaPoule(equipePlusPoint, poules));
-            // let nbDefaitInfMaisDiffDeMoinsUn = copyTabPoints[tabEquipes[index]][1] < copyTabPoints[equipePlusPoint][1] && copyTabPoints[tabEquipes[index]][1] > 0;
             let quotientMatchPerduSurMatchJoue = victoireEgale && QuotientVictoireNbJoueurDansLaPouleEgale && (copyTabPoints[tabEquipes[index]][1]/getNbEquipeDeSaPoule(tabEquipes[index], poules)) < (copyTabPoints[equipePlusPoint][1]/getNbEquipeDeSaPoule(equipePlusPoint, poules));
             //VICTOIREs
             //marche si une seule equipe avec le plus de match gagné
@@ -249,11 +244,6 @@ function getClassement(strMatchsScore, tabMatchsPointParEquipe, poules) {
             else if (victoireEgaleMaisQuotientVictoireNbJoueurDansLaPouleSup) {
                 equipePlusPoint = tabEquipes[index];
             }
-            //en fonction du score de leur match nbPoint mis sur tous les matchs et le diviser par le nombre de point pris sur tous les matchs => comparer avec l'autre equipe
-            // else if (copyTabPoints[tabEquipes[index]][0] === copyTabPoints[equipePlusPoint][0] && (copyTabPoints[tabEquipes[index]][0]/getNbEquipeDeSaPoule(tabEquipes[index], poules)) === (copyTabPoints[equipePlusPoint][0]/getNbEquipeDeSaPoule(equipePlusPoint, poules)) && pointGagneSurPointPerdu(tabEquipes[index]) > pointGagneSurPointPerdu(equipePlusPoint)) {
-            //     equipePlusPoint = tabEquipes[index];
-            // }
-
             //DEFAITES
             //nombre de matchs gagné égalité alors => nbMatchGagné/nbEquipePoule
             else if (quotientMatchPerduSurMatchJoue) {
@@ -264,7 +254,7 @@ function getClassement(strMatchsScore, tabMatchsPointParEquipe, poules) {
             }
             index++;
         }
-        //on met le nombre de point de l'equipe avec le plus de point à 0 pour la 'sortir' des equipes à regarder
+        //on met le nombre de point de l'equipe avec le plus de point à -1 pour la 'sortir' des equipes à regarder
         classement[indexClassement] = equipePlusPoint;
         copyTabPoints[equipePlusPoint] = [-1, -1, -1];
         
@@ -298,12 +288,11 @@ function getTabEquipePoule(poules) {
 function getEquipesProchainTour(strMatchsScore, tableauScore, tableauMatchs, poules) {
     let listeEquipes = "";
     //en fct du nb d'équipes dans le tour (faire une fonction) => on connait le nb d'équipes à renvoyer (ex : > 8 = 8, 7-4 > 2 &&  > 4 = 4, <4 = 1)
-    //en fct des scores => on connait le classement (faire une foncton)
-    //avec les deux variables précédentes on renvoi les n premières équipes dans le classement
+    //en fct des scores => on connait le classement (faire une fonction)
+    //avec les deux variables précédentes on renvoie les n premières équipes dans le classement
     let nbEquipesProchainTour = getNbEquipeProchainTour(tableauMatchs, poules);
     let tabMatchsPointParEquipe = rempliTabPointParEquipe(tableauScore, tableauMatchs);
 
-    // console.log(tabMatchsPointParEquipe);
     let classement = getClassement(strMatchsScore, tabMatchsPointParEquipe, poules);    //tab = {eq1, eq3, eq4}; en fonction de leur point
     //retourner les nbEquipeProchainTour-nbPoule premieres equipes de chaque poule (ex : 3 Poules de 2 joueurs => 1 joueur de chaque poule)
     //2 poules 4 joueurs => 2 joueur par poules selectionné (nbEquipeProchainTour = 4, nbPoules = 2. On a bien 2 equipes par poule)
@@ -350,7 +339,6 @@ function getClassementPerdants(strMatchsScore, tableauScore, tableauMatchs, poul
     //avec les deux variables précédentes on renvoi les n premières équipes dans le classement
     let tabMatchsPointParEquipe = rempliTabPointParEquipe(tableauScore, tableauMatchs);
 
-    // console.log(tabMatchsPointParEquipe);
     let classement = getClassement(strMatchsScore, tabMatchsPointParEquipe, poules);    //tab = {eq1, eq3, eq4}; en fonction de leur point
     let listeGagnants = getEquipesProchainTour(strMatchsScore, tableauScore, tableauMatchs, poules);
     let tabGagnants = listeGagnants.split(',');
@@ -371,9 +359,7 @@ function getClassementPerdants(strMatchsScore, tableauScore, tableauMatchs, poul
 function validerTour(strMatchsScore, poules)
 {
     let tableauScore = StringtoTab(strMatchsScore);
-    // console.log(tableauScore);
-    let tableauMatchs = getMatchs(strMatchsScore);
-    // console.log(tableauMatchs);    
+    let tableauMatchs = getMatchs(strMatchsScore);  
 
     if(tousLesScoresSontRemplis(tableauScore, tableauMatchs))//envoie de la liste des joueurs qui continuent au tour prochain, remplis le classement du tournois
     {

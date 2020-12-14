@@ -31,7 +31,7 @@ function afficheArray($liste)
     }
     echo ' ) ';
 }
-
+//renvoie une array qui pour chaque équipe donne le nombre de joueurs qui la compose
 function nbJoueurParEquipe($numTournois) {
     try {
       $dbh = new PDO("pgsql:dbname=bddestebanjulien;host=localhost;user=bddestebanjulien;password=lesbarons;options='--client_encoding=UTF8'");
@@ -55,7 +55,7 @@ function nbJoueurParEquipe($numTournois) {
     }
   }
 
-
+//renvoie une array qui pour chaque équipe donne le niveau moyen des joueurs qui la compose
 function getNiveauEquipe($listeEquipes, $numTournois)
 {
     $tableauEquipesNiveaux=array();
@@ -153,7 +153,7 @@ function creePouleRandom($tableauEquipesNiveaux, $numTournois)
 
     return $pouleRandom;
 }
-
+//converti le résultat de créePouleRandom en une chaine de caractère
 function convertiPoulesEnString($tableauPoules) {
     $poules = "";
     $index = 0;
@@ -171,7 +171,7 @@ function convertiPoulesEnString($tableauPoules) {
     
     return $poules;
 }
-
+//permet d'afficher le résultat de convertiPoulesEnString
 function affichePoules($poules) {
     $separationPoules = explode(',', $poules);
     //récupère le nombre de poules
