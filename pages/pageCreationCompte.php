@@ -33,7 +33,6 @@ session_start();
             <!--bouton-->
             <input class="button" type="submit" value="s'enregistrer" name="enregistrement">
         </form>
-    </div>
     <?php
     if (isset($_POST['identifiant']) && isset($_POST['motdepasse']) && isset($_POST['confirmationMDP']) && isset($_POST['enregistrement'])) {
         $identifiant = $_POST['identifiant'];
@@ -94,5 +93,6 @@ session_start();
         }
     }
     ?>
+    </div>
   </body>
 </html>

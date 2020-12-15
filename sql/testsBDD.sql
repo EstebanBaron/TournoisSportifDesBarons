@@ -126,3 +126,49 @@ INSERT INTO joueur VALUES (50, NULL, NULL, 0, 'Galatix');
 
 
 */
+
+INSERT INTO organisateur VALUES('Test', '0cbc6611f5540bd0809a388dc95a615b');
+
+INSERT INTO evenement VALUES(05, 'Tournois sportif', 'Montpellier', '2020-12-20', 'Test');
+INSERT INTO evenement VALUES(06, 'Rolland Garos', 'Paris', '2020-12-20', 'Test');
+
+INSERT INTO tournois VALUES(09, 'Principal', NULL, 3, 05);
+INSERT INTO tournois VALUES(10, 'Consolante', NULL, 3, 05);
+INSERT INTO tournois VALUES(11, 'Les Champions', 'RogerFedererTeam,NadalTeam', 3, 06);
+
+INSERT INTO terrain VALUES(06, 'Volley',05);
+INSERT INTO terrain VALUES(07, 'Tennis',06);
+
+INSERT INTO equipe VALUES('A', 'fcA', 09);
+INSERT INTO equipe VALUES('B', 'BClub', 09);
+INSERT INTO equipe VALUES('C', NULL, 09);
+INSERT INTO equipe VALUES('D', 'laForet', 09);
+INSERT INTO equipe VALUES('E', 'russieFC', 09);
+INSERT INTO equipe VALUES('F', 'trumpFC', 09);
+INSERT INTO equipe VALUES('G', NULL, 09);
+INSERT INTO equipe VALUES('RogerFedererTeam', NULL, 11);
+INSERT INTO equipe VALUES('NadalTeam', 'EspagneClub', 11);
+
+INSERT INTO joueur VALUES(50, NULL, NULL, 7,'A');
+INSERT INTO joueur VALUES(51, NULL, NULL, 6, 'A');
+INSERT INTO joueur VALUES(52, NULL, NULL, 6, 'A');
+INSERT INTO joueur VALUES(53, NULL, NULL, 7,'B');
+INSERT INTO joueur VALUES(54, NULL, NULL, 6, 'B');
+INSERT INTO joueur VALUES(55, NULL, NULL, 6, 'B');
+INSERT INTO joueur VALUES(56, NULL, NULL, 7,'C');
+INSERT INTO joueur VALUES(57, NULL, NULL, 6, 'C');
+INSERT INTO joueur VALUES(58, NULL, NULL, 6, 'C');
+INSERT INTO joueur VALUES(59, NULL, NULL, 7,'D');
+INSERT INTO joueur VALUES(60, NULL, NULL, 6, 'D');
+INSERT INTO joueur VALUES(61, NULL, NULL, 6, 'D');
+INSERT INTO joueur VALUES(62, NULL, NULL, 7,'E');
+INSERT INTO joueur VALUES(63, NULL, NULL, 6, 'E');
+INSERT INTO joueur VALUES(64, NULL, NULL, 6, 'E');
+INSERT INTO joueur VALUES(65, NULL, NULL, 7,'F');
+INSERT INTO joueur VALUES(66, NULL, NULL, 6, 'F');
+INSERT INTO joueur VALUES(67, NULL, NULL, 6, 'F');
+INSERT INTO joueur VALUES(68, NULL, NULL, 7,'G');
+INSERT INTO joueur VALUES(69, NULL, NULL, 6, 'G');
+INSERT INTO joueur VALUES(70, NULL, NULL, 6, 'G');
+INSERT INTO joueur VALUES(71, NULL, NULL, 7,'RogerFedererTeam');
+INSERT INTO joueur VALUES(72, NULL, NULL, 7, 'NadalTeam');

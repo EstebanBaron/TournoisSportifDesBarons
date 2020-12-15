@@ -144,10 +144,10 @@ function tousLesChampsSontRemplis() {
             $index = 0;
             while ($index < $nbJoueurParEquipe) {
               echo '<li>joueur'. ($index+1) . ' <br>';
-              echo '<label for="nomJoueur' . ($index+1) . 'Equipe1"> Nom* :</label> ';
-              echo '<input type="text" name="nomJoueur' . ($index+1) . 'Equipe1" maxlength="20" required><br>';
-              echo '<label for="prenomJoueur' . ($index+1) . 'Equipe1"> Prenom* :</label> ';
-              echo '<input type="text" name="prenomJoueur' . ($index+1) . 'Equipe1" maxlength="20" required><br>';
+              echo '<label for="nomJoueur' . ($index+1) . 'Equipe1"> Nom :</label> ';
+              echo '<input type="text" name="nomJoueur' . ($index+1) . 'Equipe1" maxlength="20"><br>';
+              echo '<label for="prenomJoueur' . ($index+1) . 'Equipe1"> Prenom :</label> ';
+              echo '<input type="text" name="prenomJoueur' . ($index+1) . 'Equipe1" maxlength="20"><br>';
               echo '<label for="niveauJoueur' . ($index+1) . 'Equipe1"> Niveau* :</label> ';
               echo '<select name="niveauJoueur' . ($index+1) . 'Equipe1">';
               echo '<option value="1">Loisir</option>';

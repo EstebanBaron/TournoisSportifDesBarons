@@ -101,10 +101,10 @@ function ajoutEquipe(nbJoueur) {
         let index = 0;
         while (index < nbJoueur) {
             html += '<li>joueur ' + (index+1) + '<br>';
-            html += '<label for="nomJoueur' + (index+1) + 'Equipe' + numEquipe + '"> Nom* :</label> ';
-            html += '<input type="text" name="nomJoueur' + (index+1) + 'Equipe' + numEquipe + '" maxlength="20" required><br>';
-            html += '<label for="prenomJoueur' + (index+1) + 'Equipe' + numEquipe + '"> Prenom* :</label> ';
-            html += '<input type="text" name="prenomJoueur' + (index+1) + 'Equipe' + numEquipe + '" maxlength="20" required><br>';
+            html += '<label for="nomJoueur' + (index+1) + 'Equipe' + numEquipe + '"> Nom :</label> ';
+            html += '<input type="text" name="nomJoueur' + (index+1) + 'Equipe' + numEquipe + '" maxlength="20"><br>';
+            html += '<label for="prenomJoueur' + (index+1) + 'Equipe' + numEquipe + '"> Prenom :</label> ';
+            html += '<input type="text" name="prenomJoueur' + (index+1) + 'Equipe' + numEquipe + '" maxlength="20"><br>';
             html += '<label for="niveauJoueur' + (index+1) + 'Equipe' + numEquipe + '"> Niveau* :</label> ';
             html += '<select name="niveauJoueur' + (index+1) + 'Equipe' + numEquipe + '">';
             html += '<option value="1">Loisir</option>';
