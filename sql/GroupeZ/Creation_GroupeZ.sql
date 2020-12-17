@@ -105,6 +105,21 @@ CREATE TRIGGER secure_NomEquipe BEFORE INSERT ON equipe
     FOR EACH ROW EXECUTE PROCEDURE enleveCaracteresInterditsNomEquipe();
 
 
+-- permet d'accepter la minuscule au niveau du sport avant insertion
+CREATE OR REPLACE FUNCTION verifieNomSport() RETURNS TRIGGER AS $verifieNomSport$
+BEGIN
+    IF initcap(NEW.sport) IN ('Football', 'Rugby', 'Basketball', 'Volley', 'Petanque', 'Tennis') THEN
+        NEW.sport = initcap(NEW.sport);
+    END IF;
+    RETURN NEW;
+END;
+
+$verifieNomSport$ LANGUAGE plpgsql;
+
+CREATE TRIGGER secure_nomSport BEFORE UPDATE OR INSERT ON terrain
+    FOR EACH ROW EXECUTE PROCEDURE verifieNomSport();
+
+
 
 
 -- INSERTION
@@ -116,13 +131,13 @@ INSERT INTO organisateur VALUES ('Test2', '0cbc6611f5540bd0809a388dc95a615b');
 --Insertions événement 
 INSERT INTO evenement VALUES (01, 'Tournois sportif', 'Montpellier', '2020-12-20', 'Test');
 INSERT INTO evenement VALUES (02, 'Rolland Garos', 'Paris', '2020-12-16', 'Test');
-INSERT INTO evenement VALUES (03, 'ESL tournament', 'Londres', '2020-12-25', 'Test2');
+INSERT INTO evenement VALUES (03, 'Super Tennis tournament', 'Londres', '2020-12-25', 'Test2');
 
 --Insertion tournois
 INSERT INTO tournois VALUES (01, 'Principal', NULL, 3, 01);
 INSERT INTO tournois VALUES (02, 'Consolante', NULL, 3, 01);
 INSERT INTO tournois VALUES (03, 'Les Champions', 'RogerFedererTeam,NadalTeam', 1, 02);
-INSERT INTO tournois VALUES (04, 'Galactik', NULL, 1, 03);
+INSERT INTO tournois VALUES (04, 'Galactik', 'Equipe1,Equipe3,Equipe5,Equipe7,Equipe2,Equipe4,Equipe6', 1, 03);
 
 
 
@@ -198,5 +213,20 @@ INSERT INTO joueur VALUES (25, 'Akalni', 'Lolita', 1, 10);
 INSERT INTO joueur VALUES (26, 'Provo', 'Edward', 2, 11);
 INSERT INTO joueur VALUES (27, 'Falou', 'Edmun', 3, 12);
 INSERT INTO joueur VALUES (28, 'Quaski', 'Manuel', 4, 13);
-INSERT INTO joueur VALUES (29, 'Erandi', 'Frank', 5, 14);
+INSERT INTO joueur VALUES (29, 'Fontino', 'Valentino', 5, 14);
 INSERT INTO joueur VALUES (30, 'Rautil', 'Matilde', 6, 15);
+INSERT INTO joueur VALUES (31, 'Bunuel', 'Paulo', 7, 16);
+
+
+-- REQUETES
+-- vainqueur de chaque tournois
+select t.nom as nomtournois, SPLIT_PART(t.classement, ',', 1) as vainqueur from tournois t where t.classement is not null;
+
+-- classement de chaque tournois 
+select nom as nomtournois, classement from tournois where classement is not NULL;
+
+-- les equipes d'un certain tournois (ici quand numtournois = 04)
+select t.nom as nomtournois, e.nom as nomequipe from equipe e, tournois t where e.numtournois = t.numtournois and t.numtournois = 04;
+
+-- les tournois de chaque evenement
+select e.numevenement, e.nom as nomEvenement, t.nom as nomTournois from evenement e, tournois t where e.numevenement = t.numevenement;

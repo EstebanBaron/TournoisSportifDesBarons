@@ -1,25 +1,40 @@
 --TEST DES CONTRAINTES
+
 /*
-INSERT INTO terrain VALUES (100, '100m');
+-- test date
+INSERT INTO evenement VALUES (100, 'oui', 'toulouse', '10-2020-10', 01);
+INSERT INTO evenement VALUES (101, 'oui', 'toulon', '10-10-2020', 01);
+*/
 
-INSERT INTO evenement VALUES (100, 'oui', '2020-10-10', 15, 0001);
-INSERT INTO evenement VALUES (101, 'oui', '2020-10-10', 0, 0001);
-
+/*
+-- test typeJeu
 INSERT INTO tournois VALUES (100, 'oui', NULL, 0, 01);
 INSERT INTO tournois VALUES (102, 'oui', NULL, 16, 01);
+*/
 
+/*
+--test sport
+INSERT INTO terrain VALUES (100, 'golf');
+*/
+
+/*
+-- test niveau joueur
 INSERT INTO joueur VALUES (100, NULL, NULL, 10, 'Galatix');
 INSERT INTO joueur VALUES (101, NULL, NULL, 0, 'Galatix');
 */
 
 --TEST DES TRIGGERS
-/*
---secure_Tailleclassement
---nombre de caractères du classement supérieur à 495 :
+-- secure_Tailleclassement
+-- nombre de caractères du classement supérieur à 495 :
 INSERT INTO tournois VALUES(103, 'tournois3','EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE',5, 01);
+select * from tournois where numtournois = 103;
 
---secure_NomEquipe
---nom d'équipe contenant ' ', '-' ou '_' :
+-- secure_NomEquipe
+-- nom d'équipe contenant ' ', '-' ou '_' :
 INSERT INTO equipe VALUES(100, ' t-_-_e -s -t_ ', NULL, 03);
+select * from equipe where numequipe = 100;
 
-*/ 
+-- secure_nomSport
+-- volley
+INSERT INTO terrain VALUES (100, 'volley');
+select * from terrain where numterrain = 100;
