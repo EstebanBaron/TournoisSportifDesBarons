@@ -1,3 +1,6 @@
+-- 21804587 BARON Esteban
+-- 21808379 LEBARON Julien
+
 CREATE TABLE organisateur (
     identifiant VARCHAR(20) CONSTRAINT organisateur_PK PRIMARY KEY,
     motDePasse VARCHAR(50) NOT NULL
